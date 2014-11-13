@@ -4,6 +4,8 @@
 #include "string.h"
 #include "types.h"
 
+//const float zerof = 0.0f; //Preguntar si quiero zerof
+
 class Screen {
 public:
     static Screen& Instance();

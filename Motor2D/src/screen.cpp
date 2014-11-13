@@ -37,18 +37,25 @@ void Screen::Open(uint16 width, uint16 height, bool fullscreen) {
 
 	// Inicializamos OpenGL
 	// TAREA: Inicializar estados
-
+  glEnableClientState(GL_VERTEX_ARRAY);
+  glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+  glEnableClientState(GL_TEXTURE_2D);
+  glEnableClientState(GL_BLEND);
 	// Configuramos viewport
 	// TAREA: Inicializar viewport
 	this->width = width;
 	this->height = height;
-
+  glViewport(0,0,this->width,this->height);
 	// Configuramos matriz de proyeccion
 	// TAREA: Configurar matriz de proyeccion
-
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  /*Alfredo: ¿quiero constante zerof(.h)?*/
+  glOrtho(0.0f, this->width, this->height, 0.0f, 0.0f, 1000.0f);
 	// Configuramos matriz de modelado
 	// TAREA: Configurar matriz de modelado
-
+  glMatrixMode(GL_MODELVIEW);
+  glLoadIdentity();
 	// Inicializamos temporizador
 	lastTime = glfwGetTime();
 	elapsed = 0;
@@ -67,6 +74,8 @@ void Screen::Refresh() {
 	glfwGetMousePos(&mousex, &mousey);
 	elapsed = glfwGetTime() - lastTime;
 	lastTime = glfwGetTime();
+  glClearColor(0,0,0,0);
+  glClear(GL_COLOR_BUFFER_BIT);
 }
 
 uint16 Screen::GetDesktopWidth() const {
