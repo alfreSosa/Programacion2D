@@ -74,8 +74,6 @@ void Screen::Refresh() {
 	glfwGetMousePos(&mousex, &mousey);
 	elapsed = glfwGetTime() - lastTime;
 	lastTime = glfwGetTime();
-  glClearColor(0,0,0,0);
-  glClear(GL_COLOR_BUFFER_BIT);
 }
 
 uint16 Screen::GetDesktopWidth() const {

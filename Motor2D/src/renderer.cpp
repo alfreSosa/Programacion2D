@@ -36,6 +36,9 @@ void Renderer::SetOrigin(double x, double y) const {
 
 void Renderer::Clear(uint8 r, uint8 g, uint8 b) const {
 	// TAREA: Limpiar el backbuffer
+  //glClearColor(255,255,255,255); // BLANCO
+  glClearColor(0,0,0,0); //NEGRO
+  glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void Renderer::DrawPoint(double x, double y) const {

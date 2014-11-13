@@ -19,13 +19,16 @@ int main(int argc, char* argv[]) {
   while ( Screen::Instance().IsOpened() ) 
   {
 		// TAREA: Pintar primitivas
-    
+    Renderer::Instance().SetColor(255,0,0,0);
     Renderer::Instance().DrawRect(x_midle,y_midle,rectCenterTam,rectCenterTam);
     x_mouse = Screen::Instance().GetMouseX() - (rectMouseTam / 2);
     y_mouse = Screen::Instance().GetMouseY() - (rectMouseTam / 2);
+    Renderer::Instance().SetColor(0,255,0,0);
     Renderer::Instance().DrawRect(x_mouse,y_mouse,rectMouseTam,rectMouseTam);
 		// Refrescamos la pantalla
 		Screen::Instance().Refresh();
+    Renderer::Instance().Clear();
+   
 	}
 	
 	return 0;
