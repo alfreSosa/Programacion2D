@@ -40,7 +40,7 @@ void Screen::Open(uint16 width, uint16 height, bool fullscreen) {
   glEnableClientState(GL_VERTEX_ARRAY);
   glEnableClientState(GL_TEXTURE_COORD_ARRAY);
   glEnableClientState(GL_TEXTURE_2D);
-  glEnableClientState(GL_BLEND);
+  glEnableClientState(GL_BLEND); //Este preguntar
 	// Configuramos viewport
 	// TAREA: Inicializar viewport
 	this->width = width;
