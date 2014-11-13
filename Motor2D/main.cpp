@@ -1,11 +1,13 @@
 #pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 
+#define RENDER Renderer::Instance()
+#define SCREEN Screen::Instance()
 #include "include/u-gine.h"
 
 int main(int argc, char* argv[]) {
-	Screen::Instance().Open(800, 600, false);
+	SCREEN.Open(800, 600, false);
 
-  Renderer::Instance();
+  RENDER;
 
   const float rectCenterTam = 50.0f;
   const int rectMouseTam = 10;
@@ -13,21 +15,28 @@ int main(int argc, char* argv[]) {
   int x_mouse;
   int y_mouse;
 
-  float x_midle = Screen::Instance().GetWidth() / 2.0f - (rectCenterTam / 2);
-  float y_midle = Screen::Instance().GetHeight() / 2.0f - (rectCenterTam / 2);
+  float x_midle = SCREEN.GetWidth() / 2.0f - (rectCenterTam / 2);
+  float y_midle = SCREEN.GetHeight() / 2.0f - (rectCenterTam / 2);
   
-  while ( Screen::Instance().IsOpened() ) 
+  while ( SCREEN.IsOpened() ) 
   {
 		// TAREA: Pintar primitivas
-    Renderer::Instance().SetColor(255,0,0,0);
-    Renderer::Instance().DrawRect(x_midle,y_midle,rectCenterTam,rectCenterTam);
-    x_mouse = Screen::Instance().GetMouseX() - (rectMouseTam / 2);
-    y_mouse = Screen::Instance().GetMouseY() - (rectMouseTam / 2);
-    Renderer::Instance().SetColor(0,255,0,0);
-    Renderer::Instance().DrawRect(x_mouse,y_mouse,rectMouseTam,rectMouseTam);
+    //Pintar Cuadrado Central en Rojo
+    RENDER.SetColor(255,0,0,0);
+    RENDER.DrawRect(x_midle,y_midle,rectCenterTam,rectCenterTam);
+
+    //Obtener posicion raton, fijar color verde y pintar cuadrado en raton.
+    x_mouse = SCREEN.GetMouseX() - (rectMouseTam / 2);
+    y_mouse = SCREEN.GetMouseY() - (rectMouseTam / 2);
+    RENDER.SetColor(0,255,0,0);
+    RENDER.DrawRect(x_mouse,y_mouse,rectMouseTam,rectMouseTam);
+
+    //Fijar color azul, pintar elipse en...
+    RENDER.SetColor(0,0,255,0);
+    RENDER.DrawEllipse(x_mouse - 10, y_mouse - 10, 5 ,5);
 		// Refrescamos la pantalla
-		Screen::Instance().Refresh();
-    Renderer::Instance().Clear();
+		SCREEN.Refresh();
+    RENDER.Clear(0,0,0);
    
 	}
 	
