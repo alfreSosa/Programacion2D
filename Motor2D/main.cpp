@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
     y_mouseCircle = y_mouse + senoCircle * circleDistanciaAlMouse;
 
     //Obtener angulo y distancia
-    float angulo = Angle(x_mouseCircle, y_mouseCircle, x_mouse ,y_mouse);
+    float angulo = Angle(x_mouseCircle, y_mouseCircle, x_mouse + midRectMouseTam, y_mouse + midRectMouseTam);
     float distance = Distance(x_mouse + midRectMouseTam, y_mouse + midRectMouseTam, x_midle + midRectCenterTam, y_midle + midRectCenterTam);
 
     //pintar titulo
