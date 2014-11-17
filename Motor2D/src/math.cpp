@@ -44,7 +44,7 @@ double WrapValue(double val, double mod) {
 
 double Angle(double x1, double y1, double x2, double y2) {
 	// TAREA: Implementar funcion
-  double tang = DegATan2(abs(y2-y1), abs(x2-x1));
+  double tang = DegATan2(y2-y1, x1-x2);
 	return WrapValue(tang, 360);
 }
 
