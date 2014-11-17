@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
   const float midRectCenterTam = rectCenterTam / 2;
   const int midRectMouseTam = rectMouseTam / 2;
   const int circleDistanciaAlMouse = 30;
-  const int posicionFinal = 360;
+  const int posicionFinal = 100;
   int x_mouse;
   int y_mouse;
 
