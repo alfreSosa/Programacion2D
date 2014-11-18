@@ -2,10 +2,21 @@
 //ESCONDE LA CONSOLA
 #define RENDER Renderer::Instance()
 #define SCREEN Screen::Instance()
+
+//#define RESOURCE ResourceManager::Instance()
+
 #include "include/u-gine.h"
+//MOTOR2D es UGINE
+void practica1();
 
 int main(int argc, char* argv[]) {
-	SCREEN.Open(800, 600, false);
+  practica1();
+  return 0;
+}
+
+void practica1()
+{
+  SCREEN.Open(800, 600, false);
 
   RENDER;
 
@@ -31,16 +42,16 @@ int main(int argc, char* argv[]) {
   double cosenoCircle = 1.0f;
   /*Preguntar como esconder el cursor*/
 
-  while ( SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC)) 
+  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
   {
     //Obtener posisicion raton
     x_mouse = SCREEN.GetMouseX() - midRectMouseTam;
     y_mouse = SCREEN.GetMouseY() - midRectMouseTam;
 
     //Calcular posicion circulo
-    posCircle += SCREEN.ElapsedTime() * posicionFinal; 
-    senoCircle =  DegSin(-posCircle); // negativo para sentido antihorario.
-    cosenoCircle =  DegCos(posCircle); 
+    posCircle += SCREEN.ElapsedTime() * posicionFinal;
+    senoCircle = DegSin(-posCircle); // negativo para sentido antihorario.
+    cosenoCircle = DegCos(posCircle);
 
     x_mouseCircle = x_mouse + cosenoCircle * circleDistanciaAlMouse;
     y_mouseCircle = y_mouse + senoCircle * circleDistanciaAlMouse;
@@ -56,24 +67,23 @@ int main(int argc, char* argv[]) {
     tit1 += String::FromFloat(distance);
     SCREEN.SetTitle(tit1);
 
-		// TAREA: Pintar primitivas
+    // TAREA: Pintar primitivas
     //Pintar Cuadrado Central en Rojo
-    RENDER.SetColor(255,0,0,0);
-    RENDER.DrawRect(x_midle,y_midle,rectCenterTam,rectCenterTam);
+    RENDER.SetColor(255, 0, 0, 0);
+    RENDER.DrawRect(x_midle, y_midle, rectCenterTam, rectCenterTam);
 
     //fijar color verde y pintar cuadrado en raton.
-    RENDER.SetColor(0,255,0,0);
-    RENDER.DrawRect(x_mouse,y_mouse,rectMouseTam,rectMouseTam);
+    RENDER.SetColor(0, 255, 0, 0);
+    RENDER.DrawRect(x_mouse, y_mouse, rectMouseTam, rectMouseTam);
 
     //Fijar color azul, pintar elipse en...
-    RENDER.SetColor(0,0,255,0);
+    RENDER.SetColor(0, 0, 255, 0);
     SCREEN.ElapsedTime();
-    RENDER.DrawEllipse(x_mouseCircle, y_mouseCircle, circleMouseRadius , circleMouseRadius);
-		// Refrescamos la pantalla
-		SCREEN.Refresh();
-    RENDER.Clear(0,0,0);
-   
-	}
-	
-	return 0;
+    RENDER.DrawEllipse(x_mouseCircle, y_mouseCircle, circleMouseRadius, circleMouseRadius);
+    // Refrescamos la pantalla
+    SCREEN.Refresh();
+    RENDER.Clear(0, 0, 0);
+  }
+
+
 }
