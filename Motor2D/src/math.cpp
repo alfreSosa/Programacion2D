@@ -9,7 +9,7 @@ double Log2(double x) {
 }
 
 double DegSin(double degrees) {
-	return sin(DEG2RAD * degrees);
+	return sin(DEG2RAD * degrees * -1);
 }
 
 double DegCos(double degrees) {
@@ -44,7 +44,7 @@ double WrapValue(double val, double mod) {
 
 double Angle(double x1, double y1, double x2, double y2) {
 	// TAREA: Implementar funcion
-  double tang = DegATan2(y2-y1, x1-x2);
+  double tang = DegATan2(y1-y2, x2-x1);
 	return WrapValue(tang, 360);
 }
 

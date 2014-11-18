@@ -3,11 +3,12 @@
 #define RENDER Renderer::Instance()
 #define SCREEN Screen::Instance()
 
-//#define RESOURCE ResourceManager::Instance()
+#define RESOURCE ResourceManager::Instance()
 
 #include "include/u-gine.h"
 //MOTOR2D es UGINE
 void practica1();
+void practica2();
 
 int main(int argc, char* argv[]) {
   practica1();
@@ -27,7 +28,7 @@ void practica1()
   const float midRectCenterTam = rectCenterTam / 2;
   const int midRectMouseTam = rectMouseTam / 2;
   const int circleDistanciaAlMouse = 30;
-  const int posicionFinal = 5;
+  const int posicionFinal = 20;
   int x_mouse;
   int y_mouse;
 
@@ -50,14 +51,14 @@ void practica1()
 
     //Calcular posicion circulo
     posCircle += SCREEN.ElapsedTime() * posicionFinal;
-    senoCircle = DegSin(-posCircle); // negativo para sentido antihorario.
+    senoCircle = DegSin(posCircle); // negativo para sentido antihorario.
     cosenoCircle = DegCos(posCircle);
 
     x_mouseCircle = x_mouse + cosenoCircle * circleDistanciaAlMouse;
     y_mouseCircle = y_mouse + senoCircle * circleDistanciaAlMouse;
 
     //Obtener angulo y distancia
-    float angulo = static_cast<float>(Angle(x_mouseCircle, y_mouseCircle, x_mouse + midRectMouseTam, y_mouse + midRectMouseTam));
+    float angulo = static_cast<float>(Angle(x_mouse + midRectMouseTam, y_mouse + midRectMouseTam, x_mouseCircle, y_mouseCircle));
     float distance = static_cast<float>(Distance(x_mouse + midRectMouseTam, y_mouse + midRectMouseTam, x_midle + midRectCenterTam, y_midle + midRectCenterTam));
 
     //pintar titulo
@@ -85,5 +86,19 @@ void practica1()
     RENDER.Clear(0, 0, 0);
   }
 
+
+}
+void practica2()
+{
+  SCREEN.Open(800, 600, false);
+
+  RENDER;
+
+  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  {
+    SCREEN.Refresh();
+    RENDER.Clear(0, 0, 0);
+  }
+  RESOURCE.FreeResources();
 
 }
