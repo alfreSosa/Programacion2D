@@ -83,7 +83,24 @@ void Renderer::DrawEllipse(double x, double y, double xradius, double yradius) c
 	glDrawArrays(GL_TRIANGLE_FAN, 0, ELLIPSEPOINTS);
 }
 
-
+uint32 Renderer::GenImage(uint8* buffer, uint16 width, uint16 height) const
+{
+  GLuint texId;
+  glGenTextures(1, &texId);
+  glBindTexture(GL_TEXTURE_2D, texId);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+  return texId;
+}
+void Renderer::BindImage(uint32 glhandle) const
+{
+  glBindTexture(GL_TEXTURE_2D, glhandle);
+}
+void Renderer::DeleteImage(uint32 glhandle) const
+{
+  glDeleteTextures(1, &glhandle);
+}
 void Renderer::DrawImage(const Image* image, double x, double y, uint32 frame, double width, double height, double ang) const {
     if ( width == 0  ||  height == 0 ) {
         width = image->GetWidth();

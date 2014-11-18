@@ -2,7 +2,6 @@
 //ESCONDE LA CONSOLA
 #define RENDER Renderer::Instance()
 #define SCREEN Screen::Instance()
-
 #define RESOURCE ResourceManager::Instance()
 
 #include "include/u-gine.h"
@@ -11,7 +10,8 @@ void practica1();
 void practica2();
 
 int main(int argc, char* argv[]) {
-  practica1();
+  //practica1();
+  practica2();
   return 0;
 }
 
@@ -92,10 +92,12 @@ void practica2()
 {
   SCREEN.Open(800, 600, false);
 
-  RENDER;
+  RENDER; //No hace simbolico
+  Image *pelota = new Image("data/ball.png");
 
   while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
   {
+    RENDER.DrawImage(pelota, SCREEN.GetWidth() / 2.0f, SCREEN.GetHeight() / 2.0f);
     SCREEN.Refresh();
     RENDER.Clear(0, 0, 0);
   }
