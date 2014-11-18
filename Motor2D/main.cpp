@@ -20,15 +20,15 @@ int main(int argc, char* argv[]) {
   int x_mouse;
   int y_mouse;
 
-  float x_mouseCircle;
-  float y_mouseCircle;
+  double x_mouseCircle;
+  double y_mouseCircle;
 
-  float x_midle = SCREEN.GetWidth() / 2.0f - midRectCenterTam;
-  float y_midle = SCREEN.GetHeight() / 2.0f - midRectCenterTam;
+  double x_midle = SCREEN.GetWidth() / 2.0f - midRectCenterTam;
+  double y_midle = SCREEN.GetHeight() / 2.0f - midRectCenterTam;
 
-  float posCircle = 0.0f;
-  float senoCircle = 0.0f;
-  float cosenoCircle = 1.0f;
+  double posCircle = 0.0f;
+  double senoCircle = 0.0f;
+  double cosenoCircle = 1.0f;
   /*Preguntar como esconder el cursor*/
 
   while ( SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC)) 
@@ -46,8 +46,8 @@ int main(int argc, char* argv[]) {
     y_mouseCircle = y_mouse + senoCircle * circleDistanciaAlMouse;
 
     //Obtener angulo y distancia
-    float angulo = Angle(x_mouseCircle, y_mouseCircle, x_mouse + midRectMouseTam, y_mouse + midRectMouseTam);
-    float distance = Distance(x_mouse + midRectMouseTam, y_mouse + midRectMouseTam, x_midle + midRectCenterTam, y_midle + midRectCenterTam);
+    float angulo = static_cast<float>(Angle(x_mouseCircle, y_mouseCircle, x_mouse + midRectMouseTam, y_mouse + midRectMouseTam));
+    float distance = static_cast<float>(Distance(x_mouse + midRectMouseTam, y_mouse + midRectMouseTam, x_midle + midRectCenterTam, y_midle + midRectCenterTam));
 
     //pintar titulo
     String tit1 = "Grados: ";
