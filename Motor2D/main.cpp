@@ -1,5 +1,5 @@
 #pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
-
+//ESCONDE LA CONSOLA
 #define RENDER Renderer::Instance()
 #define SCREEN Screen::Instance()
 #include "include/u-gine.h"
@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
   float cosenoCircle = 1.0f;
   /*Preguntar como esconder el cursor*/
 
-  while ( SCREEN.IsOpened() /*TAREA: SALIR CON ESC*/) 
+  while ( SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC)) 
   {
     //Obtener posisicion raton
     x_mouse = SCREEN.GetMouseX() - midRectMouseTam;
