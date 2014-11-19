@@ -35,15 +35,12 @@ Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
       uint8 *newBuffer = (uint8 *)calloc(escalaX * escalaY * 4, sizeof(uint8));
       if (newBuffer)
       {
+        int tamPixelNuevo = escalaX * 4;
+        int tamPixel = width * 4;
+
         for (int i = 0; i < height; i++)
-          for (int j = 0; j < width; j++)
-          {
-            //pixel 4 bytes
-            newBuffer[(i*escalaX + j) * 4] = buffer[(i*width + j) * 4];
-            newBuffer[(i*escalaX + j) * 4 + 1] = buffer[(i*width + j) * 4 + 1];
-            newBuffer[(i*escalaX + j) * 4 + 2] = buffer[(i*width + j) * 4 + 2];
-            newBuffer[(i*escalaX + j) * 4 + 3] = buffer[(i*width + j) * 4 + 3];
-          }
+          memcpy(&newBuffer[i *tamPixelNuevo], &buffer[i * tamPixel],tamPixel);
+
         lastU = float(width) / escalaX;
         lastV = float(height) / escalaY;
         width = escalaX;
