@@ -35,7 +35,7 @@ Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
       uint8 *newBuffer = (uint8 *)calloc(escalaX * escalaY * 4, sizeof(uint8));
       if (newBuffer)
       {
-        for (int i = 0,j = 0; i < width * height * 4; j++)
+        for (int i = 0,j = 0; j < width * height * 4; j++)
         {
           newBuffer[i] = buffer[j];
           if (j % (width * 4) == 0)
