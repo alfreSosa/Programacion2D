@@ -35,18 +35,17 @@ Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
       uint8 *newBuffer = (uint8 *)calloc(escalaX * escalaY * 4, sizeof(uint8));
       if (newBuffer)
       {
-        for (int i = 0,j = 0; j < width * height * 4; j++)
-        {
-          newBuffer[i] = buffer[j];
-          if (j % (width * 4) == 0)
+        for (int i = 0; i < height; i++)
+          for (int j = 0; j < width; j++)
           {
-            i += (escalaX - width) * 4;
+            //pixel 4 bytes
+            newBuffer[(i*escalaX + j) * 4] = buffer[(i*width + j) * 4];
+            newBuffer[(i*escalaX + j) * 4 + 1] = buffer[(i*width + j) * 4 + 1];
+            newBuffer[(i*escalaX + j) * 4 + 2] = buffer[(i*width + j) * 4 + 2];
+            newBuffer[(i*escalaX + j) * 4 + 3] = buffer[(i*width + j) * 4 + 3];
           }
-          i++;
-        }  
-       
-        lastU = escalaX / width;
-        lastV = escalaY / height;
+        lastU = float(width) / escalaX;
+        //lastV = float(height) / escalaY;
         width = escalaX;
         height = escalaY;
         gltex = Renderer::Instance().GenImage(newBuffer, width, height);

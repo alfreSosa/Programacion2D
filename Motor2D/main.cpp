@@ -140,8 +140,8 @@ void practica2B()
     pelota->SetMidHandle();
     while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
     {
-      angRotation += SCREEN.ElapsedTime() * 30; //30 grados un segundo
-      angRotation = WrapValue(angRotation, 360); // Modulo 360 para que no incremente continuamente.
+     // angRotation += SCREEN.ElapsedTime() * 30; //30 grados un segundo
+     // angRotation = WrapValue(angRotation, 360); // Modulo 360 para que no incremente continuamente.
 
       if (escala >= 5.0) incremento *= -1;
       else if (escala <= 0.5) incremento *= -1;
@@ -150,7 +150,7 @@ void practica2B()
 
       RENDER.DrawImage(pelota, SCREEN.GetMouseX(), SCREEN.GetMouseY(), 1, tamX * escala, tamY * escala, angRotation);
       SCREEN.Refresh();
-      RENDER.Clear(0, 0, 0);
+      RENDER.Clear(255, 255, 255);
     }
     RESOURCE.FreeResources();
   }
