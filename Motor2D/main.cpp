@@ -93,11 +93,11 @@ void practica2()
   SCREEN.Open(800, 600, false);
 
   RENDER; //No hace simbolico
-  Image *pelota = new Image("data/ball.png");
-
+  Image *pelota = RESOURCE.LoadImage("data/ball.png");
+  pelota->SetMidHandle();
   while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
   {
-    RENDER.DrawImage(pelota, SCREEN.GetWidth() / 2.0f, SCREEN.GetHeight() / 2.0f);
+    RENDER.DrawImage(pelota, SCREEN.GetMouseX(), SCREEN.GetMouseY());
     SCREEN.Refresh();
     RENDER.Clear(0, 0, 0);
   }

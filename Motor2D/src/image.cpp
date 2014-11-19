@@ -1,11 +1,11 @@
 #include "../include/image.h"
 #include "../include/glinclude.h"
 #include "../include/math.h"
-#define STB_IMAGE_IMPLEMENTATION
-#include "../lib/stb_image.h" //mover a carpeta lib, no include
 #include "../include/renderer.h"
 #include <math.h>
 #include <stdlib.h>
+#define STB_IMAGE_IMPLEMENTATION
+#include "../lib/stb_image.h"
 
 
 Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
@@ -22,8 +22,7 @@ Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
 
 	// TAREA: Cargar el buffer de la imagen
   int x,y;
-  //¿Poner cero en comp_req?
-  uint8 *buffer = stbi_load(this->filename.ToCString(), &x, &y, 0, 4);
+  uint8 *buffer = stbi_load(filename.ToCString(), &x, &y, NULL, 4);
   width = static_cast<uint16>(x);
   height = static_cast<uint16>(y);
 	// Generamos la textura
