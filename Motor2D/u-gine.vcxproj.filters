@@ -68,7 +68,7 @@
     <ClInclude Include="include\resourcemanager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\stb_image.h">
+    <ClInclude Include="lib\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -2,7 +2,7 @@
 #include "../include/glinclude.h"
 #include "../include/math.h"
 #define STB_IMAGE_IMPLEMENTATION
-#include "../include/stb_image.h" //mover a carpeta lib, no include
+#include "../lib/stb_image.h" //mover a carpeta lib, no include
 #include "../include/renderer.h"
 #include <math.h>
 #include <stdlib.h>
