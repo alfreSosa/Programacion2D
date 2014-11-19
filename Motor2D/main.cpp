@@ -92,8 +92,10 @@ void practica2()
 {
   SCREEN.Open(800, 600, false);
 
-  RENDER; //No hace simbolico
+  //CARGAR IMAGEN
   Image *pelota = RESOURCE.LoadImage("data/ball.png");
+
+  //CENTRAR IMAGEN
   pelota->SetMidHandle();
   while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
   {

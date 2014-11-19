@@ -39,8 +39,8 @@ void Screen::Open(uint16 width, uint16 height, bool fullscreen) {
 	// TAREA: Inicializar estados
   glEnableClientState(GL_VERTEX_ARRAY);
   glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-  glEnableClientState(GL_TEXTURE_2D);
-  glEnableClientState(GL_BLEND); //Este preguntar
+  glEnable(GL_TEXTURE_2D);
+  glEnable(GL_BLEND); //Este preguntar
 	// Configuramos viewport
 	// TAREA: Inicializar viewport
 	this->width = width;
@@ -50,7 +50,6 @@ void Screen::Open(uint16 width, uint16 height, bool fullscreen) {
 	// TAREA: Configurar matriz de proyeccion
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  /*Alfredo: ¿quiero constante zerof(.h)?*/
   glOrtho(0.0f, this->width, this->height, 0.0f, 0.0f, 1000.0f);
 	// Configuramos matriz de modelado
 	// TAREA: Configurar matriz de modelado

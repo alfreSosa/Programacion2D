@@ -1,9 +1,10 @@
 #include "../include/image.h"
 #include "../include/glinclude.h"
 #include "../include/math.h"
-#include "../include/renderer.h"
 #include <math.h>
 #include <stdlib.h>
+
+#include "../include/renderer.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "../lib/stb_image.h"
 
