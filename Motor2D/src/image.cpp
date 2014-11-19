@@ -45,7 +45,7 @@ Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
             newBuffer[(i*escalaX + j) * 4 + 3] = buffer[(i*width + j) * 4 + 3];
           }
         lastU = float(width) / escalaX;
-        //lastV = float(height) / escalaY;
+        lastV = float(height) / escalaY;
         width = escalaX;
         height = escalaY;
         gltex = Renderer::Instance().GenImage(newBuffer, width, height);
