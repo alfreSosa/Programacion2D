@@ -28,7 +28,35 @@ Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
   height = static_cast<uint16>(y);
 	// Generamos la textura
 	if ( buffer ) {
-    gltex = Renderer::Instance().GenImage(buffer, width, height);
+    uint16 escalaX = static_cast<uint16>(pow(2, ceil(Log2(width))));
+    uint16 escalaY = static_cast<uint16>(pow(2, ceil(Log2(height))));
+    if (width != escalaX || height != escalaY)
+    {
+      uint8 *newBuffer = (uint8 *)calloc(escalaX * escalaY * 4, sizeof(uint8));
+      if (newBuffer)
+      {
+        for (int i = 0,j = 0; i < width * height * 4; j++)
+        {
+          newBuffer[i] = buffer[j];
+          if (j % (width * 4) == 0)
+          {
+            i += (escalaX - width) * 4;
+          }
+          i++;
+        }  
+       
+        lastU = escalaX / width;
+        lastV = escalaY / height;
+        width = escalaX;
+        height = escalaY;
+        gltex = Renderer::Instance().GenImage(newBuffer, width, height);
+        free(newBuffer);
+      }
+    }
+    else
+    {
+      gltex = Renderer::Instance().GenImage(buffer, width, height);
+    }
 	}
   stbi_image_free(buffer);
 }

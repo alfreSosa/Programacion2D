@@ -8,10 +8,12 @@
 //MOTOR2D es UGINE
 void practica1();
 void practica2();
+void practica2B();
 
 int main(int argc, char* argv[]) {
   //practica1();
-  practica2();
+  //practica2();
+  practica2B();
   return 0;
 }
 
@@ -92,17 +94,65 @@ void practica2()
 {
   SCREEN.Open(800, 600, false);
 
+  double angRotation = 0.0;
+  double escala = 1.0;
+  double incremento = 2.0;
   //CARGAR IMAGEN
   Image *pelota = RESOURCE.LoadImage("data/ball.png");
-
-  //CENTRAR IMAGEN
-  pelota->SetMidHandle();
-  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  if (pelota)
   {
-    RENDER.DrawImage(pelota, SCREEN.GetMouseX(), SCREEN.GetMouseY());
-    SCREEN.Refresh();
-    RENDER.Clear(0, 0, 0);
+    double tamX = pelota->GetWidth();
+    double tamY = pelota->GetHeight();
+    //CENTRAR IMAGEN
+    pelota->SetMidHandle();
+    while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+    {
+      angRotation += SCREEN.ElapsedTime() * 30; //30 grados un segundo
+      angRotation = WrapValue(angRotation, 360); // Modulo 360 para que no incremente continuamente.
+
+      if (escala >= 5.0) incremento *= -1;
+      else if (escala <= 0.5) incremento *= -1;
+
+      escala += SCREEN.ElapsedTime() * incremento;
+
+      RENDER.DrawImage(pelota, SCREEN.GetMouseX(), SCREEN.GetMouseY(),1, tamX * escala , tamY * escala, angRotation);
+      SCREEN.Refresh();
+      RENDER.Clear(0, 0, 0);
+    }
+    RESOURCE.FreeResources();
   }
-  RESOURCE.FreeResources();
+
+}
+void practica2B()
+{
+  SCREEN.Open(800, 600, false);
+
+  double angRotation = 0.0;
+  double escala = 1.0;
+  double incremento = 2.0;
+  //CARGAR IMAGEN
+  Image *pelota = RESOURCE.LoadImage("data/soccer_npot.png");
+  if (pelota)
+  {
+    double tamX = pelota->GetWidth();
+    double tamY = pelota->GetHeight();
+    //CENTRAR IMAGEN
+    pelota->SetMidHandle();
+    while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+    {
+      angRotation += SCREEN.ElapsedTime() * 30; //30 grados un segundo
+      angRotation = WrapValue(angRotation, 360); // Modulo 360 para que no incremente continuamente.
+
+      if (escala >= 5.0) incremento *= -1;
+      else if (escala <= 0.5) incremento *= -1;
+
+      escala += SCREEN.ElapsedTime() * incremento;
+
+      RENDER.DrawImage(pelota, SCREEN.GetMouseX(), SCREEN.GetMouseY(), 1, tamX * escala, tamY * escala, angRotation);
+      SCREEN.Refresh();
+      RENDER.Clear(0, 0, 0);
+    }
+    RESOURCE.FreeResources();
+  }
 
 }
