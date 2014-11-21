@@ -15,7 +15,7 @@ void Renderer::SetBlendMode(BlendMode blendMode) const {
     glBlendFunc(GL_ONE, GL_ZERO);
 		break;
 	case ALPHA:
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		break;
 	case MULTIPLICATIVE:
     glBlendFunc(GL_DST_COLOR, GL_ZERO);

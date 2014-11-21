@@ -1,9 +1,10 @@
 #pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 //ESCONDE LA CONSOLA
+#include <math.h>
 #define RENDER Renderer::Instance()
 #define SCREEN Screen::Instance()
 #define RESOURCE ResourceManager::Instance()
-
+#define VEL(data) reinterpret_cast<Velocidades *>(data)
 #include "include/u-gine.h"
 //MOTOR2D es UGINE
 void practica1();
@@ -11,12 +12,19 @@ void practica2();
 void practica2B();
 void practica3();
 void practica3B();
+void practica4();
+struct Velocidades
+{
+  double x;
+  double y;
+};
 int main(int argc, char* argv[]) {
   //practica1();
   //practica2();
   //practica2B();
   //practica3();
-  practica3B();
+  //practica3B();
+  practica4();
   return 0;
 }
 
@@ -430,4 +438,83 @@ void practica3B()
   }
   RESOURCE.FreeResources();
 
+}
+void practica4()
+{
+  SCREEN.Open(800, 600, false);
+
+  //CARGAR IMAGEN
+  Array<Sprite *> sprites(5);
+  Image *pelota = RESOURCE.LoadImage("data/ball.png");
+  int anchoMaximo,altoMaximo;
+  const int velMax = 400;
+  const int velMin = 150;
+  if (pelota)
+  {
+    pelota->SetMidHandle();
+    anchoMaximo = SCREEN.GetWidth() - pelota->GetWidth() / 2.0;
+    altoMaximo = SCREEN.GetHeight() - pelota->GetHeight() / 2.0;
+    for(int i =0 ; i < 5; i++)
+    {
+      sprites.Add(new Sprite(pelota));
+      double posX = rand() % (anchoMaximo);
+      double posY = rand() % (altoMaximo);
+      sprites[i]->SetPosition(posX,posY);
+      sprites[i]->SetColor(255,255,255);
+      //SOLUCION PROVISIONAL. CREO AQUI Y DESTRUYO EN EL DELETE DE SPRITE
+      Velocidades *vel = new Velocidades;
+      vel->x = rand() % velMax + velMin;
+      vel->y = rand() % velMax + velMin;
+      sprites[i]->SetUserData(vel);
+    }
+    
+  }
+  double direccionX = 1.0;
+  double direccionY = 1.0;
+  void *data;
+  double nPosX;
+  double nPosY;
+  double error = 0.0001;
+  double resta = 0.0;
+  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  {
+    
+
+    RENDER.Clear(0, 0, 0);
+    for(int i = 0; i < sprites.Size(); i++)
+    {
+
+      data = sprites[i]->GetUserData();
+      nPosX = sprites[i]->GetX() + VEL(data)->x * SCREEN.ElapsedTime(); //Preguntar javier
+      nPosY = sprites[i]->GetY() + VEL(data)->y * SCREEN.ElapsedTime();
+      //X
+      if(nPosX > (SCREEN.GetWidth() - sprites[i]->GetImage()->GetWidth() / 2.0))
+      {
+        VEL(data)->x = -1 * rand() % velMax + velMin;
+        sprites[i]->SetUserData(data);
+      }
+      if(nPosX < (sprites[i]->GetImage()->GetWidth() / 2.0))
+      {
+        VEL(data)->x = rand() % velMax + velMin;
+        sprites[i]->SetUserData(data);
+      }
+      //Y
+      if(nPosY > (SCREEN.GetHeight() - sprites[i]->GetImage()->GetHeight() / 2.0))
+      {
+        VEL(data)->y = -1 * rand() % velMax + velMin;
+        sprites[i]->SetUserData(data);
+      }
+      if(nPosY < (sprites[i]->GetImage()->GetHeight() / 2.0))
+      {
+        VEL(data)->y = rand() % velMax + velMin;
+        sprites[i]->SetUserData(data);
+      }
+      sprites[i]->SetPosition(nPosX,nPosY);
+
+      sprites[i]->Render();
+    }
+    SCREEN.Refresh();
+      
+  }
+  RESOURCE.FreeResources();
 }

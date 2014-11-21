@@ -9,7 +9,7 @@
 #include <math.h>
 
 Sprite::Sprite(Image* image) {
-    image = image;
+    this->image = image;
     x = 0;
     y = 0;
     angle = 0;
@@ -20,11 +20,15 @@ Sprite::Sprite(Image* image) {
     g = 0;
     b = 0;
     a = 255;
-    userData = 0;
+    userData = NULL;
+    currentFrame = 0.0;
 }
 
 Sprite::~Sprite() {
-    // TAREA: Implementar
+  if(userData != NULL){
+    delete userData;
+    userData = NULL;
+  }
 }
 
 /*
@@ -67,7 +71,7 @@ void Sprite::Update(double elapsed, const Map* map) {
 void Sprite::Render() const {
   Renderer::Instance().SetBlendMode(blendMode);
   Renderer::Instance().SetColor(r,g,b,a);
-  Renderer::Instance().DrawImage(image,x,y,static_cast<uint32>(currentFrame),scalex,scaley,angle);
+  Renderer::Instance().DrawImage(image,x,y,static_cast<uint32>(currentFrame),image->GetWidth() * scalex,image->GetHeight() * scaley,angle);
 }
 
 void Sprite::UpdateCollisionBox() {
