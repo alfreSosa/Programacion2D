@@ -41,7 +41,7 @@ public:
   virtual double GetScaleX() const { return scalex; }
   virtual double GetScaleY() const { return scaley; }
 
-  ////este bloque no se hace ahora
+  
   //virtual void SetFPS(int16 fps) { /* TAREA: Implementar */ }
   //virtual int16 GetFPS() const { /* TAREA: Implementar */ }
   //virtual void SetFrameRange(uint16 firstFrame, uint16 lastFrame) { /* TAREA: Implementar */ }
@@ -58,7 +58,7 @@ public:
   virtual uint8 GetBlue() const { return b; }
   virtual uint8 GetAlpha() const { return a; }
 
-  ////este bloque no se hace ahora
+  
   //virtual void SetRadius(double radius) { /* TAREA: Implementar */ }
   //virtual double GetRadius() const { /* TAREA: Implementar */ }
 
@@ -71,7 +71,7 @@ public:
   //virtual const Sprite* CollisionSprite() const { /* TAREA: Implementar */ }
   //virtual bool DidCollide() const { /* TAREA: Implementar */ }
 
-  ////Parte avanzada de la práctica
+  
   virtual void RotateTo(int32 angle, double speed);
   virtual void MoveTo(double x, double y, double speedX, double speedY = 0.0); //si se especifica una única velocidad, se traza la línea entre el origen y el objetivo y se mueve a esa velocidad por esa línea
   virtual bool IsRotating() const { return false;} // IMPLEMENTAR
@@ -80,23 +80,21 @@ public:
   virtual void Update(double elapsed, const Map* map = NULL);
   virtual void Render() const;
 
-  //en la practica se usa para los rebotes de los balones
+  
   virtual void SetUserData(void* data) { userData = data; }
   virtual void* GetUserData() { return userData; }
   virtual const void* GetUserData() const { return userData; }
 
 protected:
-  //no se usan hasta más adelante
   virtual void UpdateCollisionBox();
   virtual void UpdateCollisionBox(double x, double y, double w, double h);
 
 private:
-  // Practica 4 Parte 1
   Image* image;
   double x, y;
   double angle;
   double scalex, scaley;
-  Renderer::BlendMode blendMode;  //inicialmente alpha
+  Renderer::BlendMode blendMode;
   uint8 r, g, b, a;
   void* userData;
 
@@ -109,13 +107,11 @@ private:
   double toX, toY;
   double movingSpeedX, movingSpeedY;
   double prevX, prevY;
-
-  // Info animacion
+  //hasta aqui
   int16 animFPS;
   uint16 firstFrame, lastFrame;
   double currentFrame;
 
-  // Info colision
   double colx, coly, colwidth, colheight;
   double radius;
   Collision* collision;

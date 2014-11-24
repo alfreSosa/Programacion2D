@@ -22,6 +22,16 @@ Sprite::Sprite(Image* image) {
     a = 255;
     userData = NULL;
     currentFrame = 0.0;
+    rotating = false;
+    rotatingSpeed = 0.0;
+    anglesToRotate = 0.0;
+    moving = false;
+    toX = 0.0;
+    toY = 0.0;
+    movingSpeedX = 0.0;
+    movingSpeedY = 0.0;
+    prevX = 0.0;
+    prevY = 0.0;
 }
 
 Sprite::~Sprite() {
@@ -46,11 +56,27 @@ bool Sprite::CheckCollision(const Map* map) {
 */
 
 void Sprite::RotateTo(int32 angle, double speed) {
-	// TAREA: Implementar
+  double dif;
+  double err = 0.0001;
+
+  dif = this->angle - angle;
+  if (abs(dif) < err) rotating = false;
+  else rotating = true;
+  
+  if ((angle - this->angle) < (this->angle - angle))
+  {
+    //Sentido antihorario
+  }else
+  {
+    //Sentido horario
+  }
+  
+  //this->angle = angle * speed;
 }
 
 void Sprite::MoveTo(double x, double y, double speedX, double speedY) {
-	// TAREA: Implementar
+  if ((this->x == x ) && (this->y == y)) moving = false;
+  else moving = true;
 }
 
 void Sprite::Update(double elapsed, const Map* map) {
@@ -61,9 +87,15 @@ void Sprite::Update(double elapsed, const Map* map) {
 	// TAREA: Actualizar animacion
 
 	// TAREA: Actualizar rotacion animada
-
+  if (rotating)
+  {
+    //RotateTo(angle,speed * elapsed);
+  }
 	// TAREA: Actualizar movimiento animado
-
+  if (moving)
+  {
+    //MoveTo();
+  }
 	// Informacion final de colision
 	UpdateCollisionBox();
 }

@@ -4,27 +4,32 @@
 #define RENDER Renderer::Instance()
 #define SCREEN Screen::Instance()
 #define RESOURCE ResourceManager::Instance()
+//Macro para ejercicio4A
 #define VEL(data) reinterpret_cast<Velocidades *>(data)
 #include "include/u-gine.h"
-//MOTOR2D es UGINE
+//Declaración de funciones para ejecutar ejercicio
 void practica1();
 void practica2();
 void practica2B();
 void practica3();
 void practica3B();
 void practica4();
+void practica4B();
+//Estructura para ejercicio4A
 struct Velocidades
 {
   double x;
   double y;
 };
+
 int main(int argc, char* argv[]) {
   //practica1();
   //practica2();
   //practica2B();
   //practica3();
   //practica3B();
-  practica4();
+  //practica4();
+  practica4B();
   return 0;
 }
 
@@ -452,8 +457,8 @@ void practica4()
   if (pelota)
   {
     pelota->SetMidHandle();
-    anchoMaximo = SCREEN.GetWidth() - pelota->GetWidth() / 2.0;
-    altoMaximo = SCREEN.GetHeight() - pelota->GetHeight() / 2.0;
+    anchoMaximo = static_cast<int>(SCREEN.GetWidth() - pelota->GetWidth() / 2.0);
+    altoMaximo = static_cast<int>(SCREEN.GetHeight() - pelota->GetHeight() / 2.0);
     for(int i =0 ; i < 5; i++)
     {
       sprites.Add(new Sprite(pelota));
@@ -481,7 +486,7 @@ void practica4()
     
 
     RENDER.Clear(0, 0, 0);
-    for(int i = 0; i < sprites.Size(); i++)
+    for(unsigned int i = 0; i < sprites.Size(); i++)
     {
 
       data = sprites[i]->GetUserData();
@@ -513,6 +518,33 @@ void practica4()
 
       sprites[i]->Render();
     }
+    SCREEN.Refresh();
+      
+  }
+  RESOURCE.FreeResources();
+}
+
+void practica4B()
+{
+  SCREEN.Open(800, 600, false);
+
+  //CARGAR IMAGEN
+ // Array<Sprite *> sprites(5);
+  Image *alien = RESOURCE.LoadImage("data/alien.png");
+  Sprite *heli;
+;
+  if (alien)
+  {
+    alien->SetMidHandle();
+    heli = new Sprite(alien);
+    heli->SetColor(255,255,255);
+  }
+
+  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  {
+    RENDER.Clear(0, 0, 0);
+    heli->SetPosition(SCREEN.GetWidth() / 2.0,SCREEN.GetHeight()/ 2.0);
+    heli->Render();
     SCREEN.Refresh();
       
   }
