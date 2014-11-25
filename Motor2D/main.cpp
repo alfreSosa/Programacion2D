@@ -15,6 +15,8 @@ void practica3();
 void practica3B();
 void practica4();
 void practica4B();
+void practica5();
+void practica5B();
 //Estructura para ejercicio4A
 struct Velocidades
 {
@@ -23,14 +25,238 @@ struct Velocidades
 };
 
 int main(int argc, char* argv[]) {
-  //practica1();
-  //practica2();
-  //practica2B();
-  //practica3();
-  //practica3B();
+  //Entregar con practica4
+  practica5();
+  practica5B();
   //practica4();
-  practica4B();
+  //practica4B();
   return 0;
+}
+void practica5B()
+{
+  SCREEN.Open(800, 600, false);
+
+  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  {
+    RENDER.Clear(0, 0, 0);
+
+    SCREEN.Refresh();
+
+  }
+  RESOURCE.FreeResources();
+
+}
+void practica5()
+{
+  SCREEN.Open(800, 600, false);
+  int anchoMaximo;
+  int altoMaximo;
+  const double rotateVel = 50.0;
+  const double moveVelX = 100.0;
+  const double moveVelY = 100.0;
+  //CARGAR IMAGEN
+  Sprite **buffer;
+  buffer = new Sprite*[5];
+  Array<Sprite *> sprites(5);
+  Image *alien = RESOURCE.LoadImage("data/alienanim.png", 8, 1);
+  if (alien)
+  {
+    anchoMaximo = static_cast<int>(SCREEN.GetWidth() - alien->GetWidth() / 2.0);
+    altoMaximo = static_cast<int>(SCREEN.GetHeight() - alien->GetHeight() / 2.0);
+
+    for (unsigned int i = 0; i < 5; i++)
+    {
+      buffer[i] = new Sprite(alien);
+      sprites.Add(buffer[i]);
+      sprites[i]->SetScaleX(5);
+      sprites[i]->SetScaleY(5);
+      sprites[i]->SetFPS(-16);
+      sprites[i]->SetFrameRange(0, 7);
+      double posX = rand() % (anchoMaximo)+alien->GetWidth();
+      double posY = rand() % (altoMaximo)+alien->GetHeight();
+      sprites[i]->SetPosition(posX, posY);
+      if (i == 0) sprites[i]->SetColor(255, 0, 0);
+      if (i == 1) sprites[i]->SetColor(0, 255, 0);
+      if (i == 2) sprites[i]->SetColor(0, 0, 255);
+      if (i == 3) sprites[i]->SetColor(255, 0, 128);
+      if (i == 4) sprites[i]->SetColor(255, 255, 255);
+    }
+
+  }
+
+  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  {
+    RENDER.Clear(0, 0, 0);
+
+    for (unsigned int i = 0; i < 5; i++)
+    {
+      if (SCREEN.GetMouseX() > sprites[i]->GetX()) sprites[i]->RotateTo(-15, rotateVel);
+      else if (SCREEN.GetMouseX() < sprites[i]->GetX()) sprites[i]->RotateTo(15, rotateVel);
+      else sprites[i]->RotateTo(0, 15);
+
+      sprites[i]->MoveTo(SCREEN.GetMouseX(), SCREEN.GetMouseY(), moveVelX * (i + 1), moveVelY * (i + 1));
+
+      sprites[i]->Update(SCREEN.ElapsedTime(), NULL);
+      sprites[i]->Render();
+      //FUSIONAR ALIENS!!
+    }
+    SCREEN.Refresh();
+
+  }
+  RESOURCE.FreeResources();
+  //Revisar
+  for (unsigned int i = 0; i < 5; i++)
+    delete buffer[i];
+  delete[]buffer;
+
+}
+void practica4()
+{
+  SCREEN.Open(800, 600, false);
+
+  //CARGAR IMAGEN
+  Sprite **buffer;
+  buffer = new Sprite*[5];
+  Array<Sprite *> sprites(5);
+  Image *pelota = RESOURCE.LoadImage("data/ball.png");
+  int anchoMaximo,altoMaximo;
+  const int velMax = 400;
+  const int velMin = 150;
+  if (pelota)
+  {
+    pelota->SetMidHandle();
+    anchoMaximo = static_cast<int>(SCREEN.GetWidth() - pelota->GetWidth() / 2.0);
+    altoMaximo = static_cast<int>(SCREEN.GetHeight() - pelota->GetHeight() / 2.0);
+    for(int i =0 ; i < 5; i++)
+    {
+      buffer[i] = new Sprite(pelota);
+      sprites.Add(buffer[i]);
+      double posX = rand() % (anchoMaximo);
+      double posY = rand() % (altoMaximo);
+      sprites[i]->SetPosition(posX,posY);
+      sprites[i]->SetColor(255,255,255);
+      //sacar la liberarcion de memoria de sprite
+      Velocidades *vel = new Velocidades;
+      vel->x = rand() % velMax + velMin;
+      vel->y = rand() % velMax + velMin;
+      sprites[i]->SetUserData(vel);
+    }
+    
+  }
+  double direccionX = 1.0;
+  double direccionY = 1.0;
+  void *data;
+  double nPosX;
+  double nPosY;
+  double error = 0.0001;
+  double resta = 0.0;
+  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  {
+    
+
+    RENDER.Clear(0, 0, 0);
+    for(unsigned int i = 0; i < sprites.Size(); i++)
+    {
+
+      data = sprites[i]->GetUserData();
+      nPosX = sprites[i]->GetX() + VEL(data)->x * SCREEN.ElapsedTime();
+      nPosY = sprites[i]->GetY() + VEL(data)->y * SCREEN.ElapsedTime();
+      //X
+      if(nPosX > (SCREEN.GetWidth() - sprites[i]->GetImage()->GetWidth() / 2.0))
+      {
+        VEL(data)->x = -1 * rand() % velMax + velMin;
+        sprites[i]->SetUserData(data);
+      }
+      if(nPosX < (sprites[i]->GetImage()->GetWidth() / 2.0))
+      {
+        VEL(data)->x = rand() % velMax + velMin;
+        sprites[i]->SetUserData(data);
+      }
+      //Y
+      if(nPosY > (SCREEN.GetHeight() - sprites[i]->GetImage()->GetHeight() / 2.0))
+      {
+        VEL(data)->y = -1 * rand() % velMax + velMin;
+        sprites[i]->SetUserData(data);
+      }
+      if(nPosY < (sprites[i]->GetImage()->GetHeight() / 2.0))
+      {
+        VEL(data)->y = rand() % velMax + velMin;
+        sprites[i]->SetUserData(data);
+      }
+      sprites[i]->SetPosition(nPosX,nPosY);
+
+      sprites[i]->Render();
+    }
+    SCREEN.Refresh();
+      
+  }
+  RESOURCE.FreeResources();
+ //Revisar
+  for(unsigned int i = 0; i < 5; i++)
+    delete buffer[i];
+  delete []buffer;
+}
+
+void practica4B()
+{
+  SCREEN.Open(800, 600, false);
+  int anchoMaximo;
+  int altoMaximo;
+  const double rotateVel = 50.0;
+  const double moveVelX = 100.0;
+  const double moveVelY = 100.0;
+  //CARGAR IMAGEN
+  Sprite **buffer;
+  buffer = new Sprite*[5];
+  Array<Sprite *> sprites(5);
+  Image *alien = RESOURCE.LoadImage("data/alien.png");
+  if (alien)
+  {
+    anchoMaximo = static_cast<int>(SCREEN.GetWidth() - alien->GetWidth() / 2.0);
+    altoMaximo = static_cast<int>(SCREEN.GetHeight() - alien->GetHeight() / 2.0);
+    alien->SetMidHandle();
+
+    for(unsigned int  i = 0; i < 5; i++)
+    {
+      buffer[i] = new Sprite(alien);
+      sprites.Add(buffer[i]);
+      double posX = rand() % (anchoMaximo) + alien->GetWidth();
+      double posY = rand() % (altoMaximo) + alien->GetHeight();
+      sprites[i]->SetPosition(posX,posY);
+      if(i == 0) sprites[i]->SetColor(255,0,0);
+      if(i == 1) sprites[i]->SetColor(0,255,0);
+      if(i == 2) sprites[i]->SetColor(0,0,255);
+      if(i == 3) sprites[i]->SetColor(255,0,128);
+      if(i == 4) sprites[i]->SetColor(255,255,255);
+    }
+
+  }
+
+  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  {
+    RENDER.Clear(0, 0, 0);
+
+    for(unsigned int  i = 0; i < 5; i++)
+    {
+      if (SCREEN.GetMouseX() > sprites[i]->GetX()) sprites[i]->RotateTo(-15,rotateVel);
+      else if (SCREEN.GetMouseX() < sprites[i]->GetX()) sprites[i]->RotateTo(15,rotateVel);
+      else sprites[i]->RotateTo(0,15);
+
+      sprites[i]->MoveTo(SCREEN.GetMouseX(),SCREEN.GetMouseY(),moveVelX,moveVelY);
+
+      sprites[i]->Update(SCREEN.ElapsedTime(),NULL);
+      sprites[i]->Render();
+      //FUSIONAR ALIENS!!
+    }
+    SCREEN.Refresh();
+      
+  }
+  RESOURCE.FreeResources();
+  //Revisar
+  for(unsigned int i = 0; i < 5; i++)
+    delete buffer[i];
+  delete []buffer;
+
 }
 
 void practica1()
@@ -442,153 +668,5 @@ void practica3B()
     RENDER.Clear(0, 0, 0);
   }
   RESOURCE.FreeResources();
-
-}
-void practica4()
-{
-  SCREEN.Open(800, 600, false);
-
-  //CARGAR IMAGEN
-  Sprite **buffer;
-  buffer = new Sprite*[5];
-  Array<Sprite *> sprites(5);
-  Image *pelota = RESOURCE.LoadImage("data/ball.png");
-  int anchoMaximo,altoMaximo;
-  const int velMax = 400;
-  const int velMin = 150;
-  if (pelota)
-  {
-    pelota->SetMidHandle();
-    anchoMaximo = static_cast<int>(SCREEN.GetWidth() - pelota->GetWidth() / 2.0);
-    altoMaximo = static_cast<int>(SCREEN.GetHeight() - pelota->GetHeight() / 2.0);
-    for(int i =0 ; i < 5; i++)
-    {
-      buffer[i] = new Sprite(pelota);
-      sprites.Add(buffer[i]);
-      double posX = rand() % (anchoMaximo);
-      double posY = rand() % (altoMaximo);
-      sprites[i]->SetPosition(posX,posY);
-      sprites[i]->SetColor(255,255,255);
-      //SOLUCION PROVISIONAL. CREO AQUI Y DESTRUYO EN EL DELETE DE SPRITE
-      Velocidades *vel = new Velocidades;
-      vel->x = rand() % velMax + velMin;
-      vel->y = rand() % velMax + velMin;
-      sprites[i]->SetUserData(vel);
-    }
-    
-  }
-  double direccionX = 1.0;
-  double direccionY = 1.0;
-  void *data;
-  double nPosX;
-  double nPosY;
-  double error = 0.0001;
-  double resta = 0.0;
-  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
-  {
-    
-
-    RENDER.Clear(0, 0, 0);
-    for(unsigned int i = 0; i < sprites.Size(); i++)
-    {
-
-      data = sprites[i]->GetUserData();
-      nPosX = sprites[i]->GetX() + VEL(data)->x * SCREEN.ElapsedTime(); //Preguntar javier(hay que poner velocidades muy altas)
-      nPosY = sprites[i]->GetY() + VEL(data)->y * SCREEN.ElapsedTime();
-      //X
-      if(nPosX > (SCREEN.GetWidth() - sprites[i]->GetImage()->GetWidth() / 2.0))
-      {
-        VEL(data)->x = -1 * rand() % velMax + velMin;
-        sprites[i]->SetUserData(data);
-      }
-      if(nPosX < (sprites[i]->GetImage()->GetWidth() / 2.0))
-      {
-        VEL(data)->x = rand() % velMax + velMin;
-        sprites[i]->SetUserData(data);
-      }
-      //Y
-      if(nPosY > (SCREEN.GetHeight() - sprites[i]->GetImage()->GetHeight() / 2.0))
-      {
-        VEL(data)->y = -1 * rand() % velMax + velMin;
-        sprites[i]->SetUserData(data);
-      }
-      if(nPosY < (sprites[i]->GetImage()->GetHeight() / 2.0))
-      {
-        VEL(data)->y = rand() % velMax + velMin;
-        sprites[i]->SetUserData(data);
-      }
-      sprites[i]->SetPosition(nPosX,nPosY);
-
-      sprites[i]->Render();
-    }
-    SCREEN.Refresh();
-      
-  }
-  RESOURCE.FreeResources();
- //Revisar
-  for(unsigned int i = 0; i < 5; i++)
-    delete buffer[i];
-  delete []buffer;
-}
-
-void practica4B()
-{
-  SCREEN.Open(800, 600, false);
-  int anchoMaximo;
-  int altoMaximo;
-  const double rotateVel = 50.0;
-  const double moveVelX = 100.0;
-  const double moveVelY = 100.0;
-  //CARGAR IMAGEN
-  Sprite **buffer;
-  buffer = new Sprite*[5];
-  Array<Sprite *> sprites(5);
-  Image *alien = RESOURCE.LoadImage("data/alien.png");
-  if (alien)
-  {
-    anchoMaximo = static_cast<int>(SCREEN.GetWidth() - alien->GetWidth() / 2.0);
-    altoMaximo = static_cast<int>(SCREEN.GetHeight() - alien->GetHeight() / 2.0);
-    alien->SetMidHandle();
-
-    for(unsigned int  i = 0; i < 5; i++)
-    {
-      buffer[i] = new Sprite(alien);
-      sprites.Add(buffer[i]);
-      double posX = rand() % (anchoMaximo) + alien->GetWidth();
-      double posY = rand() % (altoMaximo) + alien->GetHeight();
-      sprites[i]->SetPosition(posX,posY);
-      if(i == 0) sprites[i]->SetColor(255,0,0);
-      if(i == 1) sprites[i]->SetColor(0,255,0);
-      if(i == 2) sprites[i]->SetColor(0,0,255);
-      if(i == 3) sprites[i]->SetColor(255,0,128);
-      if(i == 4) sprites[i]->SetColor(255,255,255);
-    }
-
-  }
-
-  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
-  {
-    RENDER.Clear(0, 0, 0);
-
-    for(unsigned int  i = 0; i < 5; i++)
-    {
-      if (SCREEN.GetMouseX() > sprites[i]->GetX()) sprites[i]->RotateTo(-15,rotateVel);
-      else if (SCREEN.GetMouseX() < sprites[i]->GetX()) sprites[i]->RotateTo(15,rotateVel);
-      else sprites[i]->RotateTo(0,15);
-
-      sprites[i]->MoveTo(SCREEN.GetMouseX(),SCREEN.GetMouseY(),moveVelX,moveVelY);
-
-      sprites[i]->Update(SCREEN.ElapsedTime(),NULL);
-      sprites[i]->Render();
-      //FUSIONAR ALIENS!!
-    }
-    SCREEN.Refresh();
-      
-  }
-  RESOURCE.FreeResources();
-  //Revisar
-  for(unsigned int i = 0; i < 5; i++)
-    delete buffer[i];
-  delete []buffer;
 
 }

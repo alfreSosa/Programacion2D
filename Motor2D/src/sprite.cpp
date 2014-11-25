@@ -32,6 +32,11 @@ Sprite::Sprite(Image* image) {
     movingSpeedY = 0.0;
     prevX = 0.0;
     prevY = 0.0;
+
+    animFPS = 0;
+    firstFrame = 0;
+    lastFrame = 0;
+    currentFrame = 0.0;
 }
 
 Sprite::~Sprite() {
@@ -64,7 +69,7 @@ void Sprite::RotateTo(int32 angle, double speed) {
   }else
   {
     rotating = true;
-    toAngle = WrapValue(angle,360);
+    toAngle = static_cast<uint16>(WrapValue(angle,360));
     anglesToRotate = WrapValue(angle - this->angle,360);
 
     if (WrapValue(angle - this->angle,360) <= WrapValue(this->angle - angle,360))
@@ -104,29 +109,41 @@ void Sprite::Update(double elapsed, const Map* map) {
 	collided = false;
 
 	// TAREA: Actualizar animacion
-
+  //aqui fps
+  if (animFPS != 0){
+    currentFrame += animFPS * elapsed;
+    if (static_cast<uint16>(currentFrame) >= (lastFrame + 1)) currentFrame = DOUBLE(firstFrame);
+    if (currentFrame <= firstFrame) currentFrame = DOUBLE(lastFrame) + 0.9999 ; //Le damos tiempo a la ultima
+  }
 	// TAREA: Actualizar rotacion animada
   if (rotating){
     this->angle = WrapValue(this->angle + rotatingSpeed * elapsed, 360);
     anglesToRotate -= abs(rotatingSpeed * elapsed);
-    if(anglesToRotate <= 0)
+    if (anglesToRotate <= 0)
+    {
       this->angle = toAngle;
+      rotating = false;
+    }
   }
 	// TAREA: Actualizar movimiento animado
   if (moving)
   {
-    //if(abs(prevX) <= 0.00001)
     this->x += movingSpeedX * elapsed;
-    //if(abs(prevY) <= 0.00001)
     this->y += movingSpeedY * elapsed;
 
     prevX -= movingSpeedX * elapsed;
     if (prevX <= 0.00001)
+    {
       this->x = toX;
+      moving = false;
+    }
 
     prevY -= movingSpeedY * elapsed;
-    if (prevY <= 0.00001) 
+    if (prevY <= 0.00001)
+    {
       this->y = toY;
+      moving = false;
+    }
   }
 	// Informacion final de colision
 	//UpdateCollisionBox();

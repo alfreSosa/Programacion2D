@@ -3,6 +3,7 @@
 
 #include "renderer.h"
 #include "types.h"
+#define DOUBLE(x) static_cast<double>(x)
 
 class Collision;
 class CollisionPixelData;
@@ -42,13 +43,13 @@ public:
   virtual double GetScaleY() const { return scaley; }
 
   
-  //virtual void SetFPS(int16 fps) { /* TAREA: Implementar */ }
-  //virtual int16 GetFPS() const { /* TAREA: Implementar */ }
-  //virtual void SetFrameRange(uint16 firstFrame, uint16 lastFrame) { /* TAREA: Implementar */ }
-  //virtual uint16 GetFirstFrame() const { /* TAREA: Implementar */ }
-  //virtual uint16 GetLastFrame() { /* TAREA: Implementar */ }
-  //virtual void SetCurrentFrame(uint16 frame) { /* TAREA: Implementar */ }
-  //virtual uint16 GetCurrentFrame() const { /* TAREA: Implementar */ }
+  virtual void SetFPS(int16 fps) { animFPS = fps; }
+  virtual int16 GetFPS() const { return animFPS; }
+  virtual void SetFrameRange(uint16 firstFrame, uint16 lastFrame) { this->firstFrame = firstFrame; this->lastFrame = lastFrame; }
+  virtual uint16 GetFirstFrame() const { return firstFrame; }
+  virtual uint16 GetLastFrame() { return lastFrame; }
+  virtual void SetCurrentFrame(uint16 frame) { currentFrame = DOUBLE(frame); }
+  virtual uint16 GetCurrentFrame() const { return (uint16)currentFrame; }
 
   virtual void SetBlendMode(Renderer::BlendMode blend) { blendMode = blend;}
   virtual Renderer::BlendMode GetBlendMode() const { return blendMode;}
@@ -98,16 +99,15 @@ private:
   uint8 r, g, b, a;
   void* userData;
 
-  // Practica 4 Parte 2
   bool rotating;
   uint16 toAngle;
   double rotatingSpeed;
-  double anglesToRotate;  //cuántos grados faltan hasta el destino
+  double anglesToRotate;
   bool moving;
   double toX, toY;
   double movingSpeedX, movingSpeedY;
-  double prevX, prevY; //Para medir la distancia que falta
-  //hasta aqui
+  double prevX, prevY;
+
   int16 animFPS;
   uint16 firstFrame, lastFrame;
   double currentFrame;
