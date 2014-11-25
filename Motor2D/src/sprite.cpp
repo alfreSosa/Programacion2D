@@ -40,10 +40,6 @@ Sprite::Sprite(Image* image) {
 }
 
 Sprite::~Sprite() {
-  if(userData != NULL){
-    delete userData;
-    userData = NULL;
-  }
 }
 
 /*

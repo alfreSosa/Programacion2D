@@ -26,8 +26,8 @@ struct Velocidades
 
 int main(int argc, char* argv[]) {
   //Entregar con practica4
-  practica5();
-  practica5B();
+  //practica5();
+ // practica5B();
   //practica4();
   //practica4B();
   return 0;
@@ -114,7 +114,8 @@ void practica4()
 {
   SCREEN.Open(800, 600, false);
 
-  //CARGAR IMAGEN
+  Velocidades **vel = new Velocidades*[5];
+
   Sprite **buffer;
   buffer = new Sprite*[5];
   Array<Sprite *> sprites(5);
@@ -136,10 +137,10 @@ void practica4()
       sprites[i]->SetPosition(posX,posY);
       sprites[i]->SetColor(255,255,255);
       //sacar la liberarcion de memoria de sprite
-      Velocidades *vel = new Velocidades;
-      vel->x = rand() % velMax + velMin;
-      vel->y = rand() % velMax + velMin;
-      sprites[i]->SetUserData(vel);
+      vel[i] = new Velocidades;
+      vel[i]->x = rand() % velMax + velMin;
+      vel[i]->y = rand() % velMax + velMin;
+      sprites[i]->SetUserData(vel[i]);
     }
     
   }
@@ -192,8 +193,12 @@ void practica4()
   }
   RESOURCE.FreeResources();
  //Revisar
-  for(unsigned int i = 0; i < 5; i++)
+  for (unsigned int i = 0; i < 5; i++)
+  {
     delete buffer[i];
+    delete vel[i];
+  }
+  delete []vel;
   delete []buffer;
 }
 

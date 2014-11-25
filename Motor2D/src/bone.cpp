@@ -134,4 +134,5 @@ void Bone::GetFrame(int32 f, const Frame** frame, const Frame** prevFrame, const
 double Bone::Interpolate(int32 id, int32 prevId, int32 nextId, double prevVal, double nextVal) const {
 	// TAREA: Implementar la especificacion del enunciado
 	//el id tiene que ser float, para que no falle //la division se tiene que hacer float (el que coje el valor t)
+  return 0.0;
 }
