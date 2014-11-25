@@ -449,6 +449,8 @@ void practica4()
   SCREEN.Open(800, 600, false);
 
   //CARGAR IMAGEN
+  Sprite **buffer;
+  buffer = new Sprite*[5];
   Array<Sprite *> sprites(5);
   Image *pelota = RESOURCE.LoadImage("data/ball.png");
   int anchoMaximo,altoMaximo;
@@ -461,7 +463,8 @@ void practica4()
     altoMaximo = static_cast<int>(SCREEN.GetHeight() - pelota->GetHeight() / 2.0);
     for(int i =0 ; i < 5; i++)
     {
-      sprites.Add(new Sprite(pelota));
+      buffer[i] = new Sprite(pelota);
+      sprites.Add(buffer[i]);
       double posX = rand() % (anchoMaximo);
       double posY = rand() % (altoMaximo);
       sprites[i]->SetPosition(posX,posY);
@@ -490,7 +493,7 @@ void practica4()
     {
 
       data = sprites[i]->GetUserData();
-      nPosX = sprites[i]->GetX() + VEL(data)->x * SCREEN.ElapsedTime(); //Preguntar javier
+      nPosX = sprites[i]->GetX() + VEL(data)->x * SCREEN.ElapsedTime(); //Preguntar javier(hay que poner velocidades muy altas)
       nPosY = sprites[i]->GetY() + VEL(data)->y * SCREEN.ElapsedTime();
       //X
       if(nPosX > (SCREEN.GetWidth() - sprites[i]->GetImage()->GetWidth() / 2.0))
@@ -522,31 +525,70 @@ void practica4()
       
   }
   RESOURCE.FreeResources();
+ //Revisar
+  for(unsigned int i = 0; i < 5; i++)
+    delete buffer[i];
+  delete []buffer;
 }
 
 void practica4B()
 {
   SCREEN.Open(800, 600, false);
-
+  int anchoMaximo;
+  int altoMaximo;
+  const double rotateVel = 50.0;
+  const double moveVelX = 100.0;
+  const double moveVelY = 100.0;
   //CARGAR IMAGEN
- // Array<Sprite *> sprites(5);
+  Sprite **buffer;
+  buffer = new Sprite*[5];
+  Array<Sprite *> sprites(5);
   Image *alien = RESOURCE.LoadImage("data/alien.png");
-  Sprite *heli;
-;
   if (alien)
   {
+    anchoMaximo = static_cast<int>(SCREEN.GetWidth() - alien->GetWidth() / 2.0);
+    altoMaximo = static_cast<int>(SCREEN.GetHeight() - alien->GetHeight() / 2.0);
     alien->SetMidHandle();
-    heli = new Sprite(alien);
-    heli->SetColor(255,255,255);
+
+    for(unsigned int  i = 0; i < 5; i++)
+    {
+      buffer[i] = new Sprite(alien);
+      sprites.Add(buffer[i]);
+      double posX = rand() % (anchoMaximo) + alien->GetWidth();
+      double posY = rand() % (altoMaximo) + alien->GetHeight();
+      sprites[i]->SetPosition(posX,posY);
+      if(i == 0) sprites[i]->SetColor(255,0,0);
+      if(i == 1) sprites[i]->SetColor(0,255,0);
+      if(i == 2) sprites[i]->SetColor(0,0,255);
+      if(i == 3) sprites[i]->SetColor(255,0,128);
+      if(i == 4) sprites[i]->SetColor(255,255,255);
+    }
+
   }
 
   while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
   {
     RENDER.Clear(0, 0, 0);
-    heli->SetPosition(SCREEN.GetWidth() / 2.0,SCREEN.GetHeight()/ 2.0);
-    heli->Render();
+
+    for(unsigned int  i = 0; i < 5; i++)
+    {
+      if (SCREEN.GetMouseX() > sprites[i]->GetX()) sprites[i]->RotateTo(-15,rotateVel);
+      else if (SCREEN.GetMouseX() < sprites[i]->GetX()) sprites[i]->RotateTo(15,rotateVel);
+      else sprites[i]->RotateTo(0,15);
+
+      sprites[i]->MoveTo(SCREEN.GetMouseX(),SCREEN.GetMouseY(),moveVelX,moveVelY);
+
+      sprites[i]->Update(SCREEN.ElapsedTime(),NULL);
+      sprites[i]->Render();
+      //FUSIONAR ALIENS!!
+    }
     SCREEN.Refresh();
       
   }
   RESOURCE.FreeResources();
+  //Revisar
+  for(unsigned int i = 0; i < 5; i++)
+    delete buffer[i];
+  delete []buffer;
+
 }

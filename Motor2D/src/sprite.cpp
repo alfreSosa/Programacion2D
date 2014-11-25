@@ -56,27 +56,46 @@ bool Sprite::CheckCollision(const Map* map) {
 */
 
 void Sprite::RotateTo(int32 angle, double speed) {
-  double dif;
-  double err = 0.0001;
-
-  dif = this->angle - angle;
-  if (abs(dif) < err) rotating = false;
-  else rotating = true;
   
-  if ((angle - this->angle) < (this->angle - angle))
+  if(abs(this->angle - angle) <= 0.00001)
   {
-    //Sentido antihorario
+    rotating = false;
+    rotatingSpeed = 0;
   }else
   {
-    //Sentido horario
+    rotating = true;
+    toAngle = WrapValue(angle,360);
+    anglesToRotate = WrapValue(angle - this->angle,360);
+
+    if (WrapValue(angle - this->angle,360) <= WrapValue(this->angle - angle,360))
+      rotatingSpeed = abs(speed);
+    else 
+      rotatingSpeed = -abs(speed);
+    
   }
   
-  //this->angle = angle * speed;
 }
 
 void Sprite::MoveTo(double x, double y, double speedX, double speedY) {
-  if ((this->x == x ) && (this->y == y)) moving = false;
-  else moving = true;
+
+
+  if ((abs(this->x - x) <= 0.00001) && (abs(this->y - y) <= 0.00001)){
+    moving = false;
+  }else
+  { 
+    moving = true;
+    toX = x;
+    toY = y;
+
+    prevX = abs(x - this->x);
+    prevY = abs(y - this->y);
+
+    if(this->x > x) movingSpeedX = -speedX;
+    else movingSpeedX = speedX;
+ 
+    if(this->y > y) movingSpeedY = -speedY;
+    else movingSpeedY = speedY;
+  }
 }
 
 void Sprite::Update(double elapsed, const Map* map) {
@@ -87,17 +106,30 @@ void Sprite::Update(double elapsed, const Map* map) {
 	// TAREA: Actualizar animacion
 
 	// TAREA: Actualizar rotacion animada
-  if (rotating)
-  {
-    //RotateTo(angle,speed * elapsed);
+  if (rotating){
+    this->angle = WrapValue(this->angle + rotatingSpeed * elapsed, 360);
+    anglesToRotate -= abs(rotatingSpeed * elapsed);
+    if(anglesToRotate <= 0)
+      this->angle = toAngle;
   }
 	// TAREA: Actualizar movimiento animado
   if (moving)
   {
-    //MoveTo();
+    //if(abs(prevX) <= 0.00001)
+    this->x += movingSpeedX * elapsed;
+    //if(abs(prevY) <= 0.00001)
+    this->y += movingSpeedY * elapsed;
+
+    prevX -= movingSpeedX * elapsed;
+    if (prevX <= 0.00001)
+      this->x = toX;
+
+    prevY -= movingSpeedY * elapsed;
+    if (prevY <= 0.00001) 
+      this->y = toY;
   }
 	// Informacion final de colision
-	UpdateCollisionBox();
+	//UpdateCollisionBox();
 }
 
 void Sprite::Render() const {

@@ -106,7 +106,7 @@ private:
   bool moving;
   double toX, toY;
   double movingSpeedX, movingSpeedY;
-  double prevX, prevY;
+  double prevX, prevY; //Para medir la distancia que falta
   //hasta aqui
   int16 animFPS;
   uint16 firstFrame, lastFrame;
