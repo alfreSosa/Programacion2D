@@ -15,8 +15,11 @@ void Renderer::PushMatrix() const {
 void Renderer::PopMatrix() const {
   glPopMatrix();
 }
-void Renderer::Translated(double x, double y, double z) const {
+void Renderer::TranslatedMatrix(double x, double y, double z) const {
   glTranslated(x, y, z);
+}
+void Renderer::RotateMatrix(double angle, double x, double y, double z) const {
+  glRotated(angle, x, y, z);
 }
 
 void Renderer::SetBlendMode(BlendMode blendMode) const {

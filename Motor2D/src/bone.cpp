@@ -110,11 +110,22 @@ void Bone::ScaleForFrame(int32 f, double* x, double* y) const {
 }
 
 void Bone::Update(int32 currentFrame) {
-	// TAREA: Implementar la especificacion del enunciado
+  TranslationForFrame(currentFrame,&currentX,&currentY);
+  currentRotation = RotationForFrame(currentFrame);
+  ScaleForFrame(currentFrame, &currentScaleX, &currentScaleY);
+
+  for (uint32 i = 0; i < CountChildren(); i++)
+    GetChild(i)->Update(currentFrame);
 }
 
 void Bone::Render() {
-	// TAREA: Implementar la especificacion del enunciado
+  Renderer::Instance().PushMatrix();
+  Renderer::Instance().TranslatedMatrix(currentX,currentY,0.0);
+  Renderer::Instance().RotateMatrix(currentRotation, 0, 0, -1);
+  if (GetImage() != NULL)
+  {
+    
+  }
 }
 
 void Bone::GetFrame(uint32 f, const Frame** frame, const Frame** prevFrame, const Frame** nextFrame) const {
@@ -132,7 +143,5 @@ void Bone::GetFrame(uint32 f, const Frame** frame, const Frame** prevFrame, cons
 }
 
 double Bone::Interpolate(int32 id, int32 prevId, int32 nextId, double prevVal, double nextVal) const {
-	// TAREA: Implementar la especificacion del enunciado
-	//el id tiene que ser float, para que no falle //la division se tiene que hacer float (el que coje el valor t)
-  return 0.0;
+  return prevVal + (nextVal - prevVal) * (static_cast<double>(id) - prevId) / (nextId - prevId);
 }

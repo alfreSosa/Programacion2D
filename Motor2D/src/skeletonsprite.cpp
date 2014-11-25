@@ -67,7 +67,7 @@ void SkeletonSprite::Render() const {
   Renderer::Instance().SetColor(GetRed(), GetGreen(), GetBlue(), GetAlpha());
   //apilamos matrices y transladamos
   Renderer::Instance().PushMatrix();
-  Renderer::Instance().Translated(GetX(), GetY(), 0);
+  Renderer::Instance().TranslatedMatrix(GetX(), GetY(), 0.0);
   root->Render();
   Renderer::Instance().PopMatrix();
 }
