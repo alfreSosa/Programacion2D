@@ -117,7 +117,7 @@ void Bone::Render() {
 	// TAREA: Implementar la especificacion del enunciado
 }
 
-void Bone::GetFrame(int32 f, const Frame** frame, const Frame** prevFrame, const Frame** nextFrame) const {
+void Bone::GetFrame(uint32 f, const Frame** frame, const Frame** prevFrame, const Frame** nextFrame) const {
 	*frame = NULL;
 	*prevFrame = NULL;
 	*nextFrame = NULL;

@@ -22,7 +22,7 @@ public:
   Sprite(Image* image);
   virtual ~Sprite();
 
-  virtual void SetImage(Image* image){ }
+  virtual void SetImage(Image* image){ this->image = image; }
   virtual const Image* GetImage() const { return image; }
 
   virtual void SetPosition(double x, double y) { this->x = x; this->y = y;}

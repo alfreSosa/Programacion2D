@@ -229,7 +229,8 @@ inline String String::Replace(const String& find, const String& rep) const {
     // Replace all ocurrences
     const char* p = NULL;
     const char* lastp = buffer;
-    while ( (p = strstr(lastp, find.buffer)) ) {
+    p = strstr(lastp, find.buffer);
+    while ( p ) {
         // Copy chars until p
         while ( lastp != p ) {
             str += *lastp;
@@ -243,6 +244,7 @@ inline String String::Replace(const String& find, const String& rep) const {
 
         // Move lastp to after the replaced string
         lastp += find.length;
+        p = strstr(lastp, find.buffer);
     }
 
     // Copy remaining chars
@@ -265,14 +267,14 @@ inline int String::Find(const String& str, int ofs) const {
 inline String String::Upper() const {
     String str;
     for ( int i = 0; i < length; i++ )
-        str += toupper(buffer[i]);
+        str += static_cast<char>(toupper(buffer[i]));
     return str;
 }
 
 inline String String::Lower() const {
     String str;
     for ( int i = 0; i < length; i++ )
-        str += tolower(buffer[i]);
+      str += static_cast<char>(tolower(buffer[i]));
     return str;
 }
 

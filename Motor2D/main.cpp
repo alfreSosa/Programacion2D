@@ -136,7 +136,6 @@ void practica4()
       double posY = rand() % (altoMaximo);
       sprites[i]->SetPosition(posX,posY);
       sprites[i]->SetColor(255,255,255);
-      //sacar la liberarcion de memoria de sprite
       vel[i] = new Velocidades;
       vel[i]->x = rand() % velMax + velMin;
       vel[i]->y = rand() % velMax + velMin;

@@ -9,6 +9,16 @@
 
 Renderer* Renderer::renderer = NULL;
 
+void Renderer::PushMatrix() const {
+  glPushMatrix();
+}
+void Renderer::PopMatrix() const {
+  glPopMatrix();
+}
+void Renderer::Translated(double x, double y, double z) const {
+  glTranslated(x, y, z);
+}
+
 void Renderer::SetBlendMode(BlendMode blendMode) const {
     switch ( blendMode ) {
 	case SOLID:

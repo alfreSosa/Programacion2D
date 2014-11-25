@@ -35,7 +35,7 @@ public:
     virtual void Update(int32 currentFrame);
     virtual void Render();
 protected:
-    virtual void GetFrame(int32 f, const Frame** frame, const Frame** prevFrame, const Frame** nextFrame) const;
+    virtual void GetFrame(uint32 f, const Frame** frame, const Frame** prevFrame, const Frame** nextFrame) const;
     virtual double Interpolate(int32 id, int32 prevId, int32 nextId, double prevVal, double nextVal) const;
 private:
     String id;

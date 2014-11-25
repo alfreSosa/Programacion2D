@@ -41,11 +41,11 @@ SkeletonSprite::SkeletonSprite(const String& filename) : Sprite(NULL) {
 
 	// Establecemos el rango de la animacion
     const Bone* bone = root->GetChild(0);
-	int32 lastframe = 0;
+	uint32 lastframe = 0;
 	for ( uint32 index = 0; index < bone->CountFrames(); index++ ) {
         lastframe = max(lastframe, bone->GetFrame(index)->GetId());
 	}
-	SetFrameRange(0, lastframe);
+	SetFrameRange(0, (uint16)lastframe);
 
 	// Eliminamos los datos cargados del XML
 	delete data;
@@ -56,9 +56,18 @@ SkeletonSprite::~SkeletonSprite() {
 }
 
 void SkeletonSprite::Update(double elapsed, Map* map) {
-	// TAREA: Implementar la especificacion del enunciado
+  Sprite::Update(elapsed, map);
+  root->Update(GetCurrentFrame());
+
 }
 
 void SkeletonSprite::Render() const {
-	// TAREA: Implementar la especificacion del enunciado
+	//Establecemos modo pintado
+  Renderer::Instance().SetBlendMode(GetBlendMode());
+  Renderer::Instance().SetColor(GetRed(), GetGreen(), GetBlue(), GetAlpha());
+  //apilamos matrices y transladamos
+  Renderer::Instance().PushMatrix();
+  Renderer::Instance().Translated(GetX(), GetY(), 0);
+  root->Render();
+  Renderer::Instance().PopMatrix();
 }
