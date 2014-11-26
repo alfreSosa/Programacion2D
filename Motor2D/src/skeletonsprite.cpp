@@ -57,18 +57,17 @@ SkeletonSprite::~SkeletonSprite() {
 
 void SkeletonSprite::Update(double elapsed, Map* map) {
   Sprite::Update(elapsed, map);
-  
   root->Update(GetCurrentFrame());
 
 }
 
 void SkeletonSprite::Render() const {
 	//Establecemos modo pintado
-  Renderer::Instance().SetBlendMode(GetBlendMode());
-  Renderer::Instance().SetColor(GetRed(), GetGreen(), GetBlue(), GetAlpha());
+  RENDER.SetBlendMode(GetBlendMode());
+  RENDER.SetColor(GetRed(), GetGreen(), GetBlue(), GetAlpha());
   //apilamos matrices y transladamos
-  Renderer::Instance().PushMatrix();
-  Renderer::Instance().TranslatedMatrix(GetX(), GetY(), 0.0);
+  RENDER.PushMatrix();
+  RENDER.TranslatedMatrix(GetX(), GetY(), 0.0);
   root->Render();
-  Renderer::Instance().PopMatrix();
+  RENDER.PopMatrix();
 }

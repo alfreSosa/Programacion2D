@@ -1,11 +1,6 @@
 //#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 //ESCONDE LA CONSOLA
 #include <math.h>
-#define RENDER Renderer::Instance()
-#define SCREEN Screen::Instance()
-#define RESOURCE ResourceManager::Instance()
-//Macro para ejercicio4A
-#define VEL(data) reinterpret_cast<Velocidades *>(data)
 #include "include/u-gine.h"
 //Declaración de funciones para ejecutar ejercicio
 void practica1();
@@ -31,6 +26,7 @@ int main(int argc, char* argv[]) {
   //SUBIR 4 
   //practica4();
   //practica4B();
+  //Resubir la practica 2 por el error del width
   return 0;
 }
 void practica5B()
@@ -151,13 +147,10 @@ void practica4()
     }
     
   }
-  double direccionX = 1.0;
-  double direccionY = 1.0;
+
   void *data;
   double nPosX;
   double nPosY;
-  double error = 0.0001;
-  double resta = 0.0;
   while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
   {
     

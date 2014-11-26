@@ -3,7 +3,7 @@
 
 #include "renderer.h"
 #include "types.h"
-#define DOUBLE(x) static_cast<double>(x)
+
 
 class Collision;
 class CollisionPixelData;

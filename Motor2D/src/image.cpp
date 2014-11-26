@@ -43,9 +43,7 @@ Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
 
         lastU = float(width) / escalaX;
         lastV = float(height) / escalaY;
-        width = escalaX;
-        height = escalaY;
-        gltex = Renderer::Instance().GenImage(newBuffer, width, height);
+        gltex = RENDER.GenImage(newBuffer, escalaX, escalaY);
         free(newBuffer);
       }
     }
@@ -58,9 +56,9 @@ Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
 }
 
 Image::~Image() {
-  Renderer::Instance().DeleteImage(gltex);
+  RENDER.DeleteImage(gltex);
 }
 
 void Image::Bind() const {
-  Renderer::Instance().BindImage(gltex);
+  RENDER.BindImage(gltex);
 }
