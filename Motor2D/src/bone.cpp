@@ -122,10 +122,18 @@ void Bone::Render() {
   Renderer::Instance().PushMatrix();
   Renderer::Instance().TranslatedMatrix(currentX,currentY,0.0);
   Renderer::Instance().RotateMatrix(currentRotation, 0, 0, -1);
-  if (GetImage() != NULL)
+  Image *img = this->image; //La imagen del hueso
+  if (img)
   {
-    
+    img->SetHandle(handleX*img->GetWidth(),handleY * img->GetHeight());
+    Renderer::Instance().DrawImage(img,0,0,0,currentScaleX * img->GetWidth(), currentScaleY * img->GetHeight(),0);
+    Renderer::Instance().TranslatedMatrix(pivotX *img->GetWidth(),pivotY  * img->GetHeight(),0);
   }
+
+  for(uint32 i = 0; i < CountChildren(); i++)
+    GetChild(i)->Render();
+
+  Renderer::Instance().PopMatrix();
 }
 
 void Bone::GetFrame(uint32 f, const Frame** frame, const Frame** prevFrame, const Frame** nextFrame) const {

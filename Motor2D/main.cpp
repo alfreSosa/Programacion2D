@@ -1,4 +1,4 @@
-#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+//#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 //ESCONDE LA CONSOLA
 #include <math.h>
 #define RENDER Renderer::Instance()
@@ -27,7 +27,8 @@ struct Velocidades
 int main(int argc, char* argv[]) {
   //Entregar con practica4
   //practica5();
- // practica5B();
+  practica5B();
+  //SUBIR 4 
   //practica4();
   //practica4B();
   return 0;
@@ -35,16 +36,23 @@ int main(int argc, char* argv[]) {
 void practica5B()
 {
   SCREEN.Open(800, 600, false);
+  SkeletonSprite latigo("data/animation.xml");
+  Image *hueso = RESOURCE.LoadImage("data/bone.png");
+  if(hueso){
+    latigo.SetImage(hueso);
+    latigo.SetColor(255,255,255);
+    latigo.SetFPS(32);
+    while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+    {
+      RENDER.Clear(0, 0, 0);
+      latigo.SetPosition(SCREEN.GetMouseX(),SCREEN.GetMouseY());
+      latigo.Update(SCREEN.ElapsedTime());
+      latigo.Render();
+      SCREEN.Refresh();
 
-  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
-  {
-    RENDER.Clear(0, 0, 0);
-
-    SCREEN.Refresh();
-
+    }
+    RESOURCE.FreeResources();
   }
-  RESOURCE.FreeResources();
-
 }
 void practica5()
 {

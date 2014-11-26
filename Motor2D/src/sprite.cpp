@@ -108,8 +108,8 @@ void Sprite::Update(double elapsed, const Map* map) {
   //aqui fps
   if (animFPS != 0){
     currentFrame += animFPS * elapsed;
-    if (static_cast<uint16>(currentFrame) >= (lastFrame + 1)) currentFrame = DOUBLE(firstFrame);
     if (currentFrame <= firstFrame) currentFrame = DOUBLE(lastFrame) + 0.9999 ; //Le damos tiempo a la ultima
+    if (currentFrame >= (lastFrame + 1)) currentFrame = DOUBLE(firstFrame);
   }
 	// TAREA: Actualizar rotacion animada
   if (rotating){

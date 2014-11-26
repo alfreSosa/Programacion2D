@@ -57,6 +57,7 @@ SkeletonSprite::~SkeletonSprite() {
 
 void SkeletonSprite::Update(double elapsed, Map* map) {
   Sprite::Update(elapsed, map);
+  
   root->Update(GetCurrentFrame());
 
 }
