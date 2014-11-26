@@ -12,7 +12,8 @@ void practica4();
 void practica4B();
 void practica5();
 void practica5B();
-//Estructura para ejercicio4A
+void practica6();
+//Estructura para ejercicio4A-6A
 struct Velocidades
 {
   double x;
@@ -21,10 +22,63 @@ struct Velocidades
 
 int main(int argc, char* argv[]) {
   
-  practica5();
-  practica5B();
-
+  practica6();
   return 0;
+}
+void practica6()
+{
+  SCREEN.Open(800, 600, false);
+  Font *hola = RESOURCE.LoadFont("data/monospaced.png");
+  double PosX = SCREEN.GetWidth() / 2.0;
+  double PosY = SCREEN.GetHeight() / 2.0;
+  int direccionX = 1;
+  int direccionY = 1;
+  uint8 alpha = 255;
+  uint8 red = 255;
+  uint8 green = 0;
+  uint8 blue = 0;
+  Velocidades vel;
+  vel.x = rand() % (255 - 127) + 128;
+  vel.y = rand() % (255 - 127) + 128;
+  String texto = "Hola Mundo";
+  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  {
+    RENDER.Clear(0, 0, 0);
+    RENDER.SetColor(red, green, blue, alpha);
+
+    if (PosX > (SCREEN.GetWidth() - hola->GetTextWidth(texto))){
+      direccionX = -1;
+      red = rand() % 255;
+      green = rand() % 255;
+      blue = rand() % 255;
+    }
+    if (PosX < hola->GetWidth()){
+      direccionX = 1;
+      red = rand() % 255;
+      green = rand() % 255;
+      blue = rand() % 255;
+    }
+    if (PosY > (SCREEN.GetHeight() - hola->GetTextHeight(texto))){
+      direccionY = -1;
+      red = rand() % 255;
+      green = rand() % 255;
+      blue = rand() % 255;
+    }
+    if (PosY < hola->GetHeight()){
+      direccionY = 1;
+      red = rand() % 255;
+      green = rand() % 255;
+      blue = rand() % 255;
+    }
+
+    PosX += direccionX * vel.x * SCREEN.ElapsedTime();
+    PosY += direccionY * vel.y * SCREEN.ElapsedTime();
+
+    hola->Render(texto, PosX, PosY);
+    SCREEN.Refresh();
+
+  }
+  RESOURCE.FreeResources();
 }
 void practica5B()
 {
