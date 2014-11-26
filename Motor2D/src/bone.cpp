@@ -126,7 +126,7 @@ void Bone::Render() {
   if (img)
   {
     //quitar este warning, pero usar macros pa conversiones
-    img->SetHandle(handleX*img->GetWidth(),handleY * img->GetHeight());
+    img->SetHandle(INT(handleX*img->GetWidth()),INT(handleY * img->GetHeight()));
     RENDER.DrawImage(img, 0, 0, 0, currentScaleX * img->GetWidth(), currentScaleY * img->GetHeight(), 0);
     RENDER.TranslatedMatrix(pivotX *img->GetWidth(), pivotY  * img->GetHeight(), 0);
   }

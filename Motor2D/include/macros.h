@@ -1,11 +1,15 @@
 #ifndef _MACROS_H
 #define _MACROS_H
 
+//SIMPLIFICACION LLAMADAS SINGLETON
 #define RENDER Renderer::Instance()
 #define SCREEN Screen::Instance()
 #define RESOURCE ResourceManager::Instance()
-//Macro para ejercicio4A
-#define VEL(data) reinterpret_cast<Velocidades *>(data)
+
+#define VEL(data) reinterpret_cast<Velocidades *>(data) //Macro para ejercicio4A
+
+//CONVERSIONES DE TIPO
 #define DOUBLE(x) static_cast<double>(x)
+#define INT(x) static_cast<int>(x)
 
 #endif

@@ -1,4 +1,4 @@
-//#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 //ESCONDE LA CONSOLA
 #include <math.h>
 #include "include/u-gine.h"
@@ -20,13 +20,10 @@ struct Velocidades
 };
 
 int main(int argc, char* argv[]) {
-  //Entregar con practica4
-  //practica5();
+  
+  practica5();
   practica5B();
-  //SUBIR 4 
-  //practica4();
-  //practica4B();
-  //Resubir la practica 2 por el error del width
+
   return 0;
 }
 void practica5B()
