@@ -52,11 +52,15 @@ Font::Font(const String& filename) : Image(filename, 16, 16)
     RENDER.TexImage2D(this->GetTexId(), width, height, buffer);
   }
   stbi_image_free(buffer);
-
+  tamFuente = this->GetHeight();
 };
+Font::Font(const String& filename, uint32 tamFuente) : Image(filename, 16, 16)
+{
+  this->tamFuente = tamFuente;
+}
 uint16 Font::GetSize() const
 {
-  return this->GetHeight();
+  return tamFuente;
 }
 
 uint32 Font::GetTextHeight(const String& text) const
