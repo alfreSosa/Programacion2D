@@ -16,6 +16,12 @@
     <Filter Include="Source Files\engine">
       <UniqueIdentifier>{bf88a20c-eaa8-4a30-8a81-aa885fe84379}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\External">
+      <UniqueIdentifier>{a08a74aa-4e2f-430f-9c8a-f4e840bdf4b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utils">
+      <UniqueIdentifier>{9c23bb18-2d0e-441a-87bb-29e3edc19e9c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -53,25 +59,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\array.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\glinclude.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\math.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\renderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\screen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\string.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\u-gine.h">
@@ -81,9 +72,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\resourcemanager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="lib\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\sprite.h">
@@ -104,13 +92,34 @@
     <ClInclude Include="include\skeletonsprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\macros.h">
+    <ClInclude Include="include\font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="lib\stb_truetype.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\External</Filter>
     </ClInclude>
-    <ClInclude Include="include\font.h">
+    <ClInclude Include="lib\stb_image.h">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="include\array.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\string.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\math.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\types.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\macros.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\screen.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glyph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

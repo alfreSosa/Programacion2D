@@ -49,7 +49,7 @@ Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
     }
     else
     {
-      gltex = Renderer::Instance().GenImage(buffer, width, height);
+      gltex = RENDER.GenImage(buffer, width, height);
     }
 	}
   stbi_image_free(buffer);

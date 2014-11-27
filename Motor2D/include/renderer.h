@@ -34,6 +34,7 @@ public:
     virtual void PopMatrix() const;
     virtual void TranslatedMatrix(double x, double y, double z) const;
     virtual void RotateMatrix(double angle, double x, double y, double z) const;
+    virtual void TexImage2D(uint32 gltex, uint16 width, uint16 height,const uint8 *buffer) const;
     //virtual void DrawTiledImage(const Image* image, double x, double y, double width, double height, double offsetx = 0, double offsety = 0) const;
     //virtual void DrawText(const Font* font, const String& text, double x, double y) const;
 protected:

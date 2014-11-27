@@ -30,6 +30,7 @@
     <ClInclude Include="include\font.h" />
     <ClInclude Include="include\frame.h" />
     <ClInclude Include="include\glinclude.h" />
+    <ClInclude Include="include\glyph.h" />
     <ClInclude Include="include\image.h" />
     <ClInclude Include="include\macros.h" />
     <ClInclude Include="include\math.h" />

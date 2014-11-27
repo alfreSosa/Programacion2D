@@ -9,6 +9,11 @@
 
 Renderer* Renderer::renderer = NULL;
 
+void Renderer::TexImage2D(uint32 gltex, uint16 width, uint16 height,const uint8 *buffer) const
+{
+  glBindTexture(GL_TEXTURE_2D, gltex);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+}
 void Renderer::PushMatrix() const {
   glPushMatrix();
 }

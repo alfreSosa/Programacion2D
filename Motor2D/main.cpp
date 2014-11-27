@@ -13,6 +13,7 @@ void practica4B();
 void practica5();
 void practica5B();
 void practica6();
+void practica6B();
 //Estructura para ejercicio4A-6A
 struct Velocidades
 {
@@ -22,8 +23,65 @@ struct Velocidades
 
 int main(int argc, char* argv[]) {
   
-  practica6();
+  //practica6();
+  practica6B();
   return 0;
+}
+void practica6B()
+{
+  SCREEN.Open(800, 600, false);
+  Font *hola = RESOURCE.LoadFont("data/arial16.png");
+  double PosX = SCREEN.GetWidth() / 2.0;
+  double PosY = SCREEN.GetHeight() / 2.0;
+  int direccionX = 1;
+  int direccionY = 1;
+  uint8 alpha = 255;
+  uint8 red = 255;
+  uint8 green = 0;
+  uint8 blue = 0;
+  Velocidades vel;
+  vel.x = rand() % (255 - 127) + 128;
+  vel.y = rand() % (255 - 127) + 128;
+  String texto = "Hola, Mundo";
+  RENDER.SetBlendMode(RENDER.ALPHA);
+  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  {
+    RENDER.Clear(255, 255, 255);
+    RENDER.SetColor(red, green, blue, alpha);
+    
+    if (PosX > (SCREEN.GetWidth() - hola->GetTextWidth(texto))){
+      direccionX = -1;
+      red = rand() % 255;
+      green = rand() % 255;
+      blue = rand() % 255;
+    }
+    if (PosX <= 0){
+      direccionX = 1;
+      red = rand() % 255;
+      green = rand() % 255;
+      blue = rand() % 255;
+    }
+    if (PosY > (SCREEN.GetHeight() - hola->GetTextHeight(texto))){
+      direccionY = -1;
+      red = rand() % 255;
+      green = rand() % 255;
+      blue = rand() % 255;
+    }
+    if (PosY <= 0){
+      direccionY = 1;
+      red = rand() % 255;
+      green = rand() % 255;
+      blue = rand() % 255;
+    }
+
+    PosX += direccionX * vel.x * SCREEN.ElapsedTime();
+    PosY += direccionY * vel.y * SCREEN.ElapsedTime();
+    
+    hola->Render(texto, PosX, PosY);
+    SCREEN.Refresh();
+
+  }
+  RESOURCE.FreeResources();
 }
 void practica6()
 {
@@ -52,7 +110,7 @@ void practica6()
       green = rand() % 255;
       blue = rand() % 255;
     }
-    if (PosX < hola->GetWidth()){
+    if (PosX <= 0){
       direccionX = 1;
       red = rand() % 255;
       green = rand() % 255;
@@ -64,7 +122,7 @@ void practica6()
       green = rand() % 255;
       blue = rand() % 255;
     }
-    if (PosY < hola->GetHeight()){
+    if (PosY <= 0){
       direccionY = 1;
       red = rand() % 255;
       green = rand() % 255;
