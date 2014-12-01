@@ -6,9 +6,10 @@
 
 class Image {
 public:
+    Image() { };
+    Image(uint8 *buffer,uint16 width, uint16 height, uint16 hframes = 1, uint16 vframes = 1);
     Image(const String& filename, uint16 hframes = 1, uint16 vframes = 1);
-	virtual ~Image();
-
+	  virtual ~Image();
     virtual bool IsValid() const { return gltex != 0; }
     virtual const String& GetFilename() const { return filename; }
     virtual uint32 GetNumFrames() const { return hframes * vframes; }

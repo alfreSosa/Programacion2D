@@ -50,7 +50,22 @@ Font* ResourceManager::LoadFont(const String &filename) {
 		return NULL;
 	}
 }
+Font* ResourceManager::LoadFont(const String &filename, uint32 tamFont) {
+	// Comprobamos si esta cargada
+    for ( uint32 i = 0; i < fonts.Size(); i++ )
+        if ( fonts[i]->GetFilename() == filename )
+            return fonts[i];
 
+	// Cargamos
+	Font* font = new Font(filename, tamFont);
+	if ( font->IsValid() ) {
+        fonts.Add(font);
+		return font;
+	} else {
+		delete font;
+		return NULL;
+	}
+}
 
 Image* ResourceManager::LoadImage(const String &filename, uint16 hframes, uint16 vframes) {
 	// Comprobamos si esta cargada

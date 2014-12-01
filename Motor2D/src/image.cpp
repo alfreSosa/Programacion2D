@@ -8,7 +8,23 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "../lib/stb_image.h"
 
-
+Image::Image(uint8 *buffer,uint16 width, uint16 height, uint16 hframes, uint16 vframes)
+{
+  //this->filename = filename;
+	this->hframes = hframes;
+	this->vframes = vframes;
+  this->width = width;
+  this->height = height;
+	handlex = 0;
+	handley = 0;
+	gltex = 0;
+	lastU = 1.0;
+	lastV = 1.0;
+	// Generamos la textura
+	if ( buffer ) {
+      gltex = RENDER.GenImage(buffer, width, height);
+  }
+}
 Image::Image(const String &filename, uint16 hframes, uint16 vframes) {
 	this->filename = filename;
 	this->hframes = hframes;
