@@ -13,11 +13,13 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\bone.cpp" />
+    <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\font.cpp" />
     <ClCompile Include="src\image.cpp" />
     <ClCompile Include="src\math.cpp" />
     <ClCompile Include="src\renderer.cpp" />
     <ClCompile Include="src\resourcemanager.cpp" />
+    <ClCompile Include="src\scene.cpp" />
     <ClCompile Include="src\screen.cpp" />
     <ClCompile Include="src\skeletondata.cpp" />
     <ClCompile Include="src\skeletonsprite.cpp" />
@@ -27,6 +29,7 @@
     <ClInclude Include="include\array.h" />
     <ClInclude Include="include\bone.h" />
     <ClInclude Include="include\bonedata.h" />
+    <ClInclude Include="include\camera.h" />
     <ClInclude Include="include\font.h" />
     <ClInclude Include="include\frame.h" />
     <ClInclude Include="include\glinclude.h" />
@@ -36,6 +39,7 @@
     <ClInclude Include="include\math.h" />
     <ClInclude Include="include\renderer.h" />
     <ClInclude Include="include\resourcemanager.h" />
+    <ClInclude Include="include\scene.h" />
     <ClInclude Include="include\screen.h" />
     <ClInclude Include="include\skeletondata.h" />
     <ClInclude Include="include\skeletonsprite.h" />
@@ -56,7 +60,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>

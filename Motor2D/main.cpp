@@ -15,7 +15,8 @@ void practica5B();
 void practica6();
 void practica6B();
 void practica6C();
-//Estructura para ejercicio4A-6A
+void practica7();
+//Estructura para ejercicio4A-6
 struct Velocidades
 {
   double x;
@@ -24,10 +25,43 @@ struct Velocidades
 
 int main(int argc, char* argv[]) {
   
-  practica6();
-  practica6B();
-  practica6C();
+  practica7();
   return 0;
+}
+void practica7()
+{
+  SCREEN.Open(800, 600, false);
+  Image *background = RESOURCE.LoadImage("data/background.png");
+  Scene *escena1 = new Scene(background);
+  escena1->GetCamera().SetBounds(0.0, 0.0, background->GetWidth(), background->GetWidth());
+  escena1->GetCamera().SetPosition(0, 0);
+  escena1->SetBackgroundColor(0, 0, 0);
+  Image *alien = RESOURCE.LoadImage("data/alienanim.png", 8, 1);
+  Sprite *personaje;
+  if (alien)
+  {
+    personaje = escena1->CreateSprite(alien);
+    personaje->SetColor(255, 255, 255);
+    personaje->SetFPS(16);
+    personaje->SetFrameRange(0, 7);
+    personaje->SetScale(5,5);
+    //escena1->GetCamera().FollowSprite(personaje);
+  }
+
+  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  {
+    if (SCREEN.GetMouseX() > personaje->GetX()) personaje->RotateTo(-15, 50.0);
+    else if (SCREEN.GetMouseX() < personaje->GetX()) personaje->RotateTo(15, 50.0);
+    else personaje->RotateTo(0, 15);
+
+    personaje->MoveTo(SCREEN.GetMouseX(), SCREEN.GetMouseY(), 100.0, 100.0);
+
+    escena1->Update(SCREEN.ElapsedTime());
+    escena1->Render();
+    SCREEN.Refresh();
+
+  }
+  RESOURCE.FreeResources();
 }
 void practica6C()
 {
@@ -44,9 +78,6 @@ void practica6C()
   Velocidades vel;
   vel.x = rand() % (255 - 127) + 128;
   vel.y = rand() % (255 - 127) + 128;
-  //borrar antes de subir, es para pruebas
-  //vel.x = 100;
-  //vel.y = 100;
   String texto = "HOLA, mundo g";
   RENDER.SetBlendMode(RENDER.ALPHA);
   while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))

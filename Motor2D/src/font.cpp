@@ -11,8 +11,6 @@ Font::Font(const String& filename) : Image(filename, 16, 16)
   uint16 height = static_cast<uint16>(y);
   // Generamos la textura
   if (buffer){
-    //aqui recorremos el buffer y creamos los glyph
-    //Recorrer la celda del ancho
     Glyph *car;
     int tamCeldasX = width / 16;
     int tamCeldasY = height / 16;
@@ -25,8 +23,6 @@ Font::Font(const String& filename) : Image(filename, 16, 16)
         {
           for (uint16 i = 0; i < tamCeldasX; i++)
           {
-            //int it = (i * 4 + j * width) + (x + y * tamCeldasY);
-
             int it = ((y + j) * width + (x + i)) * 4;
             if (buffer[it] == 255 && buffer[it + 1] == 255 && buffer[it + 2] == 0)
             {
@@ -34,8 +30,6 @@ Font::Font(const String& filename) : Image(filename, 16, 16)
               buffer[it + 3] = 0;
               car = new Glyph;
               car->setOrigin(i, j);
-             // oriX = i;
-              //oriY = j;
             }
             else if (buffer[it] == 255 && buffer[it + 1] == 0 && buffer[it + 2] == 0)
             {
@@ -61,7 +55,7 @@ Font::Font(const String& filename) : Image(filename, 16, 16)
 };
 Font::Font(const String& filename, uint32 tamFuente)
 {
-  if(filename.ExtractExt() == "ttf"){
+  if(filename.ExtractExt().Lower() == "ttf"){ //to lower case
     this->tamFuente = tamFuente;
     FILE* handle = fopen(filename.ToCString(), "rb");
 	  if ( handle )
@@ -102,13 +96,19 @@ Font::Font(const String& filename, uint32 tamFuente)
         car = new Glyph;
         uint32 width = charData[i].x1 - charData[i].x0;
         uint32 height = charData[i].y1 - charData[i].y0;
-        car->setOrigin(charData[i].x0 , charData[i].y0);
-        car->setEnd(charData[i].x1, charData[i].y1);
+        if (i == 32) {
+          car->setOrigin(0, charData[i].y0);
+          car->setEnd(tamFuente / 3, charData[i].y1);
+        }
+        else{
+          car->setOrigin(charData[i].x0, charData[i].y0);
+          car->setEnd(charData[i].x1, charData[i].y1);
+        }
         car->setYOffset(charData[i].yoff);
         car->setIsTTF(true);
 
         uint8 *bufferTTF = (uint8*)malloc(width * 4 * height);
-        for (int j = 0; j < height; j++)
+        for (uint32 j = 0; j < height; j++)
           memcpy(&bufferTTF[width * 4 * j], &colorBuffer[imgsize * 4 * (j + car->getOriginY()) + car->getOriginX() * 4], width * 4);
 
         car->setcharTTF(bufferTTF, width, height);
@@ -165,7 +165,7 @@ uint32 Font::GetTextWidth(const String& text) const
   
 }
 
-void Font::Render(const String& text, double x, double y)
+void Font::Render(const String& text, double x, double y) const
 {
   if (letters.Size() == 0){
     double offset = 0.0;
@@ -178,7 +178,6 @@ void Font::Render(const String& text, double x, double y)
   else
   {
     if( letters[0]->getisTTF()){
-      //PONGO EL IF SI NO SE PUEDE HACER EN EL MISMO RENDER; ESTY PROBANDO
       double offsetX = 0.0;
       uint32 anchoCaracter;
       for (int32 i = 0; i < text.Length(); i++){
@@ -187,7 +186,7 @@ void Font::Render(const String& text, double x, double y)
         uint16 oY = letters[text[i]]->getOriginY();
         uint16 eY = letters[text[i]]->getEndY();
         double offsetY = letters[text[i]]->getYOffset();
-        RENDER.DrawImage(letters[text[i]]->getcharTTF(), x + offsetX, y + offsetY);
+        if (text[i] != 32) RENDER.DrawImage(letters[text[i]]->getcharTTF(), x + offsetX, y + offsetY);
         anchoCaracter = eX - oX;
         offsetX += anchoCaracter;
       }

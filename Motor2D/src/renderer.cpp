@@ -1,5 +1,5 @@
 #include "../include/renderer.h"
-//#include "../include/font.h"
+#include "../include/font.h"
 #include "../include/glinclude.h"
 #include "../include/image.h"
 #include "../include/math.h"
@@ -24,6 +24,7 @@ void Renderer::TranslatedMatrix(double x, double y, double z) const {
   glTranslated(x, y, z);
 }
 void Renderer::RotateMatrix(double angle, double x, double y, double z) const {
+  glLoadIdentity();
   glRotated(angle, x, y, z);
 }
 
@@ -49,7 +50,7 @@ void Renderer::SetColor(uint8 r, uint8 g, uint8 b, uint8 a) const {
 }
 
 void Renderer::SetOrigin(double x, double y) const {
-	// TAREA: Configurar matriz de modelado
+  glTranslated(x, y, 0);
 }
 
 void Renderer::Clear(uint8 r, uint8 g, uint8 b) const {
@@ -168,8 +169,8 @@ void Renderer::DrawTiledImage(const Image* image, double x, double y, double wid
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glPopMatrix();
 }
-
+*/
 void Renderer::DrawText(const Font* font, const String &text, double x, double y) const {
 	font->Render(text, x, y);
 }
-*/
+

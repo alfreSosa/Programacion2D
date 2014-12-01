@@ -30,7 +30,7 @@ public:
   virtual void SetY(double y) { this->y = y; }
   virtual double GetX() const { return x; }
   virtual double GetY() const { return y; }
-  virtual double GetScreenX() const { return x;}  //igual que GetX, getY, pero se usará en isométrico
+  virtual double GetScreenX() const { return x;}
   virtual double GetScreenY() const { return y;}
 
   virtual void SetAngle(double angle) { this->angle = angle; }
