@@ -19,8 +19,9 @@ public:
 		LAYER_COUNT
 	};
 
+    
     Scene(Image* backgroundImg = 0);
-	virtual ~Scene();
+	  virtual ~Scene();
 
     virtual const Camera& GetCamera() const { return camera; }
     virtual Camera& GetCamera() { return camera; }
@@ -28,7 +29,7 @@ public:
     virtual void SetBackgroundImage(Image* image) { this->backgroundImg = image; }
     virtual void SetBackgroundColor(uint8 r, uint8 g, uint8 b) { backr = r; backg = g; backb = b; }
 
-	virtual Sprite* CreateSprite(Image* image, Layer layer = LAYER_BACK);
+	  virtual Sprite* CreateSprite(Image* image, Layer layer = LAYER_BACK);
     virtual void DeleteSprite(Sprite* sprite);
 
     //virtual Emitter* CreateEmitter(Image* image, bool autofade, Layer layer = LAYER_MIDDLE);

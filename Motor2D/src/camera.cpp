@@ -18,8 +18,13 @@ void Camera::SetPosition(double x, double y)
     this->x = x; this->y = y; 
   }
   else{
-    if (x >= boundx0 && x <= (boundx1 - SCREEN.GetWidth())) this->x = x;
-    if (y >= boundy0 && y <= (boundy1 - SCREEN.GetHeight())) this->y = y;
+    if (x < boundx0) this->x = boundx0;
+    else if (x > boundx1 - SCREEN.GetWidth()) this->x = boundx1 - SCREEN.GetWidth();
+    else this->x = x;
+
+    if (y < boundy0) this->x = boundx0;
+    else if (y > boundy1 - SCREEN.GetHeight()) this->y = boundy1 - SCREEN.GetHeight();
+    else this->y = y;
   }
 }
 
@@ -34,7 +39,9 @@ void Camera::SetX(double x)
   if (!this->HasBounds())
     this->x = x;
   else
-    if (x >= boundx0 && x <= (boundx1 - SCREEN.GetWidth())) this->x = x;
+    if (x < boundx0) this->x = boundx0;
+    else if (x > boundx1 - SCREEN.GetWidth()) this->x = boundx1 - SCREEN.GetWidth();
+    else  this->x = x;
 }
 
 void Camera::SetY(double y)
@@ -42,7 +49,9 @@ void Camera::SetY(double y)
   if (!this->HasBounds())
     this->y = y;
   else
-    if (y >= boundy0 && y <= (boundy1 - SCREEN.GetHeight())) this->y = y;
+    if (y < boundy0) this->x = boundx0;
+    else if (y > boundy1 - SCREEN.GetHeight()) this->y = boundy1 - SCREEN.GetHeight();
+    else this->y = y;
 }
 
 double Camera::GetX() const
@@ -86,8 +95,7 @@ void Camera::Update()
 {
   if (followingSprite)
   {
-    //seguir al sprite
-    this->SetX(followingSprite->GetScreenX()); //menos la mitad del ancho
-    this->SetY(followingSprite->GetScreenY()); //menos la mitad del alto
+    this->SetX(followingSprite->GetScreenX() - SCREEN.GetWidth() / 2.0); //menos la mitad del ancho
+    this->SetY(followingSprite->GetScreenY() - SCREEN.GetHeight()/ 2.0); //menos la mitad del alto
   }
 }

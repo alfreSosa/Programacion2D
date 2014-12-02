@@ -24,7 +24,6 @@ void Renderer::TranslatedMatrix(double x, double y, double z) const {
   glTranslated(x, y, z);
 }
 void Renderer::RotateMatrix(double angle, double x, double y, double z) const {
-  glLoadIdentity();
   glRotated(angle, x, y, z);
 }
 
@@ -50,7 +49,8 @@ void Renderer::SetColor(uint8 r, uint8 g, uint8 b, uint8 a) const {
 }
 
 void Renderer::SetOrigin(double x, double y) const {
-  glTranslated(x, y, 0);
+  glLoadIdentity();
+  glTranslated(-x, -y, 0);  //no entiendo pero funciona
 }
 
 void Renderer::Clear(uint8 r, uint8 g, uint8 b) const {

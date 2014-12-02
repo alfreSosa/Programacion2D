@@ -16,6 +16,7 @@ void practica6();
 void practica6B();
 void practica6C();
 void practica7();
+void practica7B();
 //Estructura para ejercicio4A-6
 struct Velocidades
 {
@@ -25,8 +26,47 @@ struct Velocidades
 
 int main(int argc, char* argv[]) {
   
-  practica7();
+  //practica7();
+  practica7B();
   return 0;
+}
+void practica7B()
+{
+  SCREEN.Open(800, 600, false);
+  Image *background = RESOURCE.LoadImage("data/backlayer.png");
+  Image *frontground = RESOURCE.LoadImage("data/frontlayer.png");
+  ParallaxScene *escena1 = new ParallaxScene(background, frontground);
+  escena1->GetCamera().SetBounds(0.0, 0.0, 0.0, 0.0);
+  escena1->GetCamera().SetPosition(0, 0);
+  escena1->SetBackgroundColor(0, 0, 0);
+  Image *alien = RESOURCE.LoadImage("data/alienanim.png", 8, 1);
+  Sprite *personaje;
+  if (alien)
+  {
+    alien->SetMidHandle();
+    personaje = escena1->CreateSprite(alien);
+    personaje->SetColor(255, 255, 255);
+    personaje->SetFPS(16);
+    personaje->SetFrameRange(0, 7);
+    personaje->SetScale(5,5);
+    escena1->GetCamera().FollowSprite(personaje);
+  }
+
+  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  {
+    if (SCREEN.GetMouseX() > personaje->GetX()) personaje->RotateTo(-15, 50.0);
+    else if (SCREEN.GetMouseX() < personaje->GetX()) personaje->RotateTo(15, 50.0);
+    else personaje->RotateTo(0, 15);
+
+    personaje->MoveTo(SCREEN.GetMouseX(), SCREEN.GetMouseY(), 100.0, 100.0);
+    //problema del mouse, preguntar y sino cambiar a teclas
+    //el mouse se mueve por la pantalla, no por la escena
+    escena1->Update(SCREEN.ElapsedTime());
+    escena1->Render();
+    SCREEN.Refresh();
+
+  }
+  RESOURCE.FreeResources();
 }
 void practica7()
 {
@@ -40,12 +80,13 @@ void practica7()
   Sprite *personaje;
   if (alien)
   {
+    alien->SetMidHandle();
     personaje = escena1->CreateSprite(alien);
     personaje->SetColor(255, 255, 255);
     personaje->SetFPS(16);
     personaje->SetFrameRange(0, 7);
     personaje->SetScale(5,5);
-    //escena1->GetCamera().FollowSprite(personaje);
+    escena1->GetCamera().FollowSprite(personaje);
   }
 
   while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
@@ -55,7 +96,8 @@ void practica7()
     else personaje->RotateTo(0, 15);
 
     personaje->MoveTo(SCREEN.GetMouseX(), SCREEN.GetMouseY(), 100.0, 100.0);
-
+    //problema del mouse, preguntar y sino cambiar a teclas
+    //el mouse se mueve por la pantalla, no por la escena
     escena1->Update(SCREEN.ElapsedTime());
     escena1->Render();
     SCREEN.Refresh();
