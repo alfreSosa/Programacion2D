@@ -26,7 +26,7 @@ struct Velocidades
 
 int main(int argc, char* argv[]) {
   
-  //practica7();
+  practica7();
   practica7B();
   return 0;
 }
@@ -35,10 +35,14 @@ void practica7B()
   SCREEN.Open(800, 600, false);
   Image *background = RESOURCE.LoadImage("data/backlayer.png");
   Image *frontground = RESOURCE.LoadImage("data/frontlayer.png");
+
   ParallaxScene *escena1 = new ParallaxScene(background, frontground);
-  escena1->GetCamera().SetBounds(0.0, 0.0, 0.0, 0.0);
-  escena1->GetCamera().SetPosition(0, 0);
   escena1->SetBackgroundColor(0, 0, 0);
+  //Propiedades Parallax
+  escena1->SetAutoBackSpeed(32,32);
+  escena1->SetAutoFrontSpeed(-32, -32);
+  escena1->SetRelativeBackSpeed(0.8, 0.8);
+  escena1->SetRelativeFrontSpeed(1, 1);
   Image *alien = RESOURCE.LoadImage("data/alienanim.png", 8, 1);
   Sprite *personaje;
   if (alien)
@@ -51,16 +55,20 @@ void practica7B()
     personaje->SetScale(5,5);
     escena1->GetCamera().FollowSprite(personaje);
   }
-
+  double posX = SCREEN.GetWidth() / 2.0;
+  double posY = SCREEN.GetHeight() / 2.0;
   while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
   {
-    if (SCREEN.GetMouseX() > personaje->GetX()) personaje->RotateTo(-15, 50.0);
-    else if (SCREEN.GetMouseX() < personaje->GetX()) personaje->RotateTo(15, 50.0);
-    else personaje->RotateTo(0, 15);
+    if (glfwGetKey(GLFW_KEY_UP))
+      posY -= 100.0 * SCREEN.ElapsedTime();
+    if (glfwGetKey(GLFW_KEY_DOWN))
+      posY += 100.0 * SCREEN.ElapsedTime();
+    if (glfwGetKey(GLFW_KEY_RIGHT))
+      posX += 100.0 * SCREEN.ElapsedTime();
+    if (glfwGetKey(GLFW_KEY_LEFT))
+      posX -= 100.0 * SCREEN.ElapsedTime();
 
-    personaje->MoveTo(SCREEN.GetMouseX(), SCREEN.GetMouseY(), 100.0, 100.0);
-    //problema del mouse, preguntar y sino cambiar a teclas
-    //el mouse se mueve por la pantalla, no por la escena
+    personaje->SetPosition(posX, posY);
     escena1->Update(SCREEN.ElapsedTime());
     escena1->Render();
     SCREEN.Refresh();
@@ -73,7 +81,7 @@ void practica7()
   SCREEN.Open(800, 600, false);
   Image *background = RESOURCE.LoadImage("data/background.png");
   Scene *escena1 = new Scene(background);
-  escena1->GetCamera().SetBounds(0.0, 0.0, background->GetWidth(), background->GetWidth());
+  escena1->GetCamera().SetBounds(0.0, 0.0, background->GetWidth(), background->GetHeight());
   escena1->GetCamera().SetPosition(0, 0);
   escena1->SetBackgroundColor(0, 0, 0);
   Image *alien = RESOURCE.LoadImage("data/alienanim.png", 8, 1);
@@ -88,16 +96,22 @@ void practica7()
     personaje->SetScale(5,5);
     escena1->GetCamera().FollowSprite(personaje);
   }
+  double posX = SCREEN.GetWidth() / 2.0;
+  double posY = SCREEN.GetHeight() / 2.0;
 
   while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
   {
-    if (SCREEN.GetMouseX() > personaje->GetX()) personaje->RotateTo(-15, 50.0);
-    else if (SCREEN.GetMouseX() < personaje->GetX()) personaje->RotateTo(15, 50.0);
-    else personaje->RotateTo(0, 15);
 
-    personaje->MoveTo(SCREEN.GetMouseX(), SCREEN.GetMouseY(), 100.0, 100.0);
-    //problema del mouse, preguntar y sino cambiar a teclas
-    //el mouse se mueve por la pantalla, no por la escena
+    if (glfwGetKey(GLFW_KEY_UP))
+      posY -= 100.0 * SCREEN.ElapsedTime();
+    if (glfwGetKey(GLFW_KEY_DOWN))
+      posY += 100.0 * SCREEN.ElapsedTime();
+    if (glfwGetKey(GLFW_KEY_RIGHT))
+      posX += 100.0 * SCREEN.ElapsedTime();
+    if (glfwGetKey(GLFW_KEY_LEFT))
+      posX -= 100.0 * SCREEN.ElapsedTime();
+
+    personaje->SetPosition(posX, posY);
     escena1->Update(SCREEN.ElapsedTime());
     escena1->Render();
     SCREEN.Refresh();

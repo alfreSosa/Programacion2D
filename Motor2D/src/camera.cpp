@@ -22,7 +22,7 @@ void Camera::SetPosition(double x, double y)
     else if (x > boundx1 - SCREEN.GetWidth()) this->x = boundx1 - SCREEN.GetWidth();
     else this->x = x;
 
-    if (y < boundy0) this->x = boundx0;
+    if (y < boundy0) this->y = boundy0;
     else if (y > boundy1 - SCREEN.GetHeight()) this->y = boundy1 - SCREEN.GetHeight();
     else this->y = y;
   }
@@ -49,7 +49,7 @@ void Camera::SetY(double y)
   if (!this->HasBounds())
     this->y = y;
   else
-    if (y < boundy0) this->x = boundx0;
+    if (y < boundy0) this->y = boundy0;
     else if (y > boundy1 - SCREEN.GetHeight()) this->y = boundy1 - SCREEN.GetHeight();
     else this->y = y;
 }

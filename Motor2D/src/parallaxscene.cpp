@@ -1,8 +1,9 @@
 #include "../include/parallaxscene.h"
 #include "../include/image.h"
 #include "../include/renderer.h"
+#include "../include/screen.h"
 
-ParallaxScene::ParallaxScene(Image* imageBack, Image* imageFront) : Scene(imageBack)
+ParallaxScene::ParallaxScene(Image* imageBack, Image* imageFront) : Scene(NULL)
 {
   backLayer = imageBack; frontLayer = imageFront;
   backX = backY = frontX = frontY = 0.0;
@@ -41,9 +42,18 @@ void ParallaxScene::SetAutoFrontSpeed(double x, double y)
 }
 void ParallaxScene::Update(double elapsed, Map* map)
 {
-  //aqui actualizar posicion
+  Scene::Update(elapsed,map);
+  if (backLayer){
+    backX += autoBackSpeedX * elapsed;
+    backY += autoBackSpeedY * elapsed;
+  }
+  if (frontLayer){
+    frontX += autoFrontSpeedX * elapsed;
+    frontY += autoFrontSpeedY * elapsed;
+  }
 }
 void ParallaxScene::RenderBackground() const
 {
-  //render pensar luego
+  if (backLayer) RENDER.DrawTiledImage(backLayer, 0, 0, SCREEN.GetWidth(), SCREEN.GetHeight(), -backX + relBackSpeedX * GetCamera().GetX(), -backY + relBackSpeedY * GetCamera().GetY());
+  if (frontLayer) RENDER.DrawTiledImage(frontLayer, 0, 0, SCREEN.GetWidth(), SCREEN.GetHeight(), -frontX + relFrontSpeedX * GetCamera().GetX(), -frontY + relFrontSpeedY * GetCamera().GetY());
 }
