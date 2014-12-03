@@ -10,9 +10,9 @@ public:
   Affector(bool color = false, bool velX = false, bool velY = false, bool velAng = false);
   virtual void setAncho(double orig, double fin) { origAncho = orig; finAncho = fin; };
   virtual void setAlto(double orig, double fin) { origAlto = orig; finAlto = fin; };
-  virtual void SetVelocityX(double minvelx, double maxvelx)  { this->minvelx = minvelx; this->maxvelx = maxvelx; };
-  virtual void SetVelocityY(double minvely, double maxvely)  { this->minvely = minvely; this->maxvely = maxvely; };
-  virtual void SetAngularVelocity(double minangvel, double maxangvel) { this->minangvel = minangvel; this->maxangvel = maxangvel; };
+  virtual void SetVelocityX(double minvelx, double maxvelx)  { this->minvelx = (maxvelx == minvelx) ? 0 : minvelx; this->maxvelx = maxvelx; };
+  virtual void SetVelocityY(double minvely, double maxvely)  { this->minvely = (maxvely == minvely) ? 0 : minvely; this->maxvely = maxvely; };
+  virtual void SetAngularVelocity(double minangvel, double maxangvel) { this->minangvel = (maxangvel == minangvel) ? 0 : minangvel; this->maxangvel = maxangvel; };
   virtual void SetMinColor(uint8 r, uint8 g, uint8 b){ minr = r; ming = g; minb = b; };
   virtual void SetMaxColor(uint8 r, uint8 g, uint8 b){ maxr = r; maxg = g; maxb = b; };
   virtual double getOrigenAncho() const { return origAncho; };

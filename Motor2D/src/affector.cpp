@@ -13,17 +13,18 @@ Affector::Affector(bool color, bool velX, bool velY, bool velAng)
   minangvel = minvelx = minvely = 0.0;
   maxangvel = maxvelx = maxvely = 0.0;
 }
+
 double Affector::getNuevaVelX() const
 {
-  return WrapValue(rand(), maxvelx - minvelx) + minvelx;
+  return (minvelx == 0 && maxvelx == 0) ? 0 : WrapValue(rand(), maxvelx - minvelx) + minvelx;
 }
 double Affector::getNuevaVelY() const
 {
-  return WrapValue(rand(), maxvelx - minvelx) + minvely;
+  return (minvely == 0 && maxvely == 0) ? 0 : WrapValue(rand(), maxvelx - minvelx) + minvely;
 }
 double Affector::getNuevaAngleVel() const
 {
-  return WrapValue(rand(), maxangvel - minangvel) + minangvel;
+  return(minangvel == 0 && maxangvel == 0) ? 0 : WrapValue(rand(), maxangvel - minangvel) + minangvel;
 }
 uint8 Affector::getNuevoRed() const
 {

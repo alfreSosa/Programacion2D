@@ -3,6 +3,7 @@
 #include "../include/image.h"
 #include "../include/math.h"
 #include "../include/affector.h"
+#include <math.h>
 Emitter::Emitter(Image *image, bool autofade)
 {
   this->image = image;
@@ -12,6 +13,32 @@ Emitter::Emitter(Image *image, bool autofade)
   minr = ming = minb = maxr = maxg = maxb = 0;
   blendMode = Renderer::ADDITIVE;
 }
+void Emitter::SetRate(double minrate, double maxrate)
+{
+  this->minrate = (maxrate == minrate) ? 0 : abs(minrate);
+  this->maxrate = abs(maxrate); 
+}
+void Emitter::SetVelocityX(double minvelx, double maxvelx)
+{ 
+  this->minvelx = (maxvelx == minvelx) ? 0 : minvelx; 
+  this->maxvelx = maxvelx;
+}
+void Emitter::SetVelocityY(double minvely, double maxvely)
+{
+  this->minvely = (maxvely == minvely) ? 0 : minvely;
+  this->maxvely = maxvely;
+ }
+void Emitter::SetAngularVelocity(double minangvel, double maxangvel) 
+{ 
+  this->minangvel = (maxangvel == minangvel) ? 0 : minangvel;
+  this->maxangvel = maxangvel; 
+}
+void Emitter::SetLifetime(double minlifetime, double maxlifetime)
+{ 
+  this->minlifetime = (maxlifetime == minlifetime) ? 0 : minlifetime; 
+  this->maxlifetime = maxlifetime;
+}
+
 void Emitter::SetMinColor(uint8 r, uint8 g, uint8 b)
 {
   minr = r; ming = g; minb = b;
@@ -24,12 +51,12 @@ void Emitter::Update(double elapsed)
 {
   if (emitting)
   {
-    double rate = (WrapValue(rand(), maxrate - minrate) + minrate) * elapsed;
+    double rate = (minrate == 0 && maxrate == 0) ? 0 : (WrapValue(rand(), maxrate - minrate) + minrate) * elapsed;
     for (int n = 0; n < INT(rate); n++){
-      double velPx = WrapValue(rand(), maxvelx - minvelx) + minvelx;
-      double velPy = WrapValue(rand(), maxvelx - minvelx) + minvely;
-      double velPangle = WrapValue(rand(), maxangvel - minangvel) + minangvel;
-      double timeP = WrapValue(rand(), maxlifetime - minlifetime) + minlifetime;
+      double velPx = (minvelx == 0 && maxvelx == 0) ? 0: WrapValue(rand(), maxvelx - minvelx) + minvelx;
+      double velPy = (minvely == 0 && maxvely == 0) ? 0 : WrapValue(rand(), maxvelx - minvelx) + minvely;
+      double velPangle = (minangvel == 0 && maxangvel == 0) ? 0 : WrapValue(rand(), maxangvel - minangvel) + minangvel;
+      double timeP = (minlifetime == 0 && maxlifetime == 0) ? 0 : WrapValue(rand(), maxlifetime - minlifetime) + minlifetime;
       Particle nueva(image, velPx, velPy, velPangle, timeP, autofade);
 
       uint8 rP;
