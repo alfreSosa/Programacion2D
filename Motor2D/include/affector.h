@@ -1,7 +1,9 @@
 #ifndef _AFFECTOR_H
 #define _AFFECTOR_H
 
+#include "string.h"
 #include "types.h"
+
 class Affector
 {
 public:

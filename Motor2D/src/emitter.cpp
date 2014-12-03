@@ -2,7 +2,7 @@
 #include "../include/particle.h"
 #include "../include/image.h"
 #include "../include/math.h"
-
+#include "../include/affector.h"
 Emitter::Emitter(Image *image, bool autofade)
 {
   this->image = image;
@@ -40,6 +40,7 @@ void Emitter::Update(double elapsed)
       particles.Add(nueva);
     }
   }
+  //aqui en el update hacer lo de afector
   for (uint32 i = 0; i < particles.Size(); i++)
   {
     particles[i].Update(elapsed);
@@ -51,4 +52,9 @@ void Emitter::Render() const
 {
   for (uint32 i = 0; i < particles.Size(); i++)
     particles[i].Render();
+}
+
+void Emitter::addAffector(Affector afectador)
+{
+  afectores.Add(afectador); 
 }

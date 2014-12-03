@@ -6,6 +6,7 @@
 
 class Image;
 class Particle;
+class Affector;
 
 class Emitter {
 public:
@@ -28,6 +29,7 @@ public:
   virtual bool IsEmitting() const { return emitting; };
   virtual void Update(double elapsed);
   virtual void Render() const;
+  virtual void addAffector(Affector afectador);
 private:
   Image* image;
   bool autofade;
@@ -42,5 +44,6 @@ private:
   Renderer::BlendMode blendMode;
   bool emitting;
   Array<Particle> particles;
+  Array<Affector> afectores;
 };
 #endif
