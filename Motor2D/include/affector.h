@@ -26,6 +26,11 @@ public:
   virtual uint8 getNuevoRed() const;
   virtual uint8 getNuevoGreen() const;
   virtual uint8 getNuevoBlue() const;
+  virtual void enableColor() { modificarColor = true; };
+  virtual void enableVelX() { modificarVelX = true; };
+  virtual void enableVelY() { modificarVelY = true; };
+  virtual void enableVelAngle() { modificarVelAng = true; };
+
 
 private:
   double origAncho, finAncho;

@@ -43,13 +43,11 @@ double WrapValue(double val, double mod) {
 
 
 double Angle(double x1, double y1, double x2, double y2) {
-	// TAREA: Implementar funcion
   double tang = DegATan2(y1-y2, x2-x1);
 	return WrapValue(tang, 360);
 }
 
 double Distance(double x1, double y1, double x2, double y2) {
-	// TAREA: Implementar funcion
   double xe2 = (x2 - x1) * (x2 - x1);
   double ye2 = (y2 - y1) * (y2 - y1);
 	return sqrt(xe2 + ye2);
@@ -60,8 +58,7 @@ bool ValueInRange(double value, double min, double max) {
 }
 
 bool PointInRect(double x, double y, double rectx, double recty, double width, double height) {
-	// TAREA: Implementar funcion
-	return false;
+	return ValueInRange(x,rectx,width) && ValueInRange(y,recty,height);
 }
 
 void ClosestPointToRect(double x, double y, double rectx, double recty, double width, double height, double* outx, double* outy) {

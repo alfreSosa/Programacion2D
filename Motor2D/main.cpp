@@ -30,7 +30,7 @@ struct Velocidades
 int main(int argc, char* argv[]) {
   
   practica8();
-  practica8B();
+  //practica8B();
   return 0;
 }
 void practica8B()
@@ -41,7 +41,7 @@ void practica8B()
   escena1->SetBackgroundColor(0, 0, 0);
 
   Affector af1(true, false, false, true);
-  af1.setAncho(0,SCREEN.GetWidth() / 2.0);
+  af1.setAncho(0,SCREEN.GetWidth() / 3.0);
   af1.setAlto(0,SCREEN.GetHeight());
 
   af1.SetMinColor(0, 0, 0);
@@ -53,7 +53,7 @@ void practica8B()
   af2.SetMaxColor(0, 255, 255);
   af2.SetAngularVelocity(360, 720);
 
-  af2.setAncho(SCREEN.GetWidth() / 2.0, SCREEN.GetWidth());
+  af2.setAncho(SCREEN.GetWidth() * 2 / 3.0 , SCREEN.GetWidth());
   af2.setAlto(0, SCREEN.GetHeight());
 
   Image *star = RESOURCE.LoadImage("data/star.png");
@@ -67,7 +67,7 @@ void practica8B()
     generador->SetColor(255, 0, 0);
     emisor = escena1->CreateEmitter(star, true, Scene::LAYER_BACK);
 
-    emisor->SetRate(500, 100);
+    emisor->SetRate(500, 1000);
     emisor->SetAngularVelocity(0, 360);
     emisor->SetVelocityX(-128, 128);
     emisor->SetVelocityY(-128, 128);
@@ -113,7 +113,7 @@ void practica8()
     generador = escena1->CreateSprite(star, Scene::LAYER_MIDDLE);
     generador->SetColor(255, 0, 0);
     emisor = escena1->CreateEmitter(star, true,Scene::LAYER_BACK);
-    emisor->SetRate(500, 100);
+    emisor->SetRate(500, 1000);
     emisor->SetAngularVelocity(0, 360);
     emisor->SetVelocityX(-128, 128);
     emisor->SetVelocityY(-128, 128);
