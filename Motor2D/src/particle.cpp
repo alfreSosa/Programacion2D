@@ -1,9 +1,12 @@
 #include "../include/particle.h"
 #include "../include/image.h"
+#include "../include/affector.h"
 
 Particle::Particle(): Sprite(NULL){
   velocityx = velocityy = angularVelocity = lifetime = initialLifetime = 0;
   autofade = false;
+  afected = false;
+  initialAplha = 0;
 }
 
 Particle::Particle(Image* image, double velx, double vely, double angularVel, double lifetime, bool autofade) : Sprite(image){
@@ -13,6 +16,8 @@ Particle::Particle(Image* image, double velx, double vely, double angularVel, do
   initialLifetime = lifetime;
   this->lifetime = lifetime;
   this->autofade = autofade;
+  afected = false;
+  initialAplha = this->GetAlpha();
 }
 void Particle::Update(double elapsed)
 {
@@ -23,7 +28,5 @@ void Particle::Update(double elapsed)
   this->SetPosition(nPosX, nPosY);
   this->SetAngle(nAngle);
   if (autofade)
-    this->SetColor(this->GetRed(), this->GetAlpha(), this->GetBlue(), static_cast<uint8>(255 * (lifetime / initialLifetime)));
-  
-
+    this->SetColor(this->GetRed(), this->GetAlpha(), this->GetBlue(), static_cast<uint8>(initialAplha * (lifetime / initialLifetime)));
 }

@@ -40,7 +40,10 @@ void Emitter::Update(double elapsed)
       particles.Add(nueva);
     }
   }
-  //aqui en el update hacer lo de afector
+  for (uint32 i = 0; i < afectores.Size(); i++)
+    for (uint32 j = 0; j < particles.Size(); j++)
+      particles[j] = afectores[i].Afectar(particles[j]);
+
   for (uint32 i = 0; i < particles.Size(); i++)
   {
     particles[i].Update(elapsed);

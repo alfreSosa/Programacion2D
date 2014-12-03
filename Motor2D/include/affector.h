@@ -3,10 +3,11 @@
 
 #include "string.h"
 #include "types.h"
-
+class Particle;
 class Affector
 {
 public:
+  Affector(bool color = false, bool velX = false, bool velY = false, bool velAng = false);
   virtual void setAncho(double orig, double fin) { origAncho = orig; finAncho = fin; };
   virtual void setAlto(double orig, double fin) { origAlto = orig; finAlto = fin; };
   virtual void SetVelocityX(double minvelx, double maxvelx)  { this->minvelx = minvelx; this->maxvelx = maxvelx; };
@@ -18,6 +19,7 @@ public:
   virtual double getFinAncho() const { return finAncho; };
   virtual double getOrigenAlto() const { return origAlto; };
   virtual double getFinAlto() const { return finAlto; };
+  virtual Particle Afectar(Particle particula);
   virtual double getNuevaVelX() const;
   virtual double getNuevaVelY() const;
   virtual double getNuevaAngleVel() const;
@@ -28,10 +30,14 @@ public:
 private:
   double origAncho, finAncho;
   double origAlto, finAlto;
+  bool modificarColor;
   uint8 minr, ming, minb;
   uint8 maxr, maxg, maxb;
+  bool modificarVelX;
   double minvelx, maxvelx;
+  bool modificarVelY;
   double minvely, maxvely;
+  bool modificarVelAng;
   double minangvel, maxangvel;
 };
 #endif
