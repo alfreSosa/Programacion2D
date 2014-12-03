@@ -18,6 +18,7 @@ void practica6C();
 void practica7();
 void practica7B();
 void practica8();
+void practica8B();
 
 //Estructura para ejercicio4A-6
 struct Velocidades
@@ -29,7 +30,71 @@ struct Velocidades
 int main(int argc, char* argv[]) {
   
   practica8();
+  practica8B();
   return 0;
+}
+void practica8B()
+{
+  SCREEN.Open(800, 600, false);
+  Scene *escena1 = new Scene(NULL);
+  escena1->GetCamera().SetPosition(0, 0);
+  escena1->SetBackgroundColor(0, 0, 0);
+
+  Affector af1(true, false, false, true);
+  af1.setAncho(0,SCREEN.GetWidth() / 2.0);
+  af1.setAlto(0,SCREEN.GetHeight());
+
+  af1.SetMinColor(0, 0, 0);
+  af1.SetMaxColor(255, 255, 0);
+  af1.SetAngularVelocity(0, 360);
+
+  Affector af2(true, false, false, true);
+  af2.SetMinColor(0, 0, 0);
+  af2.SetMaxColor(0, 255, 255);
+  af2.SetAngularVelocity(360, 720);
+
+  af2.setAncho(SCREEN.GetWidth() / 2.0, SCREEN.GetWidth());
+  af2.setAlto(0, SCREEN.GetHeight());
+
+  Image *star = RESOURCE.LoadImage("data/star.png");
+  Sprite *generador;
+  Emitter *emisor;
+  if (star)
+  {
+
+    star->SetMidHandle();
+    generador = escena1->CreateSprite(star, Scene::LAYER_MIDDLE);
+    generador->SetColor(255, 0, 0);
+    emisor = escena1->CreateEmitter(star, true, Scene::LAYER_BACK);
+
+    emisor->SetRate(500, 100);
+    emisor->SetAngularVelocity(0, 360);
+    emisor->SetVelocityX(-128, 128);
+    emisor->SetVelocityY(-128, 128);
+    emisor->SetLifetime(1, 2);
+    emisor->SetMinColor(0, 0, 0);
+    emisor->SetMaxColor(255, 255, 255);
+
+    emisor->addAffector(af1);
+    emisor->addAffector(af2);
+
+  }
+
+  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  {
+    generador->SetPosition(SCREEN.GetMouseX(), SCREEN.GetMouseY());
+    emisor->SetX(SCREEN.GetMouseX());
+    emisor->SetY(SCREEN.GetMouseY());
+    if (SCREEN.MouseButtonPressed(GLFW_MOUSE_BUTTON_2))
+      emisor->Start();
+    else
+      emisor->Stop();
+    escena1->Update(SCREEN.ElapsedTime());
+    escena1->Render();
+    SCREEN.Refresh();
+
+  }
+  RESOURCE.FreeResources();
 }
 void practica8()
 {

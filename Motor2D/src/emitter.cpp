@@ -31,9 +31,19 @@ void Emitter::Update(double elapsed)
       double velPangle = WrapValue(rand(), maxangvel - minangvel) + minangvel;
       double timeP = WrapValue(rand(), maxlifetime - minlifetime) + minlifetime;
       Particle nueva(image, velPx, velPy, velPangle, timeP, autofade);
-      uint8 rP = rand() % (maxr - minr) + minr;
-      uint8 gP = rand() % (maxg - ming) + ming;
-      uint8 bP = rand() % (maxb - minb) + minb;
+
+      uint8 rP;
+      if (maxr == 0 && minr == 0) rP = 0;
+      else rP = rand() % (maxr - minr) + minr;
+
+      uint8 gP;
+      if (maxg == 0 && ming == 0) gP = 0;
+      else gP = rand() % (maxg - ming) + ming;
+
+      uint8 bP;
+      if (maxb == 0 && minb == 0) bP = 0;
+      else bP = rand() % (maxb - minb) + minb;
+      
       nueva.SetColor(rP, gP, bP);
       nueva.SetBlendMode(blendMode);
       nueva.SetPosition(this->GetX(), this->GetY());
@@ -42,7 +52,8 @@ void Emitter::Update(double elapsed)
   }
   for (uint32 i = 0; i < afectores.Size(); i++)
     for (uint32 j = 0; j < particles.Size(); j++)
-      particles[j] = afectores[i].Afectar(particles[j]);
+      if (!particles[j].isAfected())
+        particles[j] = afectores[i].Afectar(particles[j]);
 
   for (uint32 i = 0; i < particles.Size(); i++)
   {

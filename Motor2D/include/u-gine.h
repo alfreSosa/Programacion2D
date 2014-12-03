@@ -2,6 +2,7 @@
 #define UGINE_MAIN_H
 
 #include "array.h"
+#include "affector.h"
 #include "bone.h"
 #include "camera.h"
 //#include "collisionpixeldata.h"
