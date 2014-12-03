@@ -1,6 +1,7 @@
 #include "../include/emitter.h"
 #include "../include/particle.h"
 #include "../include/image.h"
+#include "../include/math.h"
 
 Emitter::Emitter(Image *image, bool autofade)
 {
@@ -21,23 +22,33 @@ void Emitter::SetMaxColor(uint8 r, uint8 g, uint8 b)
 }
 void Emitter::Update(double elapsed)
 {
-  if (IsEmitting)
+  if (emitting)
   {
-    //generar particulas
-    //cast en rand?
-    int velPx = rand() % INT(maxvelx - minvelx) + minvelx;
-    int velPy = rand() % INT(maxvely - minvely) + minvely;
-    int velPangle = rand() % INT(maxangvel - minangvel) + minangvel;
-    int timeP = rand() % INT(maxlifetime - minlifetime) + minlifetime;
-    if (autofade) 
-    {
+    double rate = (WrapValue(rand(), maxrate - minrate) + minrate) * elapsed;
+    for (int n = 0; n < INT(rate); n++){
+      double velPx = WrapValue(rand(), maxvelx - minvelx) + minvelx;
+      double velPy = WrapValue(rand(), maxvelx - minvelx) + minvely;
+      double velPangle = WrapValue(rand(), maxangvel - minangvel) + minangvel;
+      double timeP = WrapValue(rand(), maxlifetime - minlifetime) + minlifetime;
+      Particle nueva(image, velPx, velPy, velPangle, timeP, autofade);
       uint8 rP = rand() % (maxr - minr) + minr;
       uint8 gP = rand() % (maxg - ming) + ming;
       uint8 bP = rand() % (maxb - minb) + minb;
+      nueva.SetColor(rP, gP, bP);
+      nueva.SetBlendMode(blendMode);
+      nueva.SetPosition(this->GetX(), this->GetY());
+      particles.Add(nueva);
     }
+  }
+  for (uint32 i = 0; i < particles.Size(); i++)
+  {
+    particles[i].Update(elapsed);
+    if (particles[i].GetLifetime() <= 0)
+      particles.RemoveAt(i--);
   }
 }
 void Emitter::Render() const
 {
-
+  for (uint32 i = 0; i < particles.Size(); i++)
+    particles[i].Render();
 }

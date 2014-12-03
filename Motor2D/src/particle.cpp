@@ -16,6 +16,14 @@ Particle::Particle(Image* image, double velx, double vely, double angularVel, do
 }
 void Particle::Update(double elapsed)
 {
-  //xejemplo
   lifetime -= elapsed;
+  double nPosX = this->GetX() + velocityx * elapsed;
+  double nPosY = this->GetY() + velocityy * elapsed;
+  double nAngle = this->GetAngle() + angularVelocity * elapsed;
+  this->SetPosition(nPosX, nPosY);
+  this->SetAngle(nAngle);
+  if (autofade)
+    this->SetColor(this->GetRed(), this->GetAlpha(), this->GetBlue(), static_cast<uint8>(255 * (lifetime / initialLifetime)));
+  
+
 }

@@ -17,6 +17,8 @@ void practica6B();
 void practica6C();
 void practica7();
 void practica7B();
+void practica8();
+
 //Estructura para ejercicio4A-6
 struct Velocidades
 {
@@ -26,9 +28,50 @@ struct Velocidades
 
 int main(int argc, char* argv[]) {
   
-  practica7();
-  practica7B();
+  practica8();
   return 0;
+}
+void practica8()
+{
+  SCREEN.Open(800, 600, false);
+  Scene *escena1 = new Scene(NULL);
+  escena1->GetCamera().SetPosition(0, 0);
+  escena1->SetBackgroundColor(0, 0, 0);
+  
+  Image *star = RESOURCE.LoadImage("data/star.png");
+  Sprite *generador;
+  Emitter *emisor;
+  if (star)
+  {
+
+    star->SetMidHandle();
+    generador = escena1->CreateSprite(star, Scene::LAYER_MIDDLE);
+    generador->SetColor(255, 0, 0);
+    emisor = escena1->CreateEmitter(star, true,Scene::LAYER_BACK);
+    emisor->SetRate(500, 100);
+    emisor->SetAngularVelocity(0, 360);
+    emisor->SetVelocityX(-128, 128);
+    emisor->SetVelocityY(-128, 128);
+    emisor->SetLifetime(1, 2);
+    emisor->SetMinColor(0, 0, 0);
+    emisor->SetMaxColor(255, 255, 255);
+  }
+
+  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  {
+    generador->SetPosition(SCREEN.GetMouseX(), SCREEN.GetMouseY());
+    emisor->SetX(SCREEN.GetMouseX());
+    emisor->SetY(SCREEN.GetMouseY());
+    if (SCREEN.MouseButtonPressed(GLFW_MOUSE_BUTTON_2))
+      emisor->Start();
+    else
+      emisor->Stop();
+    escena1->Update(SCREEN.ElapsedTime());
+    escena1->Render();
+    SCREEN.Refresh();
+
+  }
+  RESOURCE.FreeResources();
 }
 void practica7B()
 {
