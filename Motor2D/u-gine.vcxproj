@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\affector.cpp" />
     <ClCompile Include="src\bone.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\emitter.cpp" />
@@ -29,6 +30,7 @@
     <ClCompile Include="src\sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\affector.h" />
     <ClInclude Include="include\array.h" />
     <ClInclude Include="include\bone.h" />
     <ClInclude Include="include\bonedata.h" />
