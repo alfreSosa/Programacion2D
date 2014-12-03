@@ -29,8 +29,8 @@ struct Velocidades
 
 int main(int argc, char* argv[]) {
   
-  practica8();
-  //practica8B();
+  //practica8();
+  practica8B();
   return 0;
 }
 void practica8B()
