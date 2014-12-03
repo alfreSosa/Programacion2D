@@ -61,15 +61,15 @@ void Emitter::Update(double elapsed)
 
       uint8 rP;
       if (maxr == 0 && minr == 0) rP = 0;
-      else rP = rand() % (maxr - minr) + minr;
+      else rP = (maxr == minr) ? maxr : rand() % (maxr - minr) + minr;
 
       uint8 gP;
       if (maxg == 0 && ming == 0) gP = 0;
-      else gP = rand() % (maxg - ming) + ming;
+      else gP = (maxg == ming) ? maxg : rand() % (maxg - ming) + ming;
 
       uint8 bP;
       if (maxb == 0 && minb == 0) bP = 0;
-      else bP = rand() % (maxb - minb) + minb;
+      else bP = (maxb == minb) ? maxb : rand() % (maxb - minb) + minb;
       
       nueva.SetColor(rP, gP, bP);
       nueva.SetBlendMode(blendMode);

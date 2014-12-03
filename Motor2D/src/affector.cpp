@@ -24,25 +24,25 @@ double Affector::getNuevaVelY() const
 }
 double Affector::getNuevaAngleVel() const
 {
-  return(minangvel == 0 && maxangvel == 0) ? 0 : WrapValue(rand(), maxangvel - minangvel) + minangvel;
+  return (minangvel == 0 && maxangvel == 0) ? 0 : WrapValue(rand(), maxangvel - minangvel) + minangvel;
 }
 uint8 Affector::getNuevoRed() const
 {
   if (maxr == 0 && minr == 0)
     return 0;
-  return rand() % (maxr - minr) + minr;
+  return (maxr ==  minr) ? maxr : rand() % (maxr - minr) + minr;
 }
 uint8 Affector::getNuevoGreen() const
 {
   if (maxg == 0 && ming == 0)
     return 0;
-  return rand() % (maxg - ming) + ming;
+  return (maxg == ming) ? maxg : rand() % (maxg - ming) + ming;
 }
 uint8 Affector::getNuevoBlue() const
 {
   if (maxb == 0 && minb == 0)
     return 0;
-  return rand() % (maxb - minb) + minb;
+  return (maxb == minb) ? maxb : rand() % (maxb - minb) + minb;
 }
 
 Particle Affector::Afectar(Particle particula)
