@@ -47,7 +47,7 @@ void Sprite::SetCollision(CollisionMode mode) {
 	// TAREA: Implementar
 }
 
-bool Sprite::CheckCollision(Sprite* sprite) {
+bool Sprite::ChecsadasdkCollision(Sprite* sprite) {
 	// TAREA: Implementar
 }
 
