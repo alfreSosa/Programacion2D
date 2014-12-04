@@ -19,6 +19,8 @@ void practica7();
 void practica7B();
 void practica8();
 void practica8B();
+void practica9();
+
 
 //Estructura para ejercicio4A-6
 struct Velocidades
@@ -29,9 +31,20 @@ struct Velocidades
 
 int main(int argc, char* argv[]) {
   
-  //practica8();
   practica8B();
   return 0;
+}
+void practica9()
+{
+  SCREEN.Open(800, 600, false);
+
+  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  {
+    RENDER.Clear(0, 0, 0);
+    SCREEN.Refresh();
+
+  }
+  RESOURCE.FreeResources();
 }
 void practica8B()
 {
@@ -67,7 +80,7 @@ void practica8B()
     generador->SetColor(255, 0, 0);
     emisor = escena1->CreateEmitter(star, true, Scene::LAYER_BACK);
 
-    emisor->SetRate(500, 1000);
+    emisor->SetRate(0, 500);
     emisor->SetAngularVelocity(0, 360);
     emisor->SetVelocityX(-128, 128);
     emisor->SetVelocityY(-128, 128);

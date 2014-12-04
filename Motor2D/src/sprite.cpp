@@ -1,12 +1,12 @@
 #include "../include/sprite.h"
-//#include "../include/rectcollision.h"
+#include "../include/rectcollision.h"
 #include "../include/image.h"
 //#include "../include/map.h"
 #include "../include/math.h"
 //#include "../include/pixelcollision.h"
 #include "../include/renderer.h"
-//#include "../include/circlecollision.h"
-#include <math.h>
+#include "../include/circlecollision.h"
+
 
 Sprite::Sprite(Image* image) {
     this->image = image;
@@ -42,19 +42,52 @@ Sprite::Sprite(Image* image) {
 Sprite::~Sprite() {
 }
 
-/*
+
 void Sprite::SetCollision(CollisionMode mode) {
-	// TAREA: Implementar
+  if (collision) delete collision;
+
+  switch (mode)
+  {
+  case Sprite::COLLISION_NONE:
+     collision = NULL;
+    break;
+  case Sprite::COLLISION_CIRCLE:
+    collision = new CircleCollision(&colx, &coly, &radius);
+    break;
+  case Sprite::COLLISION_PIXEL:
+    collision = NULL;
+    break;
+  case Sprite::COLLISION_RECT:
+    collision = new RectCollision(&colx, &coly, &colwidth, &colheight);
+    break;
+  default:
+    break;
+  }
 }
 
-bool Sprite::ChecsadasdkCollision(Sprite* sprite) {
-	// TAREA: Implementar
+bool Sprite::CheckCollision(Sprite* sprite) {
+  if (collision && sprite->GetCollision())
+  {
+    if (collision->DoesCollide(sprite->GetCollision()))
+    {
+      colSprite = sprite;
+      collided = true;
+      sprite->SetCollisionSprite(this);
+      sprite->SetCollide(true);
+      return true;
+    }
+    else
+    {
+      return false;
+    }
+  }
+  return false;
 }
 
 bool Sprite::CheckCollision(const Map* map) {
 	// TAREA: Implementar
+  return false;
 }
-*/
 
 void Sprite::RotateTo(int32 angle, double speed) {
   
@@ -142,19 +175,28 @@ void Sprite::Update(double elapsed, const Map* map) {
     }
   }
 	// Informacion final de colision
-	//UpdateCollisionBox();
+	UpdateCollisionBox();
 }
 
 void Sprite::Render() const {
-  Renderer::Instance().SetBlendMode(blendMode);
-  Renderer::Instance().SetColor(r,g,b,a);
-  Renderer::Instance().DrawImage(image,x,y,static_cast<uint32>(currentFrame),image->GetWidth() * scalex,image->GetHeight() * scaley,angle);
+  RENDER.SetBlendMode(blendMode);
+  RENDER.SetColor(r, g, b, a);
+  RENDER.DrawImage(image, x, y, static_cast<uint32>(currentFrame), image->GetWidth() * scalex, image->GetHeight() * scaley, angle);
 }
 
 void Sprite::UpdateCollisionBox() {
-	// TAREA: Implementar
+  double cx, cy, cw, ch;
+  cx = x - image->GetHandleX() * fabs(scalex);
+  cy = y - image->GetHandleY() * fabs(scaley);
+  cw = image->GetWidth() * fabs(scalex);
+  ch = image->GetHeight() * fabs(scaley);
+  UpdateCollisionBox(cx, cy, cw, ch);
+
 }
 
 void Sprite::UpdateCollisionBox(double x, double y, double w, double h) {
-	// TAREA: Implementar
+  colx = x;
+  coly = y;
+  colwidth = w;
+  colheight = h;
 }

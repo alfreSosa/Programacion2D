@@ -5,6 +5,7 @@
 #define RENDER Renderer::Instance()
 #define SCREEN Screen::Instance()
 #define RESOURCE ResourceManager::Instance()
+#define COLLISIONMANAGER CollisionManager::Instance()
 
 #define VEL(data) reinterpret_cast<Velocidades *>(data) //Macro para ejercicio4A
 

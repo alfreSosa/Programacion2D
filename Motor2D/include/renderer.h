@@ -3,6 +3,7 @@
 
 #include "string.h"
 #include "types.h"
+#include <math.h>
 
 class Font;
 class Image;

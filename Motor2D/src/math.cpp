@@ -71,7 +71,10 @@ bool RectsOverlap(double x1, double y1, double width1, double height1, double x2
 }
 
 void OverlappingRect(double x1, double y1, double width1, double height1, double x2, double y2, double width2, double height2, double* outx, double* outy, double* outwidth, double* outheight) {
-	// TAREA: Implementar funcion
+  *outx = (x1 >= x2 && x1 <= x2 + width2) ? x1 : x2;
+  *outy = (y1 >= y2 && y1 <= y2 + width2) ? y1 : y2;
+  *outwidth = (x1 + width1 >= x2 && x1 + width1 <= x2 + width2) ? (x1 + width1) - *outx : (x2 + width2) - *outx;
+  *outheight = (y1 + height1 >= y2 && y1 + height1 <= y2 + height2) ? (y1 + height1) - *outy : (y2 + height2) - *outy;
 }
 
 void TransformIsoCoords(double isoX, double isoY, double isoZ, double* screenX, double* screenY) {
