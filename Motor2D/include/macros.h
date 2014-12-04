@@ -13,5 +13,6 @@
 #define DOUBLE(x) static_cast<double>(x)
 #define INT(x) static_cast<int>(x)
 #define CHARTOUI32(x) static_cast<uint32>(x)
+#define DOUBLETOUI32(x) static_cast<uint32>(x)
 
 #endif

@@ -64,7 +64,7 @@ public:
   virtual double GetRadius() const { return radius; }
 
   virtual void SetCollision(CollisionMode mode);
-  virtual void SetCollisionPixelData(const CollisionPixelData* colPixelData) { /* TAREA: Implementar */ }
+  virtual void SetCollisionPixelData(const CollisionPixelData* colPixelData) { this->colPixelData = colPixelData; }
   virtual const Collision* GetCollision() const { return collision; }
   virtual bool CheckCollision(Sprite* sprite);
   virtual bool CheckCollision(const Map* map);
@@ -75,7 +75,7 @@ public:
 
   
   virtual void RotateTo(int32 angle, double speed);
-  virtual void MoveTo(double x, double y, double speedX, double speedY = 0.0); //si se especifica una única velocidad, se traza la línea entre el origen y el objetivo y se mueve a esa velocidad por esa línea
+  virtual void MoveTo(double x, double y, double speedX, double speedY = 0.0); 
   virtual bool IsRotating() const { return rotating; }
   virtual bool IsMoving() const { return moving; } 
 

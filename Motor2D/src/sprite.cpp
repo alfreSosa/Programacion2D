@@ -3,7 +3,7 @@
 #include "../include/image.h"
 //#include "../include/map.h"
 #include "../include/math.h"
-//#include "../include/pixelcollision.h"
+#include "../include/pixelcollision.h"
 #include "../include/renderer.h"
 #include "../include/circlecollision.h"
 
@@ -16,9 +16,9 @@ Sprite::Sprite(Image* image) {
     scalex = 1;
     scaley = 1;
     blendMode = Renderer::BlendMode::ALPHA;
-    r = 0;
-    g = 0;
-    b = 0;
+    r = 255;
+    g = 255;
+    b = 255;
     a = 255;
     userData = NULL;
     currentFrame = 0.0;
@@ -37,6 +37,12 @@ Sprite::Sprite(Image* image) {
     firstFrame = 0;
     lastFrame = 0;
     currentFrame = 0.0;
+
+    collision = NULL;
+    collided = false;
+    colx = coly = colwidth = colheight = radius = 0.0;
+    colPixelData = NULL;
+    colSprite = NULL;
 }
 
 Sprite::~Sprite() {
@@ -52,10 +58,10 @@ void Sprite::SetCollision(CollisionMode mode) {
      collision = NULL;
     break;
   case Sprite::COLLISION_CIRCLE:
-    collision = new CircleCollision(&colx, &coly, &radius);
+    collision = new CircleCollision(&x,&y, &radius);
     break;
   case Sprite::COLLISION_PIXEL:
-    collision = NULL;
+    collision = new PixelCollision(colPixelData,&colx,&coly);
     break;
   case Sprite::COLLISION_RECT:
     collision = new RectCollision(&colx, &coly, &colwidth, &colheight);
@@ -137,14 +143,13 @@ void Sprite::Update(double elapsed, const Map* map) {
 	colSprite = NULL;
 	collided = false;
 
-	// TAREA: Actualizar animacion
-  //aqui fps
+	//Actualizar animacion
   if (animFPS != 0){
     currentFrame += animFPS * elapsed;
     if (currentFrame <= firstFrame) currentFrame = DOUBLE(lastFrame) + 0.9999 ; //Le damos tiempo a la ultima
     if (currentFrame >= (lastFrame + 1)) currentFrame = DOUBLE(firstFrame);
   }
-	// TAREA: Actualizar rotacion animada
+	//Actualizar rotacion animada
   if (rotating){
     this->angle = WrapValue(this->angle + rotatingSpeed * elapsed, 360);
     anglesToRotate -= abs(rotatingSpeed * elapsed);
@@ -154,7 +159,7 @@ void Sprite::Update(double elapsed, const Map* map) {
       rotating = false;
     }
   }
-	// TAREA: Actualizar movimiento animado
+  //Actualizar movimiento
   if (moving)
   {
     this->x += movingSpeedX * elapsed;
