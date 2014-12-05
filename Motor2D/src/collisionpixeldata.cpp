@@ -13,7 +13,7 @@ CollisionPixelData::CollisionPixelData(const String& filename)
     width= static_cast<uint16>(x);
     height = static_cast<uint16>(y);
 
-    data = (bool *) malloc(width * height * sizeof(bool));
+    data = (bool *) malloc (width * height);
     //data = new bool(width*height);
     if (data)
     {
