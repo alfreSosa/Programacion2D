@@ -5,7 +5,7 @@
 #include "affector.h"
 #include "bone.h"
 #include "camera.h"
-//#include "collisionpixeldata.h"
+#include "collisionpixeldata.h"
 #include "emitter.h"
 #include "font.h"
 #include "glinclude.h"

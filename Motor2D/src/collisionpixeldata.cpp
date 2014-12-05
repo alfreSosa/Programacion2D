@@ -3,22 +3,23 @@
 
 CollisionPixelData::CollisionPixelData(const String& filename)
 {
-  int x, y;
+  int x, y,comp;
   this->filename = filename;
   width = height = 0;
   data = NULL;
-  uint8 *buffer = stbi_load(filename.ToCString(), &x, &y, NULL, 4);
+  uint8 *buffer = stbi_load(filename.ToCString(), &x, &y, &comp, 4);
   if (buffer)
   {
     width= static_cast<uint16>(x);
-    width = static_cast<uint16>(y);
+    height = static_cast<uint16>(y);
 
-    data = new bool(width*height);
+    data = (bool *) malloc(width * height * sizeof(bool));
+    //data = new bool(width*height);
     if (data)
     {
         for (uint32 i = 0; i < height; i++)
           for (uint32 j = 0; j < width; j++)
-            buffer[(i * width + j) * 4 + 3] == 0 ? data[i * width + j] = false : data[i * width + j] = true;
+            data[i * width + j] = (buffer[(i * width + j) * 4 + 3] == 0) ? false : true;
     }
     stbi_image_free(buffer);
   }

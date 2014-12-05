@@ -20,6 +20,8 @@ void practica7B();
 void practica8();
 void practica8B();
 void practica9();
+void practica9B();
+
 
 
 //Estructura para ejercicio4A-6
@@ -30,10 +32,82 @@ struct Velocidades
 };
 
 int main(int argc, char* argv[]) {
-  double x, y, w, h;
-  OverlappingRect(0, 0, 10, 10, 9, 7, 15, 15, &x, &y, &w, &h);
+  practica9B();
   //practica9();
   return 0;
+}
+void practica9B()
+{
+  SCREEN.Open(800, 600, false);
+  Image *pel = RESOURCE.LoadImage("data/ball.png");
+  pel->SetMidHandle();
+  Image *caja = RESOURCE.LoadImage("data/box.jpg");
+  caja->SetMidHandle();
+  Image *circle = RESOURCE.LoadImage("data/circle.png");
+  circle->SetMidHandle();
+  Image *rect = RESOURCE.LoadImage("data/rect.png");
+  rect->SetMidHandle();
+  Image *alien = RESOURCE.LoadImage("data/alien.png");
+  alien->SetMidHandle();
+
+  Scene *escena = new Scene();
+
+  Sprite *ball = escena->CreateSprite(pel);
+  ball->SetPosition(SCREEN.GetWidth() / 4, SCREEN.GetHeight() / 4);
+  ball->SetRadius(pel->GetHeight() / 2.0);
+  ball->SetCollision(Sprite::COLLISION_CIRCLE);
+
+  Sprite *box = escena->CreateSprite(caja);
+  box->SetPosition(SCREEN.GetWidth() * 3 / 4, SCREEN.GetHeight() * 3 / 4);
+  box->SetCollision(Sprite::COLLISION_RECT);
+
+  Sprite *puntero = escena->CreateSprite(circle);
+  puntero->SetRadius(circle->GetHeight() / 2.0);
+  puntero->SetCollision(Sprite::COLLISION_CIRCLE);
+
+  Sprite *heli = escena->CreateSprite(alien);
+  heli->SetPosition(SCREEN.GetWidth() / 4, SCREEN.GetHeight() * 3 / 4);
+  CollisionPixelData *col = new CollisionPixelData("data/aliencol.png");
+  heli->SetCollisionPixelData(col);
+  heli->SetCollision(Sprite::COLLISION_PIXEL);
+  
+  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  {
+    RENDER.Clear(0, 0, 0);
+    puntero->SetPosition(SCREEN.GetMouseX(), SCREEN.GetMouseY());
+    if (SCREEN.MouseButtonPressed(GLFW_MOUSE_BUTTON_1)){
+      puntero->SetImage(circle);
+      puntero->SetRadius(circle->GetHeight() / 2.0);
+      puntero->SetCollision(Sprite::COLLISION_CIRCLE);
+    }
+    if (SCREEN.MouseButtonPressed(GLFW_MOUSE_BUTTON_2)){
+      puntero->SetImage(rect);
+      puntero->SetCollision(Sprite::COLLISION_RECT);
+    }
+   if (SCREEN.KeyPressed(GLFW_KEY_TAB)){
+      puntero->SetImage(alien);
+      puntero->SetCollisionPixelData(col);
+      puntero->SetCollision(Sprite::COLLISION_PIXEL);
+      
+    }
+
+    if (ball->DidCollide()) ball->SetColor(255, 0, 0);
+    else ball->SetColor(255, 255, 255);
+
+    if (box->DidCollide()) box->SetColor(255, 0, 0);
+    else box->SetColor(255, 255, 255);
+
+    if (puntero->DidCollide()) puntero->SetColor(0, 255, 0);
+    else puntero->SetColor(255, 255, 255);
+
+    escena->Update(SCREEN.ElapsedTime());
+    escena->Render();
+    SCREEN.Refresh();
+
+  }
+  delete col;
+  delete escena;
+  RESOURCE.FreeResources();
 }
 void practica9()
 {
