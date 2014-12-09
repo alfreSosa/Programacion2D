@@ -50,15 +50,16 @@ bool CollisionManager::CircleToPixels(double cx, double cy, double cr, const Col
   
   if (RectsOverlap(px, py, pixels->GetWidth(), pixels->GetHeight(), cx - cr, cy - cr, cr + cr, cr + cr))
   {
+   
     double outx, outy, outwidth, outheight;
     OverlappingRect(px, py, pixels->GetWidth(), pixels->GetHeight(), cx - cr, cy - cr, cr + cr, cr + cr, &outx, &outy, &outwidth, &outheight);
-
+      
     uint32 ox1 = DOUBLETOUI32(outx - px);
     uint32 oy1 = DOUBLETOUI32(outy - py);
 
     for (uint32 i = 0; i < DOUBLETOUI32(outheight); i++)
       for (uint32 j = 0; j < DOUBLETOUI32(outwidth); j++)
-        if (pixels->GetData(j + ox1, i + oy1))
+        if (pixels->GetData(j + ox1, i + oy1) ) // && Distance(cx, cy, j + ox1, i + oy1) <= cr
           return true;
   }
   return false;

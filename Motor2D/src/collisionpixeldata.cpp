@@ -13,7 +13,7 @@ CollisionPixelData::CollisionPixelData(const String& filename)
     width= static_cast<uint16>(x);
     height = static_cast<uint16>(y);
 
-    data = (bool *)calloc(width * height, sizeof(bool));
+    data = (bool *) malloc(width * height * sizeof(bool));
     if (data)
     {
       for (uint32 i = 0; i < height; i++)
@@ -26,7 +26,7 @@ CollisionPixelData::CollisionPixelData(const String& filename)
 CollisionPixelData::~CollisionPixelData()
 {
   if (data)
-    delete []data;
+    free(data);
 }
 bool CollisionPixelData::IsValid() const
 {

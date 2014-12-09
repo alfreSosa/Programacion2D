@@ -34,6 +34,15 @@
     <Filter Include="Header Files\Font">
       <UniqueIdentifier>{223bdd89-5ef7-4d36-9eb9-0818d356eebd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\engine\Sprites">
+      <UniqueIdentifier>{c506b742-b1b4-4e44-95f3-bbf4723e669f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\engine\Scene">
+      <UniqueIdentifier>{8f48ffc9-009e-43f5-92aa-871b19583456}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\engine\Collision">
+      <UniqueIdentifier>{8ffafda6-acaa-4891-8a45-91e811fa6d9c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -45,56 +54,56 @@
     <ClCompile Include="src\renderer.cpp">
       <Filter>Source Files\engine</Filter>
     </ClCompile>
-    <ClCompile Include="src\screen.cpp">
-      <Filter>Source Files\engine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\image.cpp">
-      <Filter>Source Files\engine</Filter>
-    </ClCompile>
     <ClCompile Include="src\resourcemanager.cpp">
-      <Filter>Source Files\engine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sprite.cpp">
-      <Filter>Source Files\engine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\bone.cpp">
-      <Filter>Source Files\engine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\skeletondata.cpp">
-      <Filter>Source Files\engine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\skeletonsprite.cpp">
       <Filter>Source Files\engine</Filter>
     </ClCompile>
     <ClCompile Include="src\font.cpp">
       <Filter>Source Files\engine</Filter>
     </ClCompile>
-    <ClCompile Include="src\scene.cpp">
-      <Filter>Source Files\engine</Filter>
+    <ClCompile Include="src\affector.cpp">
+      <Filter>Source Files\engine\Sprites</Filter>
     </ClCompile>
-    <ClCompile Include="src\camera.cpp">
-      <Filter>Source Files\engine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\parallaxscene.cpp">
-      <Filter>Source Files\engine</Filter>
+    <ClCompile Include="src\bone.cpp">
+      <Filter>Source Files\engine\Sprites</Filter>
     </ClCompile>
     <ClCompile Include="src\emitter.cpp">
-      <Filter>Source Files\engine</Filter>
+      <Filter>Source Files\engine\Sprites</Filter>
+    </ClCompile>
+    <ClCompile Include="src\image.cpp">
+      <Filter>Source Files\engine\Sprites</Filter>
     </ClCompile>
     <ClCompile Include="src\particle.cpp">
-      <Filter>Source Files\engine</Filter>
+      <Filter>Source Files\engine\Sprites</Filter>
     </ClCompile>
-    <ClCompile Include="src\affector.cpp">
-      <Filter>Source Files\engine</Filter>
+    <ClCompile Include="src\skeletondata.cpp">
+      <Filter>Source Files\engine\Sprites</Filter>
     </ClCompile>
-    <ClCompile Include="src\collisionmanager.cpp">
-      <Filter>Source Files\engine</Filter>
+    <ClCompile Include="src\skeletonsprite.cpp">
+      <Filter>Source Files\engine\Sprites</Filter>
     </ClCompile>
-    <ClCompile Include="src\collisionpixeldata.cpp">
-      <Filter>Source Files\engine</Filter>
+    <ClCompile Include="src\sprite.cpp">
+      <Filter>Source Files\engine\Sprites</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene.cpp">
+      <Filter>Source Files\engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\screen.cpp">
+      <Filter>Source Files\engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\parallaxscene.cpp">
+      <Filter>Source Files\engine\Scene</Filter>
     </ClCompile>
     <ClCompile Include="src\map.cpp">
-      <Filter>Source Files\engine</Filter>
+      <Filter>Source Files\engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\camera.cpp">
+      <Filter>Source Files\engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\collisionmanager.cpp">
+      <Filter>Source Files\engine\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\collisionpixeldata.cpp">
+      <Filter>Source Files\engine\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
