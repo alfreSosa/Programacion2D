@@ -51,7 +51,7 @@ void practica9B()
   alien->SetMidHandle();
 
   Scene *escena = new Scene();
-
+  
   Sprite *ball = escena->CreateSprite(pel);
   ball->SetPosition(SCREEN.GetWidth() / 4, SCREEN.GetHeight() / 4);
   ball->SetRadius(pel->GetHeight() / 2.0);
@@ -90,6 +90,9 @@ void practica9B()
       puntero->SetCollision(Sprite::COLLISION_PIXEL);
       
     }
+
+    if (heli->DidCollide()) heli->SetColor(255, 0, 0);
+    else heli->SetColor(255, 255, 255);
 
     if (ball->DidCollide()) ball->SetColor(255, 0, 0);
     else ball->SetColor(255, 255, 255);
