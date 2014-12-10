@@ -30,7 +30,7 @@ struct Velocidades
   double x;
   double y;
 };
-
+/*PREGUNTAR JAVIER WARNINGS DE ARRAY, DESTRUCTOR; PARTICULAS Y AFFECTORES*/
 int main(int argc, char* argv[]) {
   practica9B();
   //practica9();

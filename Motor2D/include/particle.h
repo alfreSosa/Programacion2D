@@ -11,6 +11,7 @@ class Particle : public Sprite
 public:
   Particle();
   Particle(Image* image, double velx, double vely, double angularVel, double lifetime, bool autofade);
+  ~Particle(){ lifetime = 0.0;};
   virtual double GetLifetime() const { return lifetime; };
   virtual void Update(double elapsed);
   virtual void setVelocityX(double vel) { velocityx = vel; };

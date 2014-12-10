@@ -12,6 +12,52 @@ using namespace rapidxml;
 
 Map::Map(const String &filename, uint16 firstColId) {
 	// TAREA: Implementar constructor
+  this->filename = filename;
+  this->firstColId = firstColId;
+  valid = false;
+  String contenido = String::Read(filename);
+  if(contenido != ""){
+    xml_document<> doc;
+    //NODO MAPA
+    doc.parse<0>((char *)contenido.ToCString());
+    xml_node<>* map = doc.first_node("map");
+    String aux = (char *)map->first_attribute("width");
+    width = static_cast<uint16>(aux.ToInt());
+    aux = (char *)map->first_attribute("height");
+    height = static_cast<uint16>(aux.ToInt());
+    aux = (char *)map->first_attribute("tileWidth");
+    tileWidth = static_cast<uint16>(aux.ToInt());
+    aux = (char *)map->first_attribute("tileHeight");
+    tileHeight = static_cast<uint16>(aux.ToInt());
+    //NODO TILESET
+    xml_node<>* tileset = map->first_node("tileset");
+    aux = (char *)tileset->first_attribute("firstgid");
+    int firstgid = aux.ToInt();
+    aux = (char *)tileset->first_attribute("tilewidth");
+    int tilewidth = aux.ToInt();
+    aux = (char *)tileset->first_attribute("tileheight");
+    int tileheight = aux.ToInt();
+    //tileoffset
+    xml_node<>* tileoffset = NULL;
+    int x = 0, y = 0 ;
+    tileoffset = tileset->first_node("tileoffset");
+    if(tileoffset){
+      aux = (char *)tileoffset->first_attribute("x");
+      x = aux.ToInt();
+      aux = (char *)tileoffset->first_attribute("y");
+      y = aux.ToInt();
+    }
+    //image
+    xml_node<>* imagen = tileset->first_node("image");
+    String imagenFile = (char *)imagen->first_attribute("source");
+    String ruta = imagenFile.ExtractDir();
+    this->imageFile = ruta + imagenFile;
+    //faltan width y heigth de este elemeto
+
+
+
+    valid = true;
+  }
 }
 
 void Map::Render() const {

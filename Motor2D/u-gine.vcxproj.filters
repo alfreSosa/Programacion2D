@@ -105,6 +105,9 @@
     <ClCompile Include="src\collisionpixeldata.cpp">
       <Filter>Source Files\engine\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="src\mapscene.cpp">
+      <Filter>Source Files\engine\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\glinclude.h">
@@ -208,6 +211,9 @@
     </ClInclude>
     <ClInclude Include="include\image.h">
       <Filter>Header Files\Sprites</Filter>
+    </ClInclude>
+    <ClInclude Include="include\mapscene.h">
+      <Filter>Header Files\Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

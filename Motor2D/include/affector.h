@@ -8,6 +8,7 @@ class Affector
 {
 public:
   Affector(bool color = false, bool velX = false, bool velY = false, bool velAng = false);
+  ~Affector() { modificarColor = modificarVelX =  modificarVelY = modificarVelAng = false; };
   virtual void setAncho(double orig, double fin) { origAncho = orig; finAncho = fin; };
   virtual void setAlto(double orig, double fin) { origAlto = orig; finAlto = fin; };
   virtual void SetVelocityX(double minvelx, double maxvelx)  { this->minvelx = (maxvelx == minvelx) ? 0 : minvelx; this->maxvelx = maxvelx; };
