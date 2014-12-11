@@ -17,8 +17,8 @@ public:
   virtual bool PixelsToRect(const CollisionPixelData *pixels, double px, double py, double rx, double ry, double rw, double rh) const;
   virtual bool RectToRect(double x1, double y1, double w1, double h1, double x2, double y2, double w2, double h2) const;
 protected:
-  CollisionManager() {};
-  virtual ~CollisionManager() {};
+  CollisionManager() {}
+  virtual ~CollisionManager() {}
 private:
   static CollisionManager *manager;
 
