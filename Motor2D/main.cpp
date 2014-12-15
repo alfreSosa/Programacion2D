@@ -23,16 +23,13 @@ void practica9();
 void practica9B();
 void practica10();
 
-/*isometica
-siempre el ancho, errata de la formula del enunciado, usar width no height*/
-
 //Estructura para ejercicio4A-6
 struct Velocidades
 {
   double x;
   double y;
 };
-/*PREGUNTAR JAVIER WARNINGS DE ARRAY, DESTRUCTOR; PARTICULAS Y AFFECTORES*/
+
 int main(int argc, char* argv[]) {
   //practica9B();
   //practica9();

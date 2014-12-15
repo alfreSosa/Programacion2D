@@ -46,6 +46,7 @@ Sprite::Sprite(Image* image) {
 }
 
 Sprite::~Sprite() {
+  if (collision) delete collision;
 }
 
 

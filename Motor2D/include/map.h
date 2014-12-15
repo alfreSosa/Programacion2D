@@ -27,6 +27,8 @@ public:
     virtual int32 GetTileId(uint16 column, uint16 row) const { return tileIds[row*GetColumns() + column]; }
     virtual double GetGroundY(double x, double y) const;
     virtual uint16 GetFirstColId() const { return firstColId; }
+protected:
+  virtual void SetValid(bool valid) { this->valid = valid; }
 private:
     bool valid;
     String filename;

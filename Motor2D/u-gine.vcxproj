@@ -20,6 +20,8 @@
     <ClCompile Include="src\emitter.cpp" />
     <ClCompile Include="src\font.cpp" />
     <ClCompile Include="src\image.cpp" />
+    <ClCompile Include="src\isometricmap.cpp" />
+    <ClCompile Include="src\isometricsprite.cpp" />
     <ClCompile Include="src\map.cpp" />
     <ClCompile Include="src\mapscene.cpp" />
     <ClCompile Include="src\math.cpp" />
@@ -49,6 +51,8 @@
     <ClInclude Include="include\glinclude.h" />
     <ClInclude Include="include\glyph.h" />
     <ClInclude Include="include\image.h" />
+    <ClInclude Include="include\isometricmap.h" />
+    <ClInclude Include="include\isometricsprite.h" />
     <ClInclude Include="include\macros.h" />
     <ClInclude Include="include\map.h" />
     <ClInclude Include="include\mapscene.h" />
