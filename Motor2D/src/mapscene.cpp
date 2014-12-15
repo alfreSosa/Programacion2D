@@ -5,7 +5,7 @@
 
 MapScene::MapScene(Map* map, Image* imageBack, Image* imageFront) : ParallaxScene(imageBack,imageFront)
 {
-  map = (map) ? map: NULL;
+  this->map = (map) ? map : NULL;
 }
 
 const Map * MapScene::GetMap() const 

@@ -21,6 +21,7 @@ void practica8();
 void practica8B();
 void practica9();
 void practica9B();
+void practica10();
 
 
 
@@ -32,9 +33,45 @@ struct Velocidades
 };
 /*PREGUNTAR JAVIER WARNINGS DE ARRAY, DESTRUCTOR; PARTICULAS Y AFFECTORES*/
 int main(int argc, char* argv[]) {
-  practica9B();
+  //practica9B();
   //practica9();
+  practica10();
   return 0;
+}
+void practica10()
+{
+  SCREEN.Open(800, 600, false);
+  Image *alien = RESOURCE.LoadImage("data/alien.png");
+  alien->SetMidHandle();
+  
+  Map *mapa = RESOURCE.LoadMap("data/map.tmx");
+  MapScene *escena = new MapScene(mapa);
+  Sprite *heli = escena->CreateSprite(alien);
+  heli->SetPosition(SCREEN.GetWidth() / 2.0, SCREEN.GetHeight() / 2.0);
+  heli->SetCollision(Sprite::COLLISION_RECT);
+  escena->GetCamera().FollowSprite(heli);
+  escena->GetCamera().SetBounds(0.0, 0.0, escena->GetMap()->GetWidth(), escena->GetMap()->GetHeight());
+  double posX = SCREEN.GetWidth() / 2.0;
+  double posY = SCREEN.GetHeight() / 2.0;
+  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  {
+    RENDER.Clear(255, 255, 255);
+    if (glfwGetKey(GLFW_KEY_UP))
+      posY -= 100.0 * SCREEN.ElapsedTime();
+    if (glfwGetKey(GLFW_KEY_DOWN))
+      posY += 100.0 * SCREEN.ElapsedTime();
+    if (glfwGetKey(GLFW_KEY_RIGHT))
+      posX += 100.0 * SCREEN.ElapsedTime();
+    if (glfwGetKey(GLFW_KEY_LEFT))
+      posX -= 100.0 * SCREEN.ElapsedTime();
+
+    heli->SetPosition(posX, posY);
+    escena->Update(SCREEN.ElapsedTime());
+    escena->Render();
+    SCREEN.Refresh();
+  }
+  delete escena;
+  RESOURCE.FreeResources();
 }
 void practica9B()
 {

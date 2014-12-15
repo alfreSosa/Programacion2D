@@ -21,42 +21,61 @@ Map::Map(const String &filename, uint16 firstColId) {
     //NODO MAPA
     doc.parse<0>((char *)contenido.ToCString());
     xml_node<>* map = doc.first_node("map");
-    String aux = (char *)map->first_attribute("width");
+    String aux = (char *)map->first_attribute("width")->value();
     width = static_cast<uint16>(aux.ToInt());
-    aux = (char *)map->first_attribute("height");
+    aux = (char *)map->first_attribute("height")->value();
     height = static_cast<uint16>(aux.ToInt());
-    aux = (char *)map->first_attribute("tileWidth");
+    aux = (char *)map->first_attribute("tilewidth")->value();
     tileWidth = static_cast<uint16>(aux.ToInt());
-    aux = (char *)map->first_attribute("tileHeight");
+    aux = (char *)map->first_attribute("tileheight")->value();
     tileHeight = static_cast<uint16>(aux.ToInt());
     //NODO TILESET
     xml_node<>* tileset = map->first_node("tileset");
-    aux = (char *)tileset->first_attribute("firstgid");
+    aux = (char *)tileset->first_attribute("firstgid")->value();
     int firstgid = aux.ToInt();
-    aux = (char *)tileset->first_attribute("tilewidth");
+    aux = (char *)tileset->first_attribute("tilewidth")->value();
     int tilewidth = aux.ToInt();
-    aux = (char *)tileset->first_attribute("tileheight");
+    aux = (char *)tileset->first_attribute("tileheight")->value();
     int tileheight = aux.ToInt();
     //tileoffset
     xml_node<>* tileoffset = NULL;
     int x = 0, y = 0 ;
     tileoffset = tileset->first_node("tileoffset");
     if(tileoffset){
-      aux = (char *)tileoffset->first_attribute("x");
+      aux = (char *)tileoffset->first_attribute("x")->value();
       x = aux.ToInt();
-      aux = (char *)tileoffset->first_attribute("y");
+      aux = (char *)tileoffset->first_attribute("y")->value();
       y = aux.ToInt();
     }
     //image
     xml_node<>* imagen = tileset->first_node("image");
-    String imagenFile = (char *)imagen->first_attribute("source");
-    String ruta = imagenFile.ExtractDir();
-    this->imageFile = ruta + imagenFile;
-    //faltan width y heigth de este elemeto
+    String imagenFile = (char *)imagen->first_attribute("source")->value();
+    this->imageFile = imagenFile.StripDir();
+    //this->imageFile = ruta + imagenFile;
+    int imageWidth, imageHeight;
+    aux = (char *)imagen->first_attribute("width")->value();
+    imageWidth = aux.ToInt();
+    aux = (char *)imagen->first_attribute("height")->value();
+    imageHeight = aux.ToInt();
+    //layer
+    xml_node<>* layer = map->first_node("layer");
+    xml_node<>* data = layer->first_node("data");
+    //Compresion no soportada
+    if (data->first_attribute("compression")) return;
+    if (data->first_attribute("encoding")) return;
 
-
-
-    valid = true;
+    xml_node<> *tile = data->first_node("tile");
+    while (tile != NULL)
+    {
+      aux = (char *)tile->first_attribute("gid")->value();
+      tileIds.Add(aux.ToInt() - firstgid);
+      tile = tile->next_sibling("tile");
+    }
+    String fichero = filename.ExtractDir() + "/"+ imageFile; //poner barra aqui sin mas?
+    image = RESOURCE.LoadImage(fichero, imageWidth / tileWidth, imageHeight / tileHeight);
+    image->SetHandle(x, y);
+    if (image->IsValid())
+      valid = true; 
   }
 }
 
