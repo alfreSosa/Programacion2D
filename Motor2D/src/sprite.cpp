@@ -1,7 +1,7 @@
 #include "../include/sprite.h"
 #include "../include/rectcollision.h"
 #include "../include/image.h"
-//#include "../include/map.h"
+#include "../include/map.h"
 #include "../include/math.h"
 #include "../include/pixelcollision.h"
 #include "../include/renderer.h"
@@ -91,7 +91,12 @@ bool Sprite::CheckCollision(Sprite* sprite) {
 }
 
 bool Sprite::CheckCollision(const Map* map) {
-	// TAREA: Implementar
+  if (map){
+    if (collision)
+    {
+      return map->CheckCollision(collision);
+    }
+  }
   return false;
 }
 
@@ -162,21 +167,39 @@ void Sprite::Update(double elapsed, const Map* map) {
   //Actualizar movimiento
   if (moving)
   {
+    double auxX = this->x;
+    double auxY = this->y;
     this->x += movingSpeedX * elapsed;
+    bool abortarX = false;
+    bool abortarY = false;
+
+    UpdateCollisionBox();
+    abortarX = CheckCollision(map);
+    if (abortarX)
+      this->x = auxX;
+
     this->y += movingSpeedY * elapsed;
+    UpdateCollisionBox();
+    abortarY = CheckCollision(map);
+    if (abortarY)
+      this->y = auxY;
+    if (abortarX && abortarY) moving = false;
 
-    prevX -= movingSpeedX * elapsed;
-    if (prevX <= 0.00001)
-    {
-      this->x = toX;
-      moving = false;
+    if (!abortarX){
+      prevX -= movingSpeedX * elapsed;
+      if (prevX <= 0.00001)
+      {
+        this->x = toX;
+        moving = false;
+      }
     }
-
-    prevY -= movingSpeedY * elapsed;
-    if (prevY <= 0.00001)
-    {
-      this->y = toY;
-      moving = false;
+    if (!abortarY){
+      prevY -= movingSpeedY * elapsed;
+      if (prevY <= 0.00001)
+      {
+        this->y = toY;
+        moving = false;
+      }
     }
   }
 	// Informacion final de colision

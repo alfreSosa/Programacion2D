@@ -29,7 +29,7 @@ public:
   virtual bool IsEmitting() const { return emitting; }
   virtual void Update(double elapsed);
   virtual void Render() const;
-  virtual void addAffector(Affector afectador);
+  virtual void addAffector(Affector *afectador);
 private:
   Image* image;
   bool autofade;
@@ -43,7 +43,7 @@ private:
   uint8 maxr, maxg, maxb;
   Renderer::BlendMode blendMode;
   bool emitting;
-  Array<Particle> particles;
-  Array<Affector> afectores;
+  Array<Particle *> particles;
+  Array<Affector *> afectores;
 };
 #endif

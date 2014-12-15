@@ -57,7 +57,7 @@ void Emitter::Update(double elapsed)
       double velPy = (minvely == 0 && maxvely == 0) ? 0 : WrapValue(rand(), maxvelx - minvelx) + minvely;
       double velPangle = (minangvel == 0 && maxangvel == 0) ? 0 : WrapValue(rand(), maxangvel - minangvel) + minangvel;
       double timeP = (minlifetime == 0 && maxlifetime == 0) ? 0 : WrapValue(rand(), maxlifetime - minlifetime) + minlifetime;
-      Particle nueva(image, velPx, velPy, velPangle, timeP, autofade);
+      Particle *nueva = new Particle(image, velPx, velPy, velPangle, timeP, autofade);
 
       uint8 rP;
       if (maxr == 0 && minr == 0) rP = 0;
@@ -71,31 +71,33 @@ void Emitter::Update(double elapsed)
       if (maxb == 0 && minb == 0) bP = 0;
       else bP = (maxb == minb) ? maxb : rand() % (maxb - minb) + minb;
       
-      nueva.SetColor(rP, gP, bP);
-      nueva.SetBlendMode(blendMode);
-      nueva.SetPosition(this->GetX(), this->GetY());
+      nueva->SetColor(rP, gP, bP);
+      nueva->SetBlendMode(blendMode);
+      nueva->SetPosition(this->GetX(), this->GetY());
       particles.Add(nueva);
     }
   }
   for (uint32 i = 0; i < afectores.Size(); i++)
     for (uint32 j = 0; j < particles.Size(); j++)
-      if (!particles[j].isAfected())
-        particles[j] = afectores[i].Afectar(particles[j]);
+      if (!particles[j]->isAfected())
+        afectores[i]->Afectar(particles[j]);
 
   for (uint32 i = 0; i < particles.Size(); i++)
   {
-    particles[i].Update(elapsed);
-    if (particles[i].GetLifetime() <= 0)
+    particles[i]->Update(elapsed);
+    if (particles[i]->GetLifetime() <= 0){
+      delete particles[i];
       particles.RemoveAt(i--);
+    }
   }
 }
 void Emitter::Render() const
 {
   for (uint32 i = 0; i < particles.Size(); i++)
-    particles[i].Render();
+    particles[i]->Render();
 }
 
-void Emitter::addAffector(Affector afectador)
+void Emitter::addAffector(Affector *afectador)
 {
   afectores.Add(afectador); 
 }

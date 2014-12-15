@@ -45,20 +45,19 @@ uint8 Affector::getNuevoBlue() const
   return (maxb == minb) ? maxb : rand() % (maxb - minb) + minb;
 }
 
-Particle Affector::Afectar(Particle particula)
+void Affector::Afectar(Particle *particula)
 {
-  if (particula.GetX() >= origAncho && particula.GetX() <= finAncho)
-    if (particula.GetY() >= origAlto && particula.GetY() <= finAlto)
+  if (particula->GetX() >= origAncho && particula->GetX() <= finAncho)
+    if (particula->GetY() >= origAlto && particula->GetY() <= finAlto)
     {
       if (modificarColor)
-        particula.SetColor(getNuevoRed(), getNuevoGreen(), getNuevoBlue());
+        particula->SetColor(getNuevoRed(), getNuevoGreen(), getNuevoBlue());
       if (modificarVelX)
-        particula.setVelocityX(getNuevaVelX());
+        particula->setVelocityX(getNuevaVelX());
       if (modificarVelY)
-        particula.setVelocityX(getNuevaVelY());
+        particula->setVelocityX(getNuevaVelY());
       if (modificarVelAng)
-        particula.setVelocityAng(getNuevaAngleVel());
-      particula.Alter();
+        particula->setVelocityAng(getNuevaAngleVel());
+      particula->Alter();
     }
-  return particula;
 }

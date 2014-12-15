@@ -23,7 +23,8 @@ void practica9();
 void practica9B();
 void practica10();
 
-
+/*isometica
+siempre el ancho, errata de la formula del enunciado, usar width no height*/
 
 //Estructura para ejercicio4A-6
 struct Velocidades
@@ -42,13 +43,18 @@ void practica10()
 {
   SCREEN.Open(800, 600, false);
   Image *alien = RESOURCE.LoadImage("data/alien.png");
+  Image* nubes = RESOURCE.LoadImage("data/clouds.png");
   alien->SetMidHandle();
   
   Map *mapa = RESOURCE.LoadMap("data/map.tmx");
-  MapScene *escena = new MapScene(mapa);
+  MapScene *escena = new MapScene(mapa,nubes);
+  escena->SetBackgroundColor(0, 10, 255);
+  escena->SetAutoBackSpeed(50.0, 0);
   Sprite *heli = escena->CreateSprite(alien);
   heli->SetPosition(SCREEN.GetWidth() / 2.0, SCREEN.GetHeight() / 2.0);
-  heli->SetCollision(Sprite::COLLISION_RECT);
+  heli->SetRadius(alien->GetHeight() / 2.0);
+  heli->SetCollision(Sprite::COLLISION_CIRCLE);
+  
   escena->GetCamera().FollowSprite(heli);
   escena->GetCamera().SetBounds(0.0, 0.0, escena->GetMap()->GetWidth(), escena->GetMap()->GetHeight());
   double posX = SCREEN.GetWidth() / 2.0;
@@ -56,16 +62,18 @@ void practica10()
   while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
   {
     RENDER.Clear(255, 255, 255);
+    posY = heli->GetY();
+    posX = heli->GetX();
     if (glfwGetKey(GLFW_KEY_UP))
-      posY -= 100.0 * SCREEN.ElapsedTime();
+      posY -= 250.0 * SCREEN.ElapsedTime();
     if (glfwGetKey(GLFW_KEY_DOWN))
-      posY += 100.0 * SCREEN.ElapsedTime();
+      posY += 250.0 * SCREEN.ElapsedTime();
     if (glfwGetKey(GLFW_KEY_RIGHT))
-      posX += 100.0 * SCREEN.ElapsedTime();
+      posX += 250.0 * SCREEN.ElapsedTime();
     if (glfwGetKey(GLFW_KEY_LEFT))
-      posX -= 100.0 * SCREEN.ElapsedTime();
+      posX -= 250.0 * SCREEN.ElapsedTime();
 
-    heli->SetPosition(posX, posY);
+    heli->MoveTo(posX, posY,100.0,100.0);
     escena->Update(SCREEN.ElapsedTime());
     escena->Render();
     SCREEN.Refresh();
@@ -249,8 +257,8 @@ void practica8B()
     emisor->SetMinColor(0, 0, 0);
     emisor->SetMaxColor(255, 255, 255);
 
-    emisor->addAffector(af1);
-    emisor->addAffector(af2);
+    emisor->addAffector(&af1);
+    emisor->addAffector(&af2);
 
   }
 

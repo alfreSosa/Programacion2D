@@ -71,7 +71,12 @@ Map::Map(const String &filename, uint16 firstColId) {
       tileIds.Add(aux.ToInt() - firstgid);
       tile = tile->next_sibling("tile");
     }
-    String fichero = filename.ExtractDir() + "/"+ imageFile; //poner barra aqui sin mas?
+    String ruta = filename.ExtractDir();
+    String fichero;
+    if (ruta != "")
+      fichero = ruta + "/"+ imageFile;
+    else
+      fichero = imageFile;
     image = RESOURCE.LoadImage(fichero, imageWidth / tileWidth, imageHeight / tileHeight);
     image->SetHandle(x, y);
     if (image->IsValid())
@@ -80,13 +85,13 @@ Map::Map(const String &filename, uint16 firstColId) {
 }
 
 void Map::Render() const {
-	for ( uint16 y = 0; y < GetRows(); y++ ) {
-		for ( uint16 x = 0; x < GetColumns(); x++ ) {
-			if ( GetTileId(x, y) >= 0 ) {
-				Renderer::Instance().DrawImage(image, x*GetTileWidth(), y*GetTileHeight(), GetTileId(x, y));
-			}
-		}
-	}
+  for ( uint16 y = 0; y < GetRows(); y++ ) {
+    for ( uint16 x = 0; x < GetColumns(); x++ ) {
+      if ( GetTileId(x, y) >= 0 ) {
+        Renderer::Instance().DrawImage(image, x*GetTileWidth(), y*GetTileHeight(), GetTileId(x, y));
+      }
+    }
+  }
 }
 
 bool Map::CheckCollision(const Collision* collision) const {
