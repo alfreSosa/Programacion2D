@@ -79,5 +79,5 @@ void OverlappingRect(double x1, double y1, double width1, double height1, double
 
 void TransformIsoCoords(double isoX, double isoY, double isoZ, double* screenX, double* screenY) {
   *screenX = (isoX - isoY) * 0.89415423683;
-  *screenY = isoZ + (isoX + isoY) * -0.44775908783;
+  *screenY = isoZ + (isoX + isoY) * 0.44775908783;
 }

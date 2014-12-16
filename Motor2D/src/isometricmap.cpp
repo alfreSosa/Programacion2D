@@ -9,15 +9,20 @@ using namespace rapidxml;
 
 IsometricMap::IsometricMap(const String& filename, uint16 firstColId) : Map(filename,firstColId)
 {
-  //clase padre, lee el layer 1
-  //esta clase lee el segundo layer
   String contenido = String::Read(filename);
   if (contenido != ""){
     xml_document<> doc;
     //NODO MAPA
     doc.parse<0>((char *)contenido.ToCString());
     xml_node<>* map = doc.first_node("map");
-    String aux;
+    String aux = (char *)map->first_attribute("width")->value();
+    uint16 width = static_cast<uint16>(aux.ToInt());
+    aux = (char *)map->first_attribute("height")->value();
+    uint16 height = static_cast<uint16>(aux.ToInt());
+    aux = (char *)map->first_attribute("tilewidth")->value();
+    uint16 tileWidth = static_cast<uint16>(aux.ToInt());
+    aux = (char *)map->first_attribute("tileheight")->value();
+    uint16 tileHeight = static_cast<uint16>(aux.ToInt());
     //NODO TILESET
     xml_node<>* tileset = map->first_node("tileset");
     aux = (char *)tileset->first_attribute("firstgid")->value();
@@ -30,16 +35,6 @@ IsometricMap::IsometricMap(const String& filename, uint16 firstColId) : Map(file
     xml_node<>* layer = map->first_node("layer");
     layer = layer->next_sibling("layer");
     xml_node<>* data = layer->first_node("data");
-    //Compresion no soportada
-    if (data->first_attribute("compression")){ 
-      Map::SetValid(false);
-      return;
-    }
-    if (data->first_attribute("encoding")){
-      Map::SetValid(false);
-      return;
-    }
-
     xml_node<> *tile = data->first_node("tile");
     while (tile != NULL)
     {
@@ -47,14 +42,9 @@ IsometricMap::IsometricMap(const String& filename, uint16 firstColId) : Map(file
       topLayerIds.Add(aux.ToInt() - firstgid);
       tile = tile->next_sibling("tile");
     }
-    if (GetImage() == NULL || !GetImage()->IsValid())
-    {
-      Map::SetValid(false);
-      return;
-    }
-    uint32 x, y;
-    x = GetImage()->GetHandleX() + tilewidth;
-    y = GetImage()->GetHeight() - GetImage()->GetHandleY() - tileheight;
+    int32 x, y;
+    x = GetImage()->GetHandleX() + tileWidth;
+    y = GetImage()->GetHeight() - GetImage()->GetHandleY() - tileHeight;
     GetImage()->SetHandle(x, y);
   }
 }
@@ -68,10 +58,9 @@ void IsometricMap::GenerateLayerSprites(IsometricScene *scene)
         //se genera sprite
         IsometricSprite *nuevo = scene->CreateSprite(GetImage());
         nuevo->SetFrameRange(GetLayerId(x, y), GetLayerId(x, y));
-        if (GetLayerId(x, y) > GetFirstColId())
+        if (GetLayerId(x, y) >= GetFirstColId())
           nuevo->SetCollision(Sprite::COLLISION_RECT);
-        //nuevo->SetPosition(x * Map::GetTileWidth(), y * GetTileHeight()); me falta Z otra vez
-        //poner sus coordenadas de la escena, fila y columna del tile, por el ancho y alto del tile respectivamente
+        nuevo->SetPosition(x * GetTileWidth(), y * GetTileHeight(),0);
       }
     }
   }
@@ -84,12 +73,14 @@ uint16 IsometricMap::GetTileWidth() const
 
 void IsometricMap::Render() const 
 {
-  double screenX, screenY;
+  double screenX = 0.0;
+  double screenY = 0.0;
+
   for (uint16 y = 0; y < GetRows(); y++) {
     for (uint16 x = 0; x < GetColumns(); x++) {
       if (GetLayerId(x, y) >= 0) {
-        //TransformIsoCoords(x, y, z, &screenX, &screenY);de donde saco la z?
-        RENDER.DrawImage(GetImage(), screenX*GetTileWidth(), screenY*GetTileHeight(), GetLayerId(x, y));
+        TransformIsoCoords(x*GetTileWidth(), y*GetTileHeight(), 0, &screenX, &screenY);
+        RENDER.DrawImage(GetImage(), screenX, screenY, GetLayerId(x, y));
       }
     }
   }

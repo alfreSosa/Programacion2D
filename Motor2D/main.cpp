@@ -22,6 +22,7 @@ void practica8B();
 void practica9();
 void practica9B();
 void practica10();
+void practica11();
 
 //Estructura para ejercicio4A-6
 struct Velocidades
@@ -33,8 +34,29 @@ struct Velocidades
 int main(int argc, char* argv[]) {
   //practica9B();
   //practica9();
-  practica10();
+  //practica10();
+  practica11();
   return 0;
+}
+void practica11()
+{
+  SCREEN.Open(800, 600, false);
+  Image *personaje = RESOURCE.LoadImage("data/isoplayer.png",8,8);
+
+  IsometricMap *mapa = RESOURCE.LoadIsometricMap("data/isometric.tmx");
+  IsometricScene *escena = new IsometricScene(mapa);
+  IsometricSprite *player = escena->CreateSprite(personaje);
+  player->SetPosition(mapa->GetTileWidth() * 1.5, mapa->GetTileHeight() * 1.5, 0);
+  escena->GetCamera().FollowSprite(player);
+  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  {
+    RENDER.Clear(0, 0, 0);
+    escena->Update(SCREEN.ElapsedTime());
+    escena->Render();
+    SCREEN.Refresh();
+  }
+  delete escena;
+  RESOURCE.FreeResources();
 }
 void practica10()
 {

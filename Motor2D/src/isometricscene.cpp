@@ -2,10 +2,9 @@
 #include "../include/isometricmap.h"
 #include "../include/image.h"
 
-//es necesario indicar el casting? no me acuerdo, yo creo que es implicito
-IsometricScene::IsometricScene(IsometricMap *map, Image *imageBack, Image* imageFront) : MapScene( map, imageBack, imageFront)
+IsometricScene::IsometricScene(IsometricMap *map, Image *imageBack, Image* imageFront) : MapScene(map, imageBack, imageFront)
 {
-  map->GenerateLayerSprites(this);
+  //map->GenerateLayerSprites(this);
 }
 
 IsometricSprite* IsometricScene::CreateSprite(Image *image, Layer layer)
@@ -14,7 +13,7 @@ IsometricSprite* IsometricScene::CreateSprite(Image *image, Layer layer)
   AddSprite(spr, layer);
   return spr;
 }
-void IsometricScene::Update(double elapsed, Map *map)
+void IsometricScene::Update(double elapsed)
 {
   MapScene::Update(elapsed);
   GetSprites(LAYER_BACK).Sort(&CompareSprites);
