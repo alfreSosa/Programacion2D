@@ -114,6 +114,9 @@
     <ClCompile Include="src\isometricmap.cpp">
       <Filter>Source Files\engine\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="src\isometricscene.cpp">
+      <Filter>Source Files\engine\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\glinclude.h">
@@ -225,6 +228,9 @@
       <Filter>Header Files\Sprites</Filter>
     </ClInclude>
     <ClInclude Include="include\isometricmap.h">
+      <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="include\isometricscene.h">
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
   </ItemGroup>

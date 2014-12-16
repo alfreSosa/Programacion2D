@@ -1,10 +1,13 @@
 #include "../include/isometricmap.h"
 #include "../lib/rapidxml.hpp"
 #include "../include/image.h"
+#include "../include/math.h"
+#include "../include/renderer.h"
+#include "../include/isometricscene.h"
 
 using namespace rapidxml;
 
-IsometricMap::IsometricMap(const String& filename, uint16 firstColId = 0) : Map(filename,firstColId)
+IsometricMap::IsometricMap(const String& filename, uint16 firstColId) : Map(filename,firstColId)
 {
   //clase padre, lee el layer 1
   //esta clase lee el segundo layer
@@ -16,7 +19,6 @@ IsometricMap::IsometricMap(const String& filename, uint16 firstColId = 0) : Map(
     xml_node<>* map = doc.first_node("map");
     String aux;
     //NODO TILESET
-    //como accedo al segundo!!!
     xml_node<>* tileset = map->first_node("tileset");
     aux = (char *)tileset->first_attribute("firstgid")->value();
     int firstgid = aux.ToInt();
@@ -24,7 +26,7 @@ IsometricMap::IsometricMap(const String& filename, uint16 firstColId = 0) : Map(
     int tilewidth = aux.ToInt();
     aux = (char *)tileset->first_attribute("tileheight")->value();
     int tileheight = aux.ToInt();
-    //layer
+    //layer && next_sibling
     xml_node<>* layer = map->first_node("layer");
     layer = layer->next_sibling("layer");
     xml_node<>* data = layer->first_node("data");
@@ -50,9 +52,40 @@ IsometricMap::IsometricMap(const String& filename, uint16 firstColId = 0) : Map(
       Map::SetValid(false);
       return;
     }
-    double x, y;
+    uint32 x, y;
     x = GetImage()->GetHandleX() + tilewidth;
     y = GetImage()->GetHeight() - GetImage()->GetHandleY() - tileheight;
     GetImage()->SetHandle(x, y);
+  }
+}
+
+void IsometricMap::GenerateLayerSprites(IsometricScene *scene)
+{
+  for (uint16 y = 0; y < GetRows(); y++) {
+    for (uint16 x = 0; x < GetColumns(); x++) {
+      if (GetLayerId(x, y) > -1)
+      {
+        //se genera sprite
+        IsometricSprite *nuevo = scene->CreateSprite(GetImage());
+      }
+    }
+  }
+}
+
+uint16 IsometricMap::GetTileWidth() const 
+{
+  return Map::GetTileWidth() / 2;
+}
+
+void IsometricMap::Render() const 
+{
+  double screenX, screenY;
+  for (uint16 y = 0; y < GetRows(); y++) {
+    for (uint16 x = 0; x < GetColumns(); x++) {
+      if (GetLayerId(x, y) >= 0) {
+        //TransformIsoCoords(x, y, z, &screenX, &screenY);de donde saco la z?
+        RENDER.DrawImage(GetImage(), screenX*GetTileWidth(), screenY*GetTileHeight(), GetLayerId(x, y));
+      }
+    }
   }
 }
