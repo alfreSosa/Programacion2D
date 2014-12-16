@@ -67,6 +67,11 @@ void IsometricMap::GenerateLayerSprites(IsometricScene *scene)
       {
         //se genera sprite
         IsometricSprite *nuevo = scene->CreateSprite(GetImage());
+        nuevo->SetFrameRange(GetLayerId(x, y), GetLayerId(x, y));
+        if (GetLayerId(x, y) > GetFirstColId())
+          nuevo->SetCollision(Sprite::COLLISION_RECT);
+        //nuevo->SetPosition(x * Map::GetTileWidth(), y * GetTileHeight()); me falta Z otra vez
+        //poner sus coordenadas de la escena, fila y columna del tile, por el ancho y alto del tile respectivamente
       }
     }
   }
