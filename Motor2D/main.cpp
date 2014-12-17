@@ -1,4 +1,4 @@
-#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+//#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 //ESCONDE LA CONSOLA
 #include <math.h>
 #include "include/u-gine.h"
@@ -23,7 +23,8 @@ void practica9();
 void practica9B();
 void practica10();
 void practica11();
-
+//ENUM PARA MOVIMIENTO PRACTICA11
+enum Movimiento { UP, DOWN, LEFT, RIGTH, NOMOVE };
 //Estructura para ejercicio4A-6
 struct Velocidades
 {
@@ -44,7 +45,7 @@ void practica11()
   Image *personaje = RESOURCE.LoadImage("data/isoplayer.png",8,8);
   personaje->SetHandle(personaje->GetWidth() / 2, personaje->GetHeight());
 
-  IsometricMap *mapa = RESOURCE.LoadIsometricMap("data/isometric.tmx",4);
+  IsometricMap *mapa = RESOURCE.LoadIsometricMap("data/isometric2.tmx",4);
   IsometricScene *escena = new IsometricScene(mapa);
   IsometricSprite *player = escena->CreateSprite(personaje);
   player->SetCollision(Sprite::COLLISION_RECT);
@@ -61,16 +62,40 @@ void practica11()
 
   double prevX = player->GetY();
   double prevY = player->GetY();
-
+  Movimiento mov = NOMOVE;
   player->SetCurrentFrame(lastFrame);
-  //limpiar codigo de movimiento, muy feo
+  //limpiar codigo de movimiento, muy feo, poco funcional
   while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
   {
     RENDER.Clear(0, 0, 0);
-    posX = player->GetX();
-    posY = player->GetY();
+    //posX = player->GetX();
+    //posY = player->GetY();
 
-    if (glfwGetKey(GLFW_KEY_UP)){
+    if (glfwGetKey(GLFW_KEY_UP))
+      mov = UP;
+    else if (glfwGetKey(GLFW_KEY_DOWN))
+      mov = DOWN;
+    else if (glfwGetKey(GLFW_KEY_LEFT))
+      mov = LEFT;
+    else if (glfwGetKey(GLFW_KEY_RIGHT))
+      mov = RIGTH;
+    else
+      mov = NOMOVE;
+
+    switch (mov)
+    {
+    case UP:
+      break;
+    case DOWN:
+      break;
+    case LEFT:
+      break;
+    case RIGTH:
+      break;
+    case NOMOVE:
+      break;
+    }
+   /* if (glfwGetKey(GLFW_KEY_UP)){
       if (!moving){
         player->SetFrameRange(24, 27);
         moving = true;
@@ -134,15 +159,27 @@ void practica11()
         if (posX < destX + (mapa->GetTileHeight() / 2))
           destX -= mapa->GetTileHeight();
       }
-    }
-      
-    player->MoveTo(destX, destY, mapa->GetTileWidth(), mapa->GetTileHeight());
-    if (!player->IsMoving())
+    }*/
+
+    /*if (player->DidCollide())
     {
       moving = false;
       player->SetCurrentFrame(lastFrame);
+      player->MoveTo(prevX, prevY, mapa->GetTileWidth(), mapa->GetTileHeight());
     }
+    else
+    {
+      player->MoveTo(destX, destY, mapa->GetTileWidth(), mapa->GetTileHeight());
+    }*/
+   
+
+    /*if (!player->IsMoving())
+    {
+      moving = false;
+      player->SetCurrentFrame(lastFrame);
+    }*/
     escena->Update(SCREEN.ElapsedTime());
+ 
     escena->Render();
     SCREEN.Refresh();
   }

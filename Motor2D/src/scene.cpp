@@ -49,14 +49,15 @@ void Scene::Update(double elapsed, Map* map) {
 	}
 
 	// Actualizamos colisiones
+  int col = 0;
   for ( int i = 0; i < LAYER_COUNT; i++ ) {
     for ( int j = 0; j < (int)sprites[i].Size()-1; j++ ) {
         for ( int k = j+1; k < (int)sprites[i].Size(); k++ ) {
-            sprites[i][j]->CheckCollision(sprites[i][k]);
+          sprites[i][j]->CheckCollision(sprites[i][k]);
+          col++;
         }
     }
   }
-
 	// Actualizamos camara
 	camera.Update();
 }
