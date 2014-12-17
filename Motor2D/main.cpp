@@ -48,12 +48,46 @@ void practica11()
   IsometricScene *escena = new IsometricScene(mapa);
   IsometricSprite *player = escena->CreateSprite(personaje);
   player->SetPosition(mapa->GetTileWidth() * 1.5, mapa->GetTileHeight() * 1.5, 0);
+  
+
   // player->SetPosition(0, 0, 0);
 
   escena->GetCamera().FollowSprite(player);
+   double posX, posY;
+   double auxX, auxY;
+
   while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
   {
     RENDER.Clear(0, 0, 0);
+    auxX = posX = player->GetX();
+    auxY = posY = player->GetY();
+
+    if (glfwGetKey(GLFW_KEY_UP)){
+      posY -= mapa->GetTileHeight() * SCREEN.ElapsedTime();
+      player->SetFrameRange(24,28);
+      player->SetFPS(30);
+    }
+    if (glfwGetKey(GLFW_KEY_DOWN)){
+      posY += mapa->GetTileHeight() * SCREEN.ElapsedTime();
+      player->SetFrameRange(56,60);
+      player->SetFPS(30);
+    }
+    if (glfwGetKey(GLFW_KEY_RIGHT)){
+      posX += mapa->GetTileWidth() * SCREEN.ElapsedTime();
+      player->SetFrameRange(40,44);
+      player->SetFPS(30);
+    }
+    if (glfwGetKey(GLFW_KEY_LEFT)){
+      posX -= mapa->GetTileWidth() * SCREEN.ElapsedTime();
+      player->SetFrameRange(0,4);
+      player->SetFPS(30);
+    }
+
+    if(abs(posX - auxX) <= 0.001 && abs(posX - auxX) <= 0.001) 
+      player->SetFPS(0);
+      
+    player->MoveTo(posX, posY,mapa->GetTileWidth(), mapa->GetTileHeight());
+
     escena->Update(SCREEN.ElapsedTime());
     escena->Render();
     SCREEN.Refresh();

@@ -4,7 +4,7 @@
 
 IsometricScene::IsometricScene(IsometricMap *map, Image *imageBack, Image* imageFront) : MapScene(map, imageBack, imageFront)
 {
-  //map->GenerateLayerSprites(this);
+  map->GenerateLayerSprites(this);
 }
 
 IsometricSprite* IsometricScene::CreateSprite(Image *image, Layer layer)
