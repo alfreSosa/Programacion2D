@@ -15,10 +15,7 @@ IsometricMap::IsometricMap(const String& filename, uint16 firstColId) : Map(file
     //NODO MAPA
     doc.parse<0>((char *)contenido.ToCString());
     xml_node<>* map = doc.first_node("map");
-    String aux = (char *)map->first_attribute("width")->value();
-    uint16 width = static_cast<uint16>(aux.ToInt());
-    aux = (char *)map->first_attribute("height")->value();
-    uint16 height = static_cast<uint16>(aux.ToInt());
+    String aux;
     aux = (char *)map->first_attribute("tilewidth")->value();
     uint16 tileWidth = static_cast<uint16>(aux.ToInt());
     aux = (char *)map->first_attribute("tileheight")->value();
@@ -51,16 +48,19 @@ IsometricMap::IsometricMap(const String& filename, uint16 firstColId) : Map(file
 
 void IsometricMap::GenerateLayerSprites(IsometricScene *scene)
 {
+  double screenX, screenY;
   for (uint16 y = 0; y < GetRows(); y++) {
     for (uint16 x = 0; x < GetColumns(); x++) {
       if (GetLayerId(x, y) > -1)
       {
         //se genera sprite
         IsometricSprite *nuevo = scene->CreateSprite(GetImage());
-        nuevo->SetFrameRange(GetLayerId(x, y), GetLayerId(x, y));
+        nuevo->SetCurrentFrame(GetLayerId(x, y));
         if (GetLayerId(x, y) >= GetFirstColId())
           nuevo->SetCollision(Sprite::COLLISION_RECT);
-        nuevo->SetPosition(x * GetTileWidth(), y * GetTileHeight(),0);
+        //este transform es necesario, porque hemos heredado y puesto variables nueva que no se usan
+        TransformIsoCoords(x*GetTileWidth(), y*GetTileHeight(), 0, &screenX, &screenY);
+        nuevo->SetPosition(screenX, screenY, 0);
       }
     }
   }
@@ -78,9 +78,9 @@ void IsometricMap::Render() const
 
   for (uint16 y = 0; y < GetRows(); y++) {
     for (uint16 x = 0; x < GetColumns(); x++) {
-      if (GetLayerId(x, y) >= 0) {
+      if (GetTileId(x, y) >= 0) {
         TransformIsoCoords(x*GetTileWidth(), y*GetTileHeight(), 0, &screenX, &screenY);
-        RENDER.DrawImage(GetImage(), screenX, screenY, GetLayerId(x, y));
+        RENDER.DrawImage(GetImage(), screenX, screenY, GetTileId(x, y));
       }
     }
   }

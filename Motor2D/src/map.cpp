@@ -77,7 +77,7 @@ Map::Map(const String &filename, uint16 firstColId) {
       fichero = ruta + "/"+ imageFile;
     else
       fichero = imageFile;
-    image = RESOURCE.LoadImage(fichero, imageWidth / tileWidth, imageHeight / tileHeight);
+    image = RESOURCE.LoadImage(fichero, imageWidth / tilewidth, imageHeight / tileheight);
     image->SetHandle(x, y);
     if (image->IsValid())
       valid = true; 
