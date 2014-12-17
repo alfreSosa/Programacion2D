@@ -44,50 +44,104 @@ void practica11()
   Image *personaje = RESOURCE.LoadImage("data/isoplayer.png",8,8);
   personaje->SetHandle(personaje->GetWidth() / 2, personaje->GetHeight());
 
-  IsometricMap *mapa = RESOURCE.LoadIsometricMap("data/isometric.tmx");
+  IsometricMap *mapa = RESOURCE.LoadIsometricMap("data/isometric.tmx",4);
   IsometricScene *escena = new IsometricScene(mapa);
   IsometricSprite *player = escena->CreateSprite(personaje);
+  player->SetCollision(Sprite::COLLISION_RECT);
   player->SetPosition(mapa->GetTileWidth() * 1.5, mapa->GetTileHeight() * 1.5, 0);
-  
-
-  // player->SetPosition(0, 0, 0);
-
+  player->SetFPS(10);
   escena->GetCamera().FollowSprite(player);
-   double posX, posY;
-   double auxX, auxY;
+ 
+  double posX, posY;
+  bool moving = false;
+  uint16 lastFrame = 0;
 
+  double destX = player->GetX();
+  double destY = player->GetY();
+
+  double prevX = player->GetY();
+  double prevY = player->GetY();
+
+  player->SetCurrentFrame(lastFrame);
+  //limpiar codigo de movimiento, muy feo
   while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
   {
     RENDER.Clear(0, 0, 0);
-    auxX = posX = player->GetX();
-    auxY = posY = player->GetY();
+    posX = player->GetX();
+    posY = player->GetY();
 
     if (glfwGetKey(GLFW_KEY_UP)){
-      posY -= mapa->GetTileHeight() * SCREEN.ElapsedTime();
-      player->SetFrameRange(24,28);
-      player->SetFPS(30);
+      if (!moving){
+        player->SetFrameRange(24, 27);
+        moving = true;
+        prevY = posY;
+        destY = posY - mapa->GetTileHeight();
+        lastFrame = 24;
+      }
+      else
+      {
+        lastFrame = 24;
+        player->SetFrameRange(24, 27);
+        if (posY < destY + (mapa->GetTileHeight() / 2))
+          destY -= mapa->GetTileHeight();
+      }
+
     }
     if (glfwGetKey(GLFW_KEY_DOWN)){
-      posY += mapa->GetTileHeight() * SCREEN.ElapsedTime();
-      player->SetFrameRange(56,60);
-      player->SetFPS(30);
+      if (!moving){
+        player->SetFrameRange(56, 59);
+        moving = true;
+        prevY = posY;
+        destY = posY + mapa->GetTileHeight();
+        lastFrame = 56;
+      }
+      else
+      {
+        lastFrame = 56;
+        player->SetFrameRange(56, 59);
+        if (posY > destY - (mapa->GetTileHeight() / 2))
+          destY += mapa->GetTileHeight();
+      }
     }
     if (glfwGetKey(GLFW_KEY_RIGHT)){
-      posX += mapa->GetTileWidth() * SCREEN.ElapsedTime();
-      player->SetFrameRange(40,44);
-      player->SetFPS(30);
+      if (!moving){
+        player->SetFrameRange(40, 43);
+        moving = true;
+        prevX = posX;
+        destX = posX + mapa->GetTileHeight();
+        lastFrame = 40;
+      }
+      else
+      {
+        lastFrame = 40;
+        player->SetFrameRange(40, 43);
+        if (posX > destX - (mapa->GetTileHeight() / 2))
+          destX += mapa->GetTileHeight();
+      }
     }
     if (glfwGetKey(GLFW_KEY_LEFT)){
-      posX -= mapa->GetTileWidth() * SCREEN.ElapsedTime();
-      player->SetFrameRange(0,4);
-      player->SetFPS(30);
+      if (!moving){
+        player->SetFrameRange(0, 3);
+        moving = true;
+        prevX = posX;
+        destX = posX - mapa->GetTileHeight();
+        lastFrame = 0;
+      }
+      else
+      {
+        player->SetFrameRange(0, 3);
+        lastFrame = 0;
+        if (posX < destX + (mapa->GetTileHeight() / 2))
+          destX -= mapa->GetTileHeight();
+      }
     }
-
-    if(abs(posX - auxX) <= 0.001 && abs(posX - auxX) <= 0.001) 
-      player->SetFPS(0);
       
-    player->MoveTo(posX, posY,mapa->GetTileWidth(), mapa->GetTileHeight());
-
+    player->MoveTo(destX, destY, mapa->GetTileWidth(), mapa->GetTileHeight());
+    if (!player->IsMoving())
+    {
+      moving = false;
+      player->SetCurrentFrame(lastFrame);
+    }
     escena->Update(SCREEN.ElapsedTime());
     escena->Render();
     SCREEN.Refresh();

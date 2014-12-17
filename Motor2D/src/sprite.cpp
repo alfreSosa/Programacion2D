@@ -12,6 +12,7 @@ Sprite::Sprite(Image* image) {
     this->image = image;
     x = 0;
     y = 0;
+    screenX = screenY = 0;
     angle = 0;
     scalex = 1;
     scaley = 1;
@@ -203,6 +204,9 @@ void Sprite::Update(double elapsed, const Map* map) {
       }
     }
   }
+
+  screenX = this->x;
+  screenY = this->y;
 	// Informacion final de colision
 	UpdateCollisionBox();
 }
@@ -210,7 +214,7 @@ void Sprite::Update(double elapsed, const Map* map) {
 void Sprite::Render() const {
   RENDER.SetBlendMode(blendMode);
   RENDER.SetColor(r, g, b, a);
-  RENDER.DrawImage(image, x, y, static_cast<uint32>(currentFrame), image->GetWidth() * scalex, image->GetHeight() * scaley, angle);
+  RENDER.DrawImage(image, screenX, screenY, static_cast<uint32>(currentFrame), image->GetWidth() * scalex, image->GetHeight() * scaley, angle);
 }
 
 void Sprite::UpdateCollisionBox() {

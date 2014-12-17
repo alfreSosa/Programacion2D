@@ -23,5 +23,5 @@ void IsometricScene::Update(double elapsed)
 
 bool IsometricScene::CompareSprites(Sprite*& first, Sprite*& second)
 {
-  return (first->GetScreenY() <= second->GetScreenY()) ? true : false;
+  return (first->GetScreenY() < second->GetScreenY()) ? true : (first->GetScreenY() == second->GetScreenY() && first->GetScreenX() < second->GetScreenX()) ? true : false;
 }

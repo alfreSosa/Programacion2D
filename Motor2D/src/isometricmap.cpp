@@ -48,7 +48,7 @@ IsometricMap::IsometricMap(const String& filename, uint16 firstColId) : Map(file
 
 void IsometricMap::GenerateLayerSprites(IsometricScene *scene)
 {
-  double screenX, screenY;
+  //double screenX, screenY;
   for (uint16 y = 0; y < GetRows(); y++) {
     for (uint16 x = 0; x < GetColumns(); x++) {
       if (GetLayerId(x, y) > -1)
@@ -58,9 +58,7 @@ void IsometricMap::GenerateLayerSprites(IsometricScene *scene)
         nuevo->SetCurrentFrame(GetLayerId(x, y));
         if (GetLayerId(x, y) >= GetFirstColId())
           nuevo->SetCollision(Sprite::COLLISION_RECT);
-        //este transform es necesario, porque hemos heredado y puesto variables nueva que no se usan
-        TransformIsoCoords(x*GetTileWidth(), y*GetTileHeight(), 0, &screenX, &screenY);
-        nuevo->SetPosition(screenX, screenY, 0);
+        nuevo->SetPosition(x*GetTileWidth(), y*GetTileHeight(), 0);
       }
     }
   }
