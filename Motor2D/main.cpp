@@ -1,4 +1,4 @@
-//#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 //ESCONDE LA CONSOLA
 #include <math.h>
 #include "include/u-gine.h"
@@ -42,12 +42,14 @@ void practica11()
 {
   SCREEN.Open(1000, 900, false);
   Image *personaje = RESOURCE.LoadImage("data/isoplayer.png",8,8);
-  //personaje->SetHandle(personaje->GetWidth() / 2, personaje->GetHeight());
+  personaje->SetHandle(personaje->GetWidth() / 2, personaje->GetHeight());
 
   IsometricMap *mapa = RESOURCE.LoadIsometricMap("data/isometric.tmx");
   IsometricScene *escena = new IsometricScene(mapa);
   IsometricSprite *player = escena->CreateSprite(personaje);
   player->SetPosition(mapa->GetTileWidth() * 1.5, mapa->GetTileHeight() * 1.5, 0);
+  // player->SetPosition(0, 0, 0);
+
   escena->GetCamera().FollowSprite(player);
   while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
   {

@@ -40,8 +40,8 @@ IsometricMap::IsometricMap(const String& filename, uint16 firstColId) : Map(file
       tile = tile->next_sibling("tile");
     }
     int32 x, y;
-    x = GetImage()->GetHandleX() + tileWidth;
-    y = GetImage()->GetHeight() - GetImage()->GetHandleY() - tileHeight;
+    x = GetImage()->GetHandleX() + GetTileWidth();
+    y = GetImage()->GetHeight() - GetImage()->GetHandleY() - GetTileHeight();
     GetImage()->SetHandle(x, y);
   }
 }
