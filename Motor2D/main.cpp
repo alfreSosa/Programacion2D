@@ -23,8 +23,7 @@ void practica9();
 void practica9B();
 void practica10();
 void practica11();
-//ENUM PARA MOVIMIENTO PRACTICA11
-enum Movimiento { UP, DOWN, LEFT, RIGTH, NOMOVE };
+
 //Estructura para ejercicio4A-6
 struct Velocidades
 {
@@ -48,13 +47,14 @@ void practica11()
   IsometricMap *mapa = RESOURCE.LoadIsometricMap("data/isometric2.tmx",4);
   IsometricScene *escena = new IsometricScene(mapa);
   IsometricSprite *player = escena->CreateSprite(personaje);
-  player->SetCollisionTam(personaje->GetWidth() / 2.0, personaje->GetWidth() / 2.0);
+  player->SetCollisionTam(personaje->GetWidth() / 4.0, personaje->GetWidth() / 4.0);
   player->SetCollision(Sprite::COLLISION_RECT);
   player->SetPosition(mapa->GetTileWidth() * 1.5, mapa->GetTileHeight() * 1.5, 0);
   player->SetFPS(10);
   escena->GetCamera().FollowSprite(player);
  
   double posX, posY;
+
   bool moving = false;
   uint16 lastFrame = 0;
 
@@ -63,127 +63,114 @@ void practica11()
 
   double prevX = player->GetY();
   double prevY = player->GetY();
-  Movimiento mov = NOMOVE;
   player->SetCurrentFrame(lastFrame);
-  //limpiar codigo de movimiento, muy feo, poco funcional
+  bool collide = false;
+  bool movX, movY;
+  movX = movY = false;
   while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
   {
     RENDER.Clear(0, 0, 0);
-    //posX = player->GetX();
-    //posY = player->GetY();
+    posX = player->GetX();
+    posY = player->GetY();
 
-    if (glfwGetKey(GLFW_KEY_UP))
-      mov = UP;
-    else if (glfwGetKey(GLFW_KEY_DOWN))
-      mov = DOWN;
-    else if (glfwGetKey(GLFW_KEY_LEFT))
-      mov = LEFT;
-    else if (glfwGetKey(GLFW_KEY_RIGHT))
-      mov = RIGTH;
-    else
-      mov = NOMOVE;
-
-    switch (mov)
-    {
-    case UP:
-      player->SetFrameRange(24, 27);
-      lastFrame = 24;
-      break;
-    case DOWN:
-      player->SetFrameRange(56, 59);
-      lastFrame = 56;
-      break;
-    case LEFT:
-      player->SetFrameRange(0, 3);
-      lastFrame = 0;
-      break;
-    case RIGTH:
-      player->SetFrameRange(40, 43);
-      lastFrame = 40;
-      break;
-    case NOMOVE:
-      player->SetCurrentFrame(lastFrame);
-      break;
-    }
-   /* if (glfwGetKey(GLFW_KEY_UP)){
+    if (glfwGetKey(GLFW_KEY_UP) && !collide && !movX){
       if (!moving){
-        
+        movY = true;
         moving = true;
         prevY = posY;
+        prevX = posX;
         destY = posY - mapa->GetTileHeight();
       }
       else
       {
         lastFrame = 24;
         player->SetFrameRange(24, 27);
-        if (posY < destY + (mapa->GetTileHeight() / 2))
+        if (posY < destY + (mapa->GetTileHeight() / 2)){
+          prevY = destY;
+          prevX = destX;
           destY -= mapa->GetTileHeight();
+        }
       }
 
     }
-    if (glfwGetKey(GLFW_KEY_DOWN)){
+    if (glfwGetKey(GLFW_KEY_DOWN) && !collide && !movX){
       if (!moving){
         moving = true;
+        movY = true;
         prevY = posY;
+        prevX = posX;
         destY = posY + mapa->GetTileHeight();
       }
       else
       {
         lastFrame = 56;
         player->SetFrameRange(56, 59);
-        if (posY > destY - (mapa->GetTileHeight() / 2))
+        if (posY > destY - (mapa->GetTileHeight() / 2)){
+          prevY = destY;
+          prevX = destX;
           destY += mapa->GetTileHeight();
+        }
       }
     }
-    if (glfwGetKey(GLFW_KEY_RIGHT)){
+    if (glfwGetKey(GLFW_KEY_RIGHT) && !collide && !movY){
       if (!moving){
         moving = true;
+        movX = true;
         prevX = posX;
-        destX = posX + mapa->GetTileHeight();
+        prevY = posY;
+        destX = posX + mapa->GetTileWidth();
       }
       else
       {
         lastFrame = 40;
         player->SetFrameRange(40, 43);
-        if (posX > destX - (mapa->GetTileHeight() / 2))
-          destX += mapa->GetTileHeight();
+        if (posX > destX - (mapa->GetTileWidth() / 2)){
+          prevX = destX;
+          prevY = destY;
+          destX += mapa->GetTileWidth();
+        }
       }
     }
-    if (glfwGetKey(GLFW_KEY_LEFT)){
+    if (glfwGetKey(GLFW_KEY_LEFT) && !collide && !movY){
       if (!moving){
+        movX = true;
         moving = true;
         prevX = posX;
-        destX = posX - mapa->GetTileHeight();
+        prevY = posY;
+        destX = posX - mapa->GetTileWidth();
         lastFrame = 0;
       }
       else
       {
         player->SetFrameRange(0, 3);
         lastFrame = 0;
-        if (posX < destX + (mapa->GetTileHeight() / 2))
-          destX -= mapa->GetTileHeight();
+        if (posX < destX + (mapa->GetTileWidth() / 2)){
+          prevX = destX;
+          prevY = destY;
+          destX -= mapa->GetTileWidth();
+        }
       }
-    }*/
-
-    /*if (player->DidCollide())
-    {
-      moving = false;
-      player->SetCurrentFrame(lastFrame);
-      player->MoveTo(prevX, prevY, mapa->GetTileWidth(), mapa->GetTileHeight());
     }
-    else
-    {
-      player->MoveTo(destX, destY, mapa->GetTileWidth(), mapa->GetTileHeight());
-    }*/
-   
 
-    /*if (!player->IsMoving())
+    player->MoveTo(destX, destY, mapa->GetTileWidth(), mapa->GetTileHeight());
+   
+    if (!player->IsMoving())
     {
       moving = false;
       player->SetCurrentFrame(lastFrame);
-    }*/
+      collide = false;
+      movX = movY = false;
+    }
+
     escena->Update(SCREEN.ElapsedTime());
- 
+
+    if (player->DidCollide())
+    {
+      collide = true;
+      player->SetCurrentFrame(lastFrame);
+      destX = prevX; 
+      destY = prevY;
+    }
     escena->Render();
     SCREEN.Refresh();
   }
