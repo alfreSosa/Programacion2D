@@ -56,8 +56,10 @@ void IsometricMap::GenerateLayerSprites(IsometricScene *scene)
         //se genera sprite
         IsometricSprite *nuevo = scene->CreateSprite(GetImage());
         nuevo->SetCurrentFrame(GetLayerId(x, y));
-        if (GetLayerId(x, y) >= GetFirstColId())
+        if (GetLayerId(x, y) >= GetFirstColId()){
+          nuevo->SetCollisionTam(GetTileWidth(), GetTileWidth());
           nuevo->SetCollision(Sprite::COLLISION_RECT);
+        }
         nuevo->SetPosition(x*GetTileWidth(), y*GetTileHeight(), 0);
       }
     }

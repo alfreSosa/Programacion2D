@@ -48,6 +48,7 @@ void practica11()
   IsometricMap *mapa = RESOURCE.LoadIsometricMap("data/isometric2.tmx",4);
   IsometricScene *escena = new IsometricScene(mapa);
   IsometricSprite *player = escena->CreateSprite(personaje);
+  player->SetCollisionTam(personaje->GetWidth() / 2.0, personaje->GetWidth() / 2.0);
   player->SetCollision(Sprite::COLLISION_RECT);
   player->SetPosition(mapa->GetTileWidth() * 1.5, mapa->GetTileHeight() * 1.5, 0);
   player->SetFPS(10);
@@ -85,23 +86,31 @@ void practica11()
     switch (mov)
     {
     case UP:
+      player->SetFrameRange(24, 27);
+      lastFrame = 24;
       break;
     case DOWN:
+      player->SetFrameRange(56, 59);
+      lastFrame = 56;
       break;
     case LEFT:
+      player->SetFrameRange(0, 3);
+      lastFrame = 0;
       break;
     case RIGTH:
+      player->SetFrameRange(40, 43);
+      lastFrame = 40;
       break;
     case NOMOVE:
+      player->SetCurrentFrame(lastFrame);
       break;
     }
    /* if (glfwGetKey(GLFW_KEY_UP)){
       if (!moving){
-        player->SetFrameRange(24, 27);
+        
         moving = true;
         prevY = posY;
         destY = posY - mapa->GetTileHeight();
-        lastFrame = 24;
       }
       else
       {
@@ -114,11 +123,9 @@ void practica11()
     }
     if (glfwGetKey(GLFW_KEY_DOWN)){
       if (!moving){
-        player->SetFrameRange(56, 59);
         moving = true;
         prevY = posY;
         destY = posY + mapa->GetTileHeight();
-        lastFrame = 56;
       }
       else
       {
@@ -130,11 +137,9 @@ void practica11()
     }
     if (glfwGetKey(GLFW_KEY_RIGHT)){
       if (!moving){
-        player->SetFrameRange(40, 43);
         moving = true;
         prevX = posX;
         destX = posX + mapa->GetTileHeight();
-        lastFrame = 40;
       }
       else
       {
@@ -146,7 +151,6 @@ void practica11()
     }
     if (glfwGetKey(GLFW_KEY_LEFT)){
       if (!moving){
-        player->SetFrameRange(0, 3);
         moving = true;
         prevX = posX;
         destX = posX - mapa->GetTileHeight();

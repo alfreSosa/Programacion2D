@@ -4,7 +4,7 @@
 #include "types.h"
 #include "sprite.h"
 
-class IsometricSprite: public Sprite
+class IsometricSprite : public Sprite
 {
 public:
   IsometricSprite(Image* image);
@@ -14,10 +14,14 @@ public:
   virtual double GetZ() const { return z; }
   virtual void SetCollision(CollisionMode mode);
   virtual void Update(double elapsed, const Map* map = NULL);
+  virtual void SetCollisionTam(double width = 0.0, double height = 0.0) { wColission = width; hColission = height; }
 protected:
   virtual void UpdateCollisionBox();
 private:
   double z;
+  double wColission;
+  double hColission;
+
 
 };
 #endif
