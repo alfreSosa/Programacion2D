@@ -30,6 +30,7 @@ struct Velocidades
   double x;
   double y;
 };
+enum Movimiento {NONE, UP, DOWN, LEFT, RIGTH,  };
 
 int main(int argc, char* argv[]) {
   //practica9B();
@@ -44,13 +45,13 @@ void practica11()
   Image *personaje = RESOURCE.LoadImage("data/isoplayer.png",8,8);
   personaje->SetHandle(personaje->GetWidth() / 2, personaje->GetHeight());
 
-  IsometricMap *mapa = RESOURCE.LoadIsometricMap("data/isometric2.tmx",4);
+  IsometricMap *mapa = RESOURCE.LoadIsometricMap("data/isometric.tmx",4);
   IsometricScene *escena = new IsometricScene(mapa);
   IsometricSprite *player = escena->CreateSprite(personaje);
   player->SetCollisionTam(personaje->GetWidth() / 4.0, personaje->GetWidth() / 4.0);
   player->SetCollision(Sprite::COLLISION_RECT);
   player->SetPosition(mapa->GetTileWidth() * 1.5, mapa->GetTileHeight() * 1.5, 0);
-  player->SetFPS(10);
+  player->SetFPS(20);
   escena->GetCamera().FollowSprite(player);
  
   double posX, posY;
@@ -58,27 +59,44 @@ void practica11()
   bool moving = false;
   uint16 lastFrame = 0;
 
-  double destX = player->GetX();
-  double destY = player->GetY();
-
-  double prevX = player->GetY();
+  double prevX = player->GetX();
   double prevY = player->GetY();
+
   player->SetCurrentFrame(lastFrame);
-  bool collide = false;
-  bool movX, movY;
-  movX = movY = false;
   while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
   {
     RENDER.Clear(0, 0, 0);
     posX = player->GetX();
     posY = player->GetY();
-
-    if (glfwGetKey(GLFW_KEY_UP) && !collide && !movX){
+    prevX = player->GetX();
+    prevY = player->GetY();
+    if (glfwGetKey(GLFW_KEY_UP)){
+      posY -= 100 * SCREEN.ElapsedTime();
+      player->SetFrameRange(24, 27);
+      lastFrame = 24;
+    }
+    else if (glfwGetKey(GLFW_KEY_DOWN)){
+      posY += 100.0 * SCREEN.ElapsedTime();
+      player->SetFrameRange(56, 59);
+      lastFrame = 56;
+    }
+    else if (glfwGetKey(GLFW_KEY_RIGHT)){
+      posX += 100.0 * SCREEN.ElapsedTime();
+      player->SetFrameRange(40, 43);
+      lastFrame = 40;
+    }
+    else if (glfwGetKey(GLFW_KEY_LEFT)){
+      posX -= 100.0 * SCREEN.ElapsedTime();
+      player->SetFrameRange(0, 3);
+      lastFrame = 0;
+    }
+    else {
+      player->SetCurrentFrame(lastFrame);
+    }
+    //player->MoveTo(posX, posY, 100.0, 100.0);
+   /* if (glfwGetKey(GLFW_KEY_UP)){
       if (!moving){
-        movY = true;
         moving = true;
-        prevY = posY;
-        prevX = posX;
         destY = posY - mapa->GetTileHeight();
       }
       else
@@ -86,19 +104,13 @@ void practica11()
         lastFrame = 24;
         player->SetFrameRange(24, 27);
         if (posY < destY + (mapa->GetTileHeight() / 2)){
-          prevY = destY;
-          prevX = destX;
           destY -= mapa->GetTileHeight();
         }
       }
-
     }
-    if (glfwGetKey(GLFW_KEY_DOWN) && !collide && !movX){
+    if (glfwGetKey(GLFW_KEY_DOWN)){
       if (!moving){
         moving = true;
-        movY = true;
-        prevY = posY;
-        prevX = posX;
         destY = posY + mapa->GetTileHeight();
       }
       else
@@ -106,18 +118,13 @@ void practica11()
         lastFrame = 56;
         player->SetFrameRange(56, 59);
         if (posY > destY - (mapa->GetTileHeight() / 2)){
-          prevY = destY;
-          prevX = destX;
           destY += mapa->GetTileHeight();
         }
       }
     }
-    if (glfwGetKey(GLFW_KEY_RIGHT) && !collide && !movY){
+    if (glfwGetKey(GLFW_KEY_RIGHT)){
       if (!moving){
         moving = true;
-        movX = true;
-        prevX = posX;
-        prevY = posY;
         destX = posX + mapa->GetTileWidth();
       }
       else
@@ -125,18 +132,12 @@ void practica11()
         lastFrame = 40;
         player->SetFrameRange(40, 43);
         if (posX > destX - (mapa->GetTileWidth() / 2)){
-          prevX = destX;
-          prevY = destY;
           destX += mapa->GetTileWidth();
         }
       }
     }
-    if (glfwGetKey(GLFW_KEY_LEFT) && !collide && !movY){
+    if (glfwGetKey(GLFW_KEY_LEFT)){
       if (!moving){
-        movX = true;
-        moving = true;
-        prevX = posX;
-        prevY = posY;
         destX = posX - mapa->GetTileWidth();
         lastFrame = 0;
       }
@@ -145,31 +146,17 @@ void practica11()
         player->SetFrameRange(0, 3);
         lastFrame = 0;
         if (posX < destX + (mapa->GetTileWidth() / 2)){
-          prevX = destX;
-          prevY = destY;
           destX -= mapa->GetTileWidth();
         }
       }
-    }
 
-    player->MoveTo(destX, destY, mapa->GetTileWidth(), mapa->GetTileHeight());
-   
-    if (!player->IsMoving())
-    {
-      moving = false;
-      player->SetCurrentFrame(lastFrame);
-      collide = false;
-      movX = movY = false;
     }
-
+    player->MoveTo(destX, destY, mapa->GetTileWidth(), mapa->GetTileHeight());*/
+    player->SetPosition(posX, posY, 0);
     escena->Update(SCREEN.ElapsedTime());
-
     if (player->DidCollide())
     {
-      collide = true;
-      player->SetCurrentFrame(lastFrame);
-      destX = prevX; 
-      destY = prevY;
+      player->SetPosition(prevX, prevY, 0);
     }
     escena->Render();
     SCREEN.Refresh();
