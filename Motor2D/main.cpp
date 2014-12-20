@@ -1,8 +1,7 @@
 #pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
-//ESCONDE LA CONSOLA
-#include <math.h>
+
 #include "include/u-gine.h"
-//Declaración de funciones para ejecutar ejercicio
+//Declaración de funciones para ejecutar cada ejercicio
 void practica1();
 void practica2();
 void practica2B();
@@ -30,8 +29,9 @@ struct Velocidades
   double x;
   double y;
 };
-enum Movimiento {NONE, UP, DOWN, LEFT, RIGTH,  };
 
+/*Si se van cerrando las ventanas pulsando a la "X", se cierra y se abre la siguiente practica.
+Si no simplemente comentar la funcion a la práctica que no se desee ejecutar*/
 int main(int argc, char* argv[]) {
   practica1();
   practica2();
@@ -52,6 +52,10 @@ int main(int argc, char* argv[]) {
   practica9();
   practica9B();
   practica10();
+  /*Practica 11: */
+  /*El movimiento del sprite no es como el indicado en el enunciado, ya que al hacer que se mueva de casilla
+  en casilla se queda bloqueado, esta colisionando en la posicion inicial por todos los lados. Por este motivo
+  he preferido dejar el movimiento del sprite libre, de forma que se pueda mover por el mapa colisionando por los árboles*/
   practica11();
   return 0;
 }
@@ -72,7 +76,6 @@ void practica11()
  
   double posX, posY;
 
-  bool moving = false;
   uint16 lastFrame = 0;
 
   double prevX = player->GetX();
@@ -109,65 +112,7 @@ void practica11()
     else {
       player->SetCurrentFrame(lastFrame);
     }
-    //player->MoveTo(posX, posY, 100.0, 100.0);
-   /* if (glfwGetKey(GLFW_KEY_UP)){
-      if (!moving){
-        moving = true;
-        destY = posY - mapa->GetTileHeight();
-      }
-      else
-      {
-        lastFrame = 24;
-        player->SetFrameRange(24, 27);
-        if (posY < destY + (mapa->GetTileHeight() / 2)){
-          destY -= mapa->GetTileHeight();
-        }
-      }
-    }
-    if (glfwGetKey(GLFW_KEY_DOWN)){
-      if (!moving){
-        moving = true;
-        destY = posY + mapa->GetTileHeight();
-      }
-      else
-      {
-        lastFrame = 56;
-        player->SetFrameRange(56, 59);
-        if (posY > destY - (mapa->GetTileHeight() / 2)){
-          destY += mapa->GetTileHeight();
-        }
-      }
-    }
-    if (glfwGetKey(GLFW_KEY_RIGHT)){
-      if (!moving){
-        moving = true;
-        destX = posX + mapa->GetTileWidth();
-      }
-      else
-      {
-        lastFrame = 40;
-        player->SetFrameRange(40, 43);
-        if (posX > destX - (mapa->GetTileWidth() / 2)){
-          destX += mapa->GetTileWidth();
-        }
-      }
-    }
-    if (glfwGetKey(GLFW_KEY_LEFT)){
-      if (!moving){
-        destX = posX - mapa->GetTileWidth();
-        lastFrame = 0;
-      }
-      else
-      {
-        player->SetFrameRange(0, 3);
-        lastFrame = 0;
-        if (posX < destX + (mapa->GetTileWidth() / 2)){
-          destX -= mapa->GetTileWidth();
-        }
-      }
-
-    }
-    player->MoveTo(destX, destY, mapa->GetTileWidth(), mapa->GetTileHeight());*/
+   
     player->SetPosition(posX, posY, 0);
     escena->Update(SCREEN.ElapsedTime());
     if (player->DidCollide())
@@ -380,8 +325,8 @@ void practica8B()
   af2.setAlto(0, SCREEN.GetHeight());
 
   Image *star = RESOURCE.LoadImage("data/star.png");
-  Sprite *generador;
-  Emitter *emisor;
+  Sprite *generador = NULL;
+  Emitter *emisor = NULL;
   if (star)
   {
 
@@ -428,8 +373,8 @@ void practica8()
   escena1->SetBackgroundColor(0, 0, 0);
   
   Image *star = RESOURCE.LoadImage("data/star.png");
-  Sprite *generador;
-  Emitter *emisor;
+  Sprite *generador = NULL;
+  Emitter *emisor = NULL;
   if (star)
   {
 
@@ -477,7 +422,7 @@ void practica7B()
   escena1->SetRelativeBackSpeed(0.8, 0.8);
   escena1->SetRelativeFrontSpeed(1, 1);
   Image *alien = RESOURCE.LoadImage("data/alienanim.png", 8, 1);
-  Sprite *personaje;
+  Sprite *personaje = NULL;
   if (alien)
   {
     alien->SetMidHandle();
@@ -519,7 +464,7 @@ void practica7()
   escena1->GetCamera().SetPosition(0, 0);
   escena1->SetBackgroundColor(0, 0, 0);
   Image *alien = RESOURCE.LoadImage("data/alienanim.png", 8, 1);
-  Sprite *personaje;
+  Sprite *personaje  = NULL;
   if (alien)
   {
     alien->SetMidHandle();
@@ -750,7 +695,7 @@ void practica5()
   const double rotateVel = 50.0;
   const double moveVelX = 100.0;
   const double moveVelY = 100.0;
-  //CARGAR IMAGEN
+
   Sprite **buffer;
   buffer = new Sprite*[5];
   Array<Sprite *> sprites(5);
@@ -794,13 +739,12 @@ void practica5()
 
       sprites[i]->Update(SCREEN.ElapsedTime(), NULL);
       sprites[i]->Render();
-      //FUSIONAR ALIENS!!
     }
     SCREEN.Refresh();
 
   }
   RESOURCE.FreeResources();
-  //Revisar
+
   for (unsigned int i = 0; i < 5; i++)
     delete buffer[i];
   delete[]buffer;
@@ -883,8 +827,7 @@ void practica4()
     SCREEN.Refresh();
       
   }
-  RESOURCE.FreeResources();
- //Revisar
+ 
   for (unsigned int i = 0; i < 5; i++)
   {
     delete buffer[i];
@@ -892,6 +835,7 @@ void practica4()
   }
   delete []vel;
   delete []buffer;
+  RESOURCE.FreeResources();
 }
 
 void practica4B()
@@ -902,7 +846,6 @@ void practica4B()
   const double rotateVel = 50.0;
   const double moveVelX = 100.0;
   const double moveVelY = 100.0;
-  //CARGAR IMAGEN
   Sprite **buffer;
   buffer = new Sprite*[5];
   Array<Sprite *> sprites(5);
@@ -943,208 +886,18 @@ void practica4B()
 
       sprites[i]->Update(SCREEN.ElapsedTime(),NULL);
       sprites[i]->Render();
-      //FUSIONAR ALIENS!!
     }
     SCREEN.Refresh();
       
   }
-  RESOURCE.FreeResources();
-  //Revisar
+
   for(unsigned int i = 0; i < 5; i++)
     delete buffer[i];
   delete []buffer;
 
+  RESOURCE.FreeResources();
 }
 
-void practica1()
-{
-  SCREEN.Open(800, 600, false);
-
-  RENDER;
-
-  const float rectCenterTam = 50.0f;
-  const int rectMouseTam = 10;
-  const int circleMouseRadius = 5;
-
-  const float midRectCenterTam = rectCenterTam / 2;
-  const int midRectMouseTam = rectMouseTam / 2;
-  const int circleDistanciaAlMouse = 30;
-  const int posicionFinal = 20;
-  int x_mouse;
-  int y_mouse;
-
-  double x_mouseCircle;
-  double y_mouseCircle;
-
-  double x_midle = SCREEN.GetWidth() / 2.0f - midRectCenterTam;
-  double y_midle = SCREEN.GetHeight() / 2.0f - midRectCenterTam;
-
-  double posCircle = 0.0f;
-  double senoCircle = 0.0f;
-  double cosenoCircle = 1.0f;
-  /*Preguntar como esconder el cursor*/
-
-  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
-  {
-    //Obtener posisicion raton
-    x_mouse = SCREEN.GetMouseX() - midRectMouseTam;
-    y_mouse = SCREEN.GetMouseY() - midRectMouseTam;
-
-    //Calcular posicion circulo
-    posCircle += SCREEN.ElapsedTime() * posicionFinal;
-    senoCircle = DegSin(posCircle); // negativo para sentido antihorario.
-    cosenoCircle = DegCos(posCircle);
-
-    x_mouseCircle = x_mouse + cosenoCircle * circleDistanciaAlMouse;
-    y_mouseCircle = y_mouse + senoCircle * circleDistanciaAlMouse;
-
-    //Obtener angulo y distancia
-    float angulo = static_cast<float>(Angle(x_mouse + midRectMouseTam, y_mouse + midRectMouseTam, x_mouseCircle, y_mouseCircle));
-    float distance = static_cast<float>(Distance(x_mouse + midRectMouseTam, y_mouse + midRectMouseTam, x_midle + midRectCenterTam, y_midle + midRectCenterTam));
-
-    //pintar titulo
-    String tit1 = "Grados: ";
-    tit1 += String::FromFloat(angulo);
-    tit1 += " Distancia: ";
-    tit1 += String::FromFloat(distance);
-    SCREEN.SetTitle(tit1);
-
-    // TAREA: Pintar primitivas
-    //Pintar Cuadrado Central en Rojo
-    RENDER.SetColor(255, 0, 0, 0);
-    RENDER.DrawRect(x_midle, y_midle, rectCenterTam, rectCenterTam);
-
-    //fijar color verde y pintar cuadrado en raton.
-    RENDER.SetColor(0, 255, 0, 0);
-    RENDER.DrawRect(x_mouse, y_mouse, rectMouseTam, rectMouseTam);
-
-    //Fijar color azul, pintar elipse en...
-    RENDER.SetColor(0, 0, 255, 0);
-    SCREEN.ElapsedTime();
-    RENDER.DrawEllipse(x_mouseCircle, y_mouseCircle, circleMouseRadius, circleMouseRadius);
-    // Refrescamos la pantalla
-    SCREEN.Refresh();
-    RENDER.Clear(0, 0, 0);
-  }
-
-
-}
-void practica2()
-{
-  SCREEN.Open(800, 600, false);
-
-  double angRotation = 0.0;
-  double escala = 1.0;
-  double incremento = 2.0;
-  //CARGAR IMAGEN
-  Image *pelota = RESOURCE.LoadImage("data/ball.png");
-  if (pelota)
-  {
-    double tamX = pelota->GetWidth();
-    double tamY = pelota->GetHeight();
-    //CENTRAR IMAGEN
-    pelota->SetMidHandle();
-    while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
-    {
-      angRotation += SCREEN.ElapsedTime() * 30; //30 grados un segundo
-      angRotation = WrapValue(angRotation, 360); // Modulo 360 para que no incremente continuamente.
-
-      if (escala >= 5.0) incremento *= -1;
-      else if (escala <= 0.5) incremento *= -1;
-
-      escala += SCREEN.ElapsedTime() * incremento;
-
-      RENDER.DrawImage(pelota, SCREEN.GetMouseX(), SCREEN.GetMouseY(),0, tamX * escala , tamY * escala, angRotation);
-      SCREEN.Refresh();
-      RENDER.Clear(0, 0, 0);
-    }
-    RESOURCE.FreeResources();
-  }
-
-}
-void practica2B()
-{
-  SCREEN.Open(800, 600, false);
-
-  double angRotation = 0.0;
-  double escala = 1.0;
-  double incremento = 2.0;
-  //CARGAR IMAGEN
-  Image *pelota = RESOURCE.LoadImage("data/soccer_npot.png");
-  if (pelota)
-  {
-    double tamX = pelota->GetWidth();
-    double tamY = pelota->GetHeight();
-    //CENTRAR IMAGEN
-    pelota->SetMidHandle();
-    while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
-    {
-      angRotation += SCREEN.ElapsedTime() * 30; //30 grados un segundo
-      angRotation = WrapValue(angRotation, 360); // Modulo 360 para que no incremente continuamente.
-
-      if (escala >= 5.0) incremento *= -1;
-      else if (escala <= 0.5) incremento *= -1;
-
-      escala += SCREEN.ElapsedTime() * incremento;
-
-      RENDER.DrawImage(pelota, SCREEN.GetMouseX(), SCREEN.GetMouseY(), 0, tamX * escala, tamY * escala, angRotation);
-      SCREEN.Refresh();
-      RENDER.Clear(0, 0, 0);
-    }
-    RESOURCE.FreeResources();
-  }
-
-}
-void practica3()
-{
-  SCREEN.Open(800, 600, false);
-
-  double acnhoFranja = SCREEN.GetWidth()/ 3.0f;
-  const double radio = 30.0;
-
-  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
-  {
-    RENDER.Clear(0, 0, 0);
-    RENDER.SetBlendMode(RENDER.SOLID);
-    RENDER.SetColor(255, 255, 255, 0);
-    RENDER.DrawRect(acnhoFranja, 0, acnhoFranja, SCREEN.GetHeight());
-
-    RENDER.SetBlendMode(RENDER.SOLID);
-    RENDER.SetColor(255, 0, 0, 255);
-    RENDER.DrawEllipse(SCREEN.GetWidth() / 2, SCREEN.GetHeight() / 4, radio, radio);
-    RENDER.SetColor(0, 255, 0, 255);
-    RENDER.DrawEllipse(SCREEN.GetWidth() / 2 - radio / 2, SCREEN.GetHeight() / 4 + radio, radio, radio);
-    RENDER.SetColor(0, 0, 255, 255);
-    RENDER.DrawEllipse(SCREEN.GetWidth() / 2 + radio / 2, SCREEN.GetHeight() / 4 + radio, radio, radio);
-
-    RENDER.SetBlendMode(RENDER.MULTIPLICATIVE);
-    RENDER.SetColor(255, 0, 0, 255);
-    RENDER.DrawEllipse(SCREEN.GetWidth() / 2, SCREEN.GetHeight() * 3 / 4, radio, radio);
-    RENDER.SetColor(0, 255, 0, 255);
-    RENDER.DrawEllipse(SCREEN.GetWidth() / 2 - radio / 2, SCREEN.GetHeight() * 3 / 4 + radio, radio, radio);
-    RENDER.SetColor(0, 0, 255, 255);
-    RENDER.DrawEllipse(SCREEN.GetWidth() / 2 + radio / 2, SCREEN.GetHeight() * 3 / 4 + radio, radio, radio);
-
-    RENDER.SetBlendMode(RENDER.ALPHA);
-    RENDER.SetColor(255, 0, 0, 128);
-    RENDER.DrawEllipse(SCREEN.GetWidth() / 6, SCREEN.GetHeight() / 2, radio, radio);
-    RENDER.SetColor(0, 255, 0, 128);
-    RENDER.DrawEllipse(SCREEN.GetWidth() / 6 - radio / 2, SCREEN.GetHeight() / 2 + radio, radio, radio);
-    RENDER.SetColor(0, 0, 255, 128);
-    RENDER.DrawEllipse(SCREEN.GetWidth() / 6 + radio / 2, SCREEN.GetHeight() / 2 + radio, radio, radio);
-
-    RENDER.SetBlendMode(RENDER.ADDITIVE);
-    RENDER.SetColor(255, 0, 0, 255);
-    RENDER.DrawEllipse(SCREEN.GetWidth() * 5 / 6, SCREEN.GetHeight() / 2, radio, radio);
-    RENDER.SetColor(0, 255, 0, 255);
-    RENDER.DrawEllipse(SCREEN.GetWidth() * 5 / 6 - radio / 2, SCREEN.GetHeight() / 2 + radio, radio, radio);
-    RENDER.SetColor(0, 0, 255, 255);
-    RENDER.DrawEllipse(SCREEN.GetWidth() * 5 / 6 + radio / 2, SCREEN.GetHeight() / 2 + radio, radio, radio);
-    SCREEN.Refresh();
-    RENDER.Clear(0, 0, 0);
-  }
-
-}
 void practica3B()
 {
   SCREEN.Open(800, 800, false);
@@ -1366,4 +1119,186 @@ void practica3B()
   }
   RESOURCE.FreeResources();
 
+}
+void practica3()
+{
+  SCREEN.Open(800, 600, false);
+
+  double acnhoFranja = SCREEN.GetWidth()/ 3.0f;
+  const double radio = 30.0;
+
+  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  {
+    RENDER.Clear(0, 0, 0);
+    RENDER.SetBlendMode(RENDER.SOLID);
+    RENDER.SetColor(255, 255, 255, 0);
+    RENDER.DrawRect(acnhoFranja, 0, acnhoFranja, SCREEN.GetHeight());
+
+    RENDER.SetBlendMode(RENDER.SOLID);
+    RENDER.SetColor(255, 0, 0, 255);
+    RENDER.DrawEllipse(SCREEN.GetWidth() / 2, SCREEN.GetHeight() / 4, radio, radio);
+    RENDER.SetColor(0, 255, 0, 255);
+    RENDER.DrawEllipse(SCREEN.GetWidth() / 2 - radio / 2, SCREEN.GetHeight() / 4 + radio, radio, radio);
+    RENDER.SetColor(0, 0, 255, 255);
+    RENDER.DrawEllipse(SCREEN.GetWidth() / 2 + radio / 2, SCREEN.GetHeight() / 4 + radio, radio, radio);
+
+    RENDER.SetBlendMode(RENDER.MULTIPLICATIVE);
+    RENDER.SetColor(255, 0, 0, 255);
+    RENDER.DrawEllipse(SCREEN.GetWidth() / 2, SCREEN.GetHeight() * 3 / 4, radio, radio);
+    RENDER.SetColor(0, 255, 0, 255);
+    RENDER.DrawEllipse(SCREEN.GetWidth() / 2 - radio / 2, SCREEN.GetHeight() * 3 / 4 + radio, radio, radio);
+    RENDER.SetColor(0, 0, 255, 255);
+    RENDER.DrawEllipse(SCREEN.GetWidth() / 2 + radio / 2, SCREEN.GetHeight() * 3 / 4 + radio, radio, radio);
+
+    RENDER.SetBlendMode(RENDER.ALPHA);
+    RENDER.SetColor(255, 0, 0, 128);
+    RENDER.DrawEllipse(SCREEN.GetWidth() / 6, SCREEN.GetHeight() / 2, radio, radio);
+    RENDER.SetColor(0, 255, 0, 128);
+    RENDER.DrawEllipse(SCREEN.GetWidth() / 6 - radio / 2, SCREEN.GetHeight() / 2 + radio, radio, radio);
+    RENDER.SetColor(0, 0, 255, 128);
+    RENDER.DrawEllipse(SCREEN.GetWidth() / 6 + radio / 2, SCREEN.GetHeight() / 2 + radio, radio, radio);
+
+    RENDER.SetBlendMode(RENDER.ADDITIVE);
+    RENDER.SetColor(255, 0, 0, 255);
+    RENDER.DrawEllipse(SCREEN.GetWidth() * 5 / 6, SCREEN.GetHeight() / 2, radio, radio);
+    RENDER.SetColor(0, 255, 0, 255);
+    RENDER.DrawEllipse(SCREEN.GetWidth() * 5 / 6 - radio / 2, SCREEN.GetHeight() / 2 + radio, radio, radio);
+    RENDER.SetColor(0, 0, 255, 255);
+    RENDER.DrawEllipse(SCREEN.GetWidth() * 5 / 6 + radio / 2, SCREEN.GetHeight() / 2 + radio, radio, radio);
+    SCREEN.Refresh();
+    RENDER.Clear(0, 0, 0);
+  }
+
+}
+
+void practica2B()
+{
+  SCREEN.Open(800, 600, false);
+
+  double angRotation = 0.0;
+  double escala = 1.0;
+  double incremento = 2.0;
+  //CARGAR IMAGEN
+  Image *pelota = RESOURCE.LoadImage("data/soccer_npot.png");
+  if (pelota)
+  {
+    double tamX = pelota->GetWidth();
+    double tamY = pelota->GetHeight();
+    //CENTRAR IMAGEN
+    pelota->SetMidHandle();
+    while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+    {
+      angRotation += SCREEN.ElapsedTime() * 30; //30 grados un segundo
+      angRotation = WrapValue(angRotation, 360); // Modulo 360 para que no incremente continuamente.
+
+      if (escala >= 5.0) incremento *= -1;
+      else if (escala <= 0.5) incremento *= -1;
+
+      escala += SCREEN.ElapsedTime() * incremento;
+
+      RENDER.DrawImage(pelota, SCREEN.GetMouseX(), SCREEN.GetMouseY(), 0, tamX * escala, tamY * escala, angRotation);
+      SCREEN.Refresh();
+      RENDER.Clear(0, 0, 0);
+    }
+    RESOURCE.FreeResources();
+  }
+
+}
+void practica2()
+{
+  SCREEN.Open(800, 600, false);
+
+  double angRotation = 0.0;
+  double escala = 1.0;
+  double incremento = 2.0;
+
+  Image *pelota = RESOURCE.LoadImage("data/ball.png");
+  if (pelota)
+  {
+    double tamX = pelota->GetWidth();
+    double tamY = pelota->GetHeight();
+    pelota->SetMidHandle();
+    while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+    {
+      angRotation += SCREEN.ElapsedTime() * 30; //30 grados un segundo
+      angRotation = WrapValue(angRotation, 360); // Modulo 360 para que no incremente continuamente.
+
+      if (escala >= 5.0) incremento *= -1;
+      else if (escala <= 0.5) incremento *= -1;
+
+      escala += SCREEN.ElapsedTime() * incremento;
+
+      RENDER.DrawImage(pelota, SCREEN.GetMouseX(), SCREEN.GetMouseY(),0, tamX * escala , tamY * escala, angRotation);
+      SCREEN.Refresh();
+      RENDER.Clear(0, 0, 0);
+    }
+    RESOURCE.FreeResources();
+  }
+
+}
+void practica1()
+{
+  SCREEN.Open(800, 600, false);
+
+  const float rectCenterTam = 50.0f;
+  const int rectMouseTam = 10;
+  const int circleMouseRadius = 5;
+
+  const float midRectCenterTam = rectCenterTam / 2;
+  const int midRectMouseTam = rectMouseTam / 2;
+  const int circleDistanciaAlMouse = 30;
+  const int posicionFinal = 20;
+  int x_mouse;
+  int y_mouse;
+
+  double x_mouseCircle;
+  double y_mouseCircle;
+
+  double x_midle = SCREEN.GetWidth() / 2.0f - midRectCenterTam;
+  double y_midle = SCREEN.GetHeight() / 2.0f - midRectCenterTam;
+
+  double posCircle = 0.0f;
+  double senoCircle = 0.0f;
+  double cosenoCircle = 1.0f;
+
+  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  {
+    //Obtener posisicion raton
+    x_mouse = SCREEN.GetMouseX() - midRectMouseTam;
+    y_mouse = SCREEN.GetMouseY() - midRectMouseTam;
+
+    //Calcular posicion circulo
+    posCircle += SCREEN.ElapsedTime() * posicionFinal;
+    senoCircle = DegSin(posCircle); // negativo para sentido antihorario.
+    cosenoCircle = DegCos(posCircle);
+
+    x_mouseCircle = x_mouse + cosenoCircle * circleDistanciaAlMouse;
+    y_mouseCircle = y_mouse + senoCircle * circleDistanciaAlMouse;
+
+    //Obtener angulo y distancia
+    float angulo = static_cast<float>(Angle(x_mouse + midRectMouseTam, y_mouse + midRectMouseTam, x_mouseCircle, y_mouseCircle));
+    float distance = static_cast<float>(Distance(x_mouse + midRectMouseTam, y_mouse + midRectMouseTam, x_midle + midRectCenterTam, y_midle + midRectCenterTam));
+
+    //pintar titulo
+    String tit1 = "Grados: ";
+    tit1 += String::FromFloat(angulo);
+    tit1 += " Distancia: ";
+    tit1 += String::FromFloat(distance);
+    SCREEN.SetTitle(tit1);
+    //Pintar Cuadrado Central en Rojo
+    RENDER.SetColor(255, 0, 0, 0);
+    RENDER.DrawRect(x_midle, y_midle, rectCenterTam, rectCenterTam);
+
+    //fijar color verde y pintar cuadrado en raton.
+    RENDER.SetColor(0, 255, 0, 0);
+    RENDER.DrawRect(x_mouse, y_mouse, rectMouseTam, rectMouseTam);
+
+    //Fijar color azul, pintar elipse en...
+    RENDER.SetColor(0, 0, 255, 0);
+    SCREEN.ElapsedTime();
+    RENDER.DrawEllipse(x_mouseCircle, y_mouseCircle, circleMouseRadius, circleMouseRadius);
+    // Refrescamos la pantalla
+    SCREEN.Refresh();
+    RENDER.Clear(0, 0, 0);
+  }
 }

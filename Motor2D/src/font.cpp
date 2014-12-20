@@ -11,7 +11,7 @@ Font::Font(const String& filename) : Image(filename, 16, 16)
   uint16 height = static_cast<uint16>(y);
   // Generamos la textura
   if (buffer){
-    Glyph *car;
+    Glyph *car = NULL;
     int tamCeldasX = width / 16;
     int tamCeldasY = height / 16;
     for (y = 0; y < height; y+=tamCeldasY)
@@ -98,7 +98,7 @@ Font::Font(const String& filename, uint32 tamFuente)
         uint32 height = charData[i].y1 - charData[i].y0;
         if (i == 32) {
           car->setOrigin(0, charData[i].y0);
-          car->setEnd(tamFuente / 3, charData[i].y1);
+          car->setEnd(static_cast<uint16>(tamFuente / 3), charData[i].y1);
         }
         else{
           car->setOrigin(charData[i].x0, charData[i].y0);
@@ -111,7 +111,7 @@ Font::Font(const String& filename, uint32 tamFuente)
         for (uint32 j = 0; j < height; j++)
           memcpy(&bufferTTF[width * 4 * j], &colorBuffer[imgsize * 4 * (j + car->getOriginY()) + car->getOriginX() * 4], width * 4);
 
-        car->setcharTTF(bufferTTF, width, height);
+        car->setcharTTF(bufferTTF, static_cast<uint16>(width), static_cast<uint16>(height));
         free(bufferTTF);
         letters.Add(car);
 	    }
@@ -122,7 +122,7 @@ Font::Font(const String& filename, uint32 tamFuente)
 }
 uint16 Font::GetSize() const
 {
-  return tamFuente;
+  return static_cast<uint16>(tamFuente);
 }
 
 uint32 Font::GetTextHeight(const String& text) const
@@ -183,8 +183,6 @@ void Font::Render(const String& text, double x, double y) const
       for (int32 i = 0; i < text.Length(); i++){
         uint16 eX = letters[text[i]]->getEndX();
         uint16 oX = letters[text[i]]->getOriginX();
-        uint16 oY = letters[text[i]]->getOriginY();
-        uint16 eY = letters[text[i]]->getEndY();
         double offsetY = letters[text[i]]->getYOffset();
         if (text[i] != 32) RENDER.DrawImage(letters[text[i]]->getcharTTF(), x + offsetX, y + offsetY);
         anchoCaracter = eX - oX;

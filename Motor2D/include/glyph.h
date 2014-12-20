@@ -28,6 +28,6 @@ public:
   virtual bool getisTTF() const { return isTTF; }
   virtual void setIsTTF (bool ttf) { isTTF = ttf; }
   virtual Image * getcharTTF() const { return charTTF; }
-  virtual void setcharTTF (uint8 *buffer, uint32 width, uint32 height) { charTTF = new Image(buffer, width, height); }
+  virtual void setcharTTF (uint8 *buffer, uint16 width, uint16 height) { charTTF = new Image(buffer, width, height); }
 };
 #endif

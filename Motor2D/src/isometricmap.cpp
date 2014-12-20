@@ -16,18 +16,10 @@ IsometricMap::IsometricMap(const String& filename, uint16 firstColId) : Map(file
     doc.parse<0>((char *)contenido.ToCString());
     xml_node<>* map = doc.first_node("map");
     String aux;
-    aux = (char *)map->first_attribute("tilewidth")->value();
-    uint16 tileWidth = static_cast<uint16>(aux.ToInt());
-    aux = (char *)map->first_attribute("tileheight")->value();
-    uint16 tileHeight = static_cast<uint16>(aux.ToInt());
     //NODO TILESET
     xml_node<>* tileset = map->first_node("tileset");
     aux = (char *)tileset->first_attribute("firstgid")->value();
     int firstgid = aux.ToInt();
-    aux = (char *)tileset->first_attribute("tilewidth")->value();
-    int tilewidth = aux.ToInt();
-    aux = (char *)tileset->first_attribute("tileheight")->value();
-    int tileheight = aux.ToInt();
     //layer && next_sibling
     xml_node<>* layer = map->first_node("layer");
     layer = layer->next_sibling("layer");
@@ -55,7 +47,7 @@ void IsometricMap::GenerateLayerSprites(IsometricScene *scene)
       {
         //se genera sprite
         IsometricSprite *nuevo = scene->CreateSprite(GetImage());
-        nuevo->SetCurrentFrame(GetLayerId(x, y));
+        nuevo->SetCurrentFrame(static_cast<uint16>(GetLayerId(x, y)));
         if (GetLayerId(x, y) >= GetFirstColId()){
           nuevo->SetCollisionTam(GetTileWidth(), GetTileWidth());
           nuevo->SetCollision(Sprite::COLLISION_RECT);
