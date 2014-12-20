@@ -96,7 +96,8 @@ bool Sprite::CheckCollision(const Map* map) {
   if (map){
     if (collision)
     {
-      return map->CheckCollision(collision);
+      collided = map->CheckCollision(collision);
+      return collided;
     }
   }
   return false;

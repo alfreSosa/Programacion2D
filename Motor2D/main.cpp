@@ -33,9 +33,25 @@ struct Velocidades
 enum Movimiento {NONE, UP, DOWN, LEFT, RIGTH,  };
 
 int main(int argc, char* argv[]) {
-  //practica9B();
-  //practica9();
-  //practica10();
+  practica1();
+  practica2();
+  practica2B();
+  practica3();
+  practica3B();
+  practica4();
+  practica4B();
+  practica5();
+  practica5B();
+  practica6();
+  practica6B();
+  practica6C();
+  practica7();
+  practica7B();
+  practica8();
+  practica8B();
+  practica9();
+  practica9B();
+  practica10();
   practica11();
   return 0;
 }
