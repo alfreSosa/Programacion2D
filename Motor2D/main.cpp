@@ -1,4 +1,4 @@
-//#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 //ESCONDE LA CONSOLA
 #include <math.h>
 #include "include/u-gine.h"
@@ -270,7 +270,7 @@ void practica9B()
       puntero->SetImage(rect);
       puntero->SetCollision(Sprite::COLLISION_RECT);
     }
-   if (SCREEN.KeyPressed(GLFW_KEY_TAB)){
+   if (SCREEN.MouseButtonPressed(GLFW_MOUSE_BUTTON_3)){
       puntero->SetImage(alien);
       puntero->SetCollisionPixelData(col);
       puntero->SetCollision(Sprite::COLLISION_PIXEL);

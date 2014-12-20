@@ -26,11 +26,8 @@ public:
   virtual const Image* GetImage() const { return image; }
 
   virtual void SetPosition(double x, double y) { this->x = x; this->y = y;}
-  virtual void SetPositionScreen(double x, double y) { this->screenX = x; this->screenY = y; }
   virtual void SetX(double x) { this->x = x; }
   virtual void SetY(double y) { this->y = y; }
-  virtual void SetScreenX(double x) { this->screenX = x; }
-  virtual void SetScreenY(double y) { this->screenY = y; }
   virtual double GetX() const { return x; }
   virtual double GetY() const { return y; }
   virtual double GetScreenX() const { return x;}
@@ -97,7 +94,6 @@ protected:
 private:
   Image* image;
   double x, y;
-  double screenX, screenY;
   double angle;
   double scalex, scaley;
   Renderer::BlendMode blendMode;

@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "renderer.h"
+#include "particle.h"
 
 class Image;
 class Particle;

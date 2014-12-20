@@ -15,9 +15,12 @@ public:
   virtual void SetCollision(CollisionMode mode);
   virtual void Update(double elapsed, const Map* map = NULL);
   virtual void SetCollisionTam(double width = 0.0, double height = 0.0) { wColission = width; hColission = height; }
+  virtual double GetScreenX() const { return screenX; }
+  virtual double GetScreenY() const { return screenY; }
 protected:
   virtual void UpdateCollisionBox();
 private:
+  double screenX, screenY;
   double z;
   double wColission;
   double hColission;

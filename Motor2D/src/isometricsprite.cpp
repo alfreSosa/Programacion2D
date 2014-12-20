@@ -24,10 +24,8 @@ void IsometricSprite::SetCollision(CollisionMode mode)
 
 void IsometricSprite::Update(double elapsed, const Map* map)
 {
-  double screenX, screenY;
   Sprite::Update(elapsed, map);
   TransformIsoCoords(GetX(), GetY(), z, &screenX, &screenY);
-  SetPositionScreen(screenX, screenY);
 }
 
 void IsometricSprite::UpdateCollisionBox()
