@@ -1,4 +1,4 @@
-#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+//#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 
 #include "include/u-gine.h"
 //Declaración de funciones para ejecutar cada ejercicio
@@ -33,30 +33,61 @@ struct Velocidades
 /*Si se van cerrando las ventanas pulsando a la "X", se cierra y se abre la siguiente practica.
 Si no simplemente comentar la funcion a la práctica que no se desee ejecutar*/
 int main(int argc, char* argv[]) {
-  practica1();
-  practica2();
-  practica2B();
-  practica3();
-  practica3B();
-  practica4();
-  practica4B();
-  practica5();
-  practica5B();
-  practica6();
-  practica6B();
-  practica6C();
-  practica7();
-  practica7B();
-  practica8();
-  practica8B();
-  practica9();
-  practica9B();
-  practica10();
-  /*Practica 11: */
-  /*El movimiento del sprite no es como el indicado en el enunciado, ya que al hacer que se mueva de casilla
-  en casilla se queda bloqueado, esta colisionando en la posicion inicial por todos los lados. Por este motivo
-  he preferido dejar el movimiento del sprite libre, de forma que se pueda mover por el mapa colisionando por los árboles*/
-  practica11();
+  int example = 0;
+  do {
+    printf("Choose one example [1-11]: ");
+    scanf("%d", &example);
+    switch (example)
+    {
+    case 1:
+      practica1();
+      break;
+    case 2:
+      practica2();
+      practica2B(); 
+      break;
+    case 3:
+      practica3();
+      practica3B();
+      break;
+    case 4:
+      practica4();
+      practica4B();
+      break;
+    case 5:
+      practica5();
+      practica5B(); 
+      break;
+    case 6:
+      practica6();
+      practica6B();
+      practica6C();
+      break;
+    case 7:
+      practica7();
+      practica7B();
+      break;
+    case 8:
+      practica8();
+      practica8B();
+      break;
+    case 9:
+      practica9();
+      practica9B();
+      break;
+    case 10:
+      practica10();
+
+      break;
+    case 11:
+      practica11();
+      break;
+    default:
+      printf("Bad example, choose other\n");
+      break;
+    }
+  } while (example <= 0 || example > 11);
+
   return 0;
 }
 void practica11()
