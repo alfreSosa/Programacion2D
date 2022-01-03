@@ -3,9 +3,8 @@
 
 Screen* Screen::screen = NULL;
 
-int GLFWCALL Screen::CloseCallback() {
+void Screen::CloseCallback(GLFWwindow* window) {
 	Screen::Instance().opened = false;
-	return GL_TRUE;
 }
 
 Screen::Screen() {
@@ -26,11 +25,12 @@ Screen& Screen::Instance() {
 
 void Screen::Open(uint16 width, uint16 height, bool fullscreen) {
 	// Abrimos la ventana
-	glfwOpenWindowHint(GLFW_WINDOW_NO_RESIZE, GL_TRUE);
-	glfwOpenWindow(int(width), int(height), 8, 8, 8, 8, 0, 0, fullscreen ? GLFW_FULLSCREEN : GLFW_WINDOW );
-	if ( !fullscreen )
-		glfwSetWindowPos((GetDesktopWidth()-width)/2, (GetDesktopHeight()-height)/2);
-	glfwSetWindowCloseCallback(GLFWwindowclosefun(CloseCallback));
+    mainWindow = glfwCreateWindow(width, height, "", fullscreen ? glfwGetPrimaryMonitor() : NULL, NULL);
+	/*glfwOpenWindowHint(GLFW_WINDOW_NO_RESIZE, GL_TRUE);
+	glfwOpenWindow(int(width), int(height), 8, 8, 8, 8, 0, 0, fullscreen ? GLFW_FULLSCREEN : GLFW_WINDOW );*/
+	/*if ( !fullscreen )
+		glfwSetWindowPos(mainWindow, (GetDesktopWidth()-width)/2, (GetDesktopHeight()-height)/2);*/
+	glfwSetWindowCloseCallback(mainWindow, GLFWwindowclosefun(CloseCallback));
 	glfwSwapInterval(1);
 	SetTitle("");
 	opened = true;
@@ -61,36 +61,37 @@ void Screen::Open(uint16 width, uint16 height, bool fullscreen) {
 }
 
 void Screen::Close() {
-	glfwCloseWindow();
+	glfwDestroyWindow(mainWindow);
+    mainWindow = nullptr;
 }
 
 void Screen::SetTitle(const String &title) {
-    glfwSetWindowTitle(title.ToCString());
+    glfwSetWindowTitle(mainWindow, title.ToCString());
 }
 
 void Screen::Refresh() {
-	glfwSwapBuffers();
-	glfwGetMousePos(&mousex, &mousey);
+	glfwSwapBuffers(mainWindow);
+	glfwGetCursorPos(mainWindow, &mousex, &mousey);
 	elapsed = glfwGetTime() - lastTime;
 	lastTime = glfwGetTime();
 }
 
 uint16 Screen::GetDesktopWidth() const {
-	GLFWvidmode mode;
-	glfwGetDesktopMode(&mode);
-	return uint16(mode.Width);
+    int count = 0;
+    const GLFWvidmode* mode = glfwGetVideoModes(glfwGetPrimaryMonitor(), &count);
+	return uint16(mode->width);
 }
 
 uint16 Screen::GetDesktopHeight() const {
-	GLFWvidmode mode;
-	glfwGetDesktopMode(&mode);
-	return uint16(mode.Height);
+    int count = 0;
+    const GLFWvidmode* mode = glfwGetVideoModes(glfwGetPrimaryMonitor(), &count);
+	return uint16(mode->height);
 }
 
 bool Screen::MouseButtonPressed(int button) const {
-	return glfwGetMouseButton(button) == GLFW_PRESS;
+	return glfwGetMouseButton(mainWindow, button) == GLFW_PRESS;
 }
 
 bool Screen::KeyPressed(int key) const {
-	return glfwGetKey(key) == GLFW_PRESS;
+	return glfwGetKey(mainWindow, key) == GLFW_PRESS;
 }

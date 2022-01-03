@@ -3,7 +3,7 @@
 
 #include "renderer.h"
 #include "types.h"
-
+#include <cmath>
 
 class Collision;
 class CollisionPixelData;

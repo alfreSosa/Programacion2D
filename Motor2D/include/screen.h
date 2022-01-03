@@ -25,8 +25,8 @@ public:
     double ElapsedTime() const { return elapsed; }
 
 	// Input
-    virtual int32 GetMouseX() const { return mousex; }
-    virtual int32 GetMouseY() const { return mousey; }
+    virtual double GetMouseX() const { return mousex; }
+    virtual double GetMouseY() const { return mousey; }
     virtual bool MouseButtonPressed(int button) const;
     virtual bool KeyPressed(int key) const;
 protected:
@@ -37,11 +37,12 @@ private:
 
     bool opened;
     uint16 width, height;
-    int32 mousex, mousey;
+    double mousex, mousey;
     double lastTime;
     double elapsed;
+    struct GLFWwindow* mainWindow;
 
-    static int CloseCallback();
+    static void CloseCallback(GLFWwindow* window);
 };
 
 #endif

@@ -1,6 +1,7 @@
 //#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 
 #include "include/u-gine.h"
+
 //Declaración de funciones para ejecutar cada ejercicio
 void practica1();
 void practica2();
@@ -113,29 +114,29 @@ void practica11()
   double prevY = player->GetY();
 
   player->SetCurrentFrame(lastFrame);
-  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  while (SCREEN.IsOpened() && !SCREEN.KeyPressed(GLFW_KEY_ESCAPE))
   {
     RENDER.Clear(0, 0, 0);
     posX = player->GetX();
     posY = player->GetY();
     prevX = player->GetX();
     prevY = player->GetY();
-    if (glfwGetKey(GLFW_KEY_UP)){
+    if (SCREEN.KeyPressed(GLFW_KEY_UP)){
       posY -= 100 * SCREEN.ElapsedTime();
       player->SetFrameRange(24, 27);
       lastFrame = 24;
     }
-    else if (glfwGetKey(GLFW_KEY_DOWN)){
+    else if (SCREEN.KeyPressed(GLFW_KEY_DOWN)){
       posY += 100.0 * SCREEN.ElapsedTime();
       player->SetFrameRange(56, 59);
       lastFrame = 56;
     }
-    else if (glfwGetKey(GLFW_KEY_RIGHT)){
+    else if (SCREEN.KeyPressed(GLFW_KEY_RIGHT)){
       posX += 100.0 * SCREEN.ElapsedTime();
       player->SetFrameRange(40, 43);
       lastFrame = 40;
     }
-    else if (glfwGetKey(GLFW_KEY_LEFT)){
+    else if (SCREEN.KeyPressed(GLFW_KEY_LEFT)){
       posX -= 100.0 * SCREEN.ElapsedTime();
       player->SetFrameRange(0, 3);
       lastFrame = 0;
@@ -176,18 +177,18 @@ void practica10()
   escena->GetCamera().SetBounds(0.0, 0.0, escena->GetMap()->GetWidth(), escena->GetMap()->GetHeight());
   double posX = SCREEN.GetWidth() / 2.0;
   double posY = SCREEN.GetHeight() / 2.0;
-  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  while (SCREEN.IsOpened() && !SCREEN.KeyPressed(GLFW_KEY_ESCAPE))
   {
     RENDER.Clear(255, 255, 255);
     posY = heli->GetY();
     posX = heli->GetX();
-    if (glfwGetKey(GLFW_KEY_UP))
+    if (SCREEN.KeyPressed(GLFW_KEY_UP))
       posY -= 250.0 * SCREEN.ElapsedTime();
-    if (glfwGetKey(GLFW_KEY_DOWN))
+    if (SCREEN.KeyPressed(GLFW_KEY_DOWN))
       posY += 250.0 * SCREEN.ElapsedTime();
-    if (glfwGetKey(GLFW_KEY_RIGHT))
+    if (SCREEN.KeyPressed(GLFW_KEY_RIGHT))
       posX += 250.0 * SCREEN.ElapsedTime();
-    if (glfwGetKey(GLFW_KEY_LEFT))
+    if (SCREEN.KeyPressed(GLFW_KEY_LEFT))
       posX -= 250.0 * SCREEN.ElapsedTime();
 
     heli->MoveTo(posX, posY,100.0,100.0);
@@ -233,7 +234,7 @@ void practica9B()
   heli->SetCollisionPixelData(col);
   heli->SetCollision(Sprite::COLLISION_PIXEL);
   
-  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  while (SCREEN.IsOpened() && !SCREEN.KeyPressed(GLFW_KEY_ESCAPE))
   {
     RENDER.Clear(0, 0, 0);
     puntero->SetPosition(SCREEN.GetMouseX(), SCREEN.GetMouseY());
@@ -300,7 +301,7 @@ void practica9()
   Sprite *puntero = escena->CreateSprite(circle);
   puntero->SetRadius(circle->GetHeight() / 2.0);
   puntero->SetCollision(Sprite::COLLISION_CIRCLE);
-  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  while (SCREEN.IsOpened() && !SCREEN.KeyPressed(GLFW_KEY_ESCAPE))
   {
     RENDER.Clear(0, 0, 0);
     puntero->SetPosition(SCREEN.GetMouseX(), SCREEN.GetMouseY());
@@ -379,7 +380,7 @@ void practica8B()
 
   }
 
-  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  while (SCREEN.IsOpened() && !SCREEN.KeyPressed(GLFW_KEY_ESCAPE))
   {
     generador->SetPosition(SCREEN.GetMouseX(), SCREEN.GetMouseY());
     emisor->SetX(SCREEN.GetMouseX());
@@ -422,7 +423,7 @@ void practica8()
     emisor->SetMaxColor(255, 255, 255);
   }
 
-  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  while (SCREEN.IsOpened() && !SCREEN.KeyPressed(GLFW_KEY_ESCAPE))
   {
     generador->SetPosition(SCREEN.GetMouseX(), SCREEN.GetMouseY());
     emisor->SetX(SCREEN.GetMouseX());
@@ -466,15 +467,15 @@ void practica7B()
   }
   double posX = SCREEN.GetWidth() / 2.0;
   double posY = SCREEN.GetHeight() / 2.0;
-  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  while (SCREEN.IsOpened() && !SCREEN.KeyPressed(GLFW_KEY_ESCAPE))
   {
-    if (glfwGetKey(GLFW_KEY_UP))
+    if (SCREEN.KeyPressed(GLFW_KEY_UP))
       posY -= 100.0 * SCREEN.ElapsedTime();
-    if (glfwGetKey(GLFW_KEY_DOWN))
+    if (SCREEN.KeyPressed(GLFW_KEY_DOWN))
       posY += 100.0 * SCREEN.ElapsedTime();
-    if (glfwGetKey(GLFW_KEY_RIGHT))
+    if (SCREEN.KeyPressed(GLFW_KEY_RIGHT))
       posX += 100.0 * SCREEN.ElapsedTime();
-    if (glfwGetKey(GLFW_KEY_LEFT))
+    if (SCREEN.KeyPressed(GLFW_KEY_LEFT))
       posX -= 100.0 * SCREEN.ElapsedTime();
 
     personaje->SetPosition(posX, posY);
@@ -509,16 +510,16 @@ void practica7()
   double posX = SCREEN.GetWidth() / 2.0;
   double posY = SCREEN.GetHeight() / 2.0;
 
-  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  while (SCREEN.IsOpened() && !SCREEN.KeyPressed(GLFW_KEY_ESCAPE))
   {
 
-    if (glfwGetKey(GLFW_KEY_UP))
+    if (SCREEN.KeyPressed(GLFW_KEY_UP))
       posY -= 100.0 * SCREEN.ElapsedTime();
-    if (glfwGetKey(GLFW_KEY_DOWN))
+    if (SCREEN.KeyPressed(GLFW_KEY_DOWN))
       posY += 100.0 * SCREEN.ElapsedTime();
-    if (glfwGetKey(GLFW_KEY_RIGHT))
+    if (SCREEN.KeyPressed(GLFW_KEY_RIGHT))
       posX += 100.0 * SCREEN.ElapsedTime();
-    if (glfwGetKey(GLFW_KEY_LEFT))
+    if (SCREEN.KeyPressed(GLFW_KEY_LEFT))
       posX -= 100.0 * SCREEN.ElapsedTime();
 
     personaje->SetPosition(posX, posY);
@@ -547,7 +548,7 @@ void practica6C()
   vel.y = rand() % (255 - 127) + 128;
   String texto = "HOLA, mundo g";
   RENDER.SetBlendMode(RENDER.ALPHA);
-  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  while (SCREEN.IsOpened() && !SCREEN.KeyPressed(GLFW_KEY_ESCAPE))
   {
     //RENDER.Clear(255, 255, 255);
     RENDER.Clear(0, 0, 0);
@@ -603,7 +604,7 @@ void practica6B()
   vel.y = rand() % (255 - 127) + 128;
   String texto = "Hola, Mundo";
   RENDER.SetBlendMode(RENDER.ALPHA);
-  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  while (SCREEN.IsOpened() && !SCREEN.KeyPressed(GLFW_KEY_ESCAPE))
   {
     RENDER.Clear(255, 255, 255);
     RENDER.SetColor(red, green, blue, alpha);
@@ -658,7 +659,7 @@ void practica6()
   vel.x = rand() % (255 - 127) + 128;
   vel.y = rand() % (255 - 127) + 128;
   String texto = "Hola Mundo";
-  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  while (SCREEN.IsOpened() && !SCREEN.KeyPressed(GLFW_KEY_ESCAPE))
   {
     RENDER.Clear(0, 0, 0);
     RENDER.SetColor(red, green, blue, alpha);
@@ -706,7 +707,7 @@ void practica5B()
     latigo.SetImage(hueso);
     latigo.SetColor(255,255,255);
     latigo.SetFPS(32);
-    while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+    while (SCREEN.IsOpened() && !SCREEN.KeyPressed(GLFW_KEY_ESCAPE))
     {
       RENDER.Clear(0, 0, 0);
       latigo.SetPosition(SCREEN.GetMouseX(),SCREEN.GetMouseY());
@@ -756,7 +757,7 @@ void practica5()
 
   }
 
-  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  while (SCREEN.IsOpened() && !SCREEN.KeyPressed(GLFW_KEY_ESCAPE))
   {
     RENDER.Clear(0, 0, 0);
 
@@ -818,7 +819,7 @@ void practica4()
   void *data;
   double nPosX;
   double nPosY;
-  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  while (SCREEN.IsOpened() && !SCREEN.KeyPressed(GLFW_KEY_ESCAPE))
   {
     
 
@@ -903,7 +904,7 @@ void practica4B()
 
   }
 
-  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  while (SCREEN.IsOpened() && !SCREEN.KeyPressed(GLFW_KEY_ESCAPE))
   {
     RENDER.Clear(0, 0, 0);
 
@@ -934,7 +935,7 @@ void practica3B()
   SCREEN.Open(800, 800, false);
   Image *caja = RESOURCE.LoadImage("data/box.jpg");
   Image *luz = RESOURCE.LoadImage("data/light.png");
-  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  while (SCREEN.IsOpened() && !SCREEN.KeyPressed(GLFW_KEY_ESCAPE))
   {
     RENDER.Clear(0, 0, 0);
     RENDER.SetBlendMode(RENDER.SOLID);
@@ -1158,7 +1159,7 @@ void practica3()
   double acnhoFranja = SCREEN.GetWidth()/ 3.0f;
   const double radio = 30.0;
 
-  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  while (SCREEN.IsOpened() && !SCREEN.KeyPressed(GLFW_KEY_ESCAPE))
   {
     RENDER.Clear(0, 0, 0);
     RENDER.SetBlendMode(RENDER.SOLID);
@@ -1217,7 +1218,7 @@ void practica2B()
     double tamY = pelota->GetHeight();
     //CENTRAR IMAGEN
     pelota->SetMidHandle();
-    while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+    while (SCREEN.IsOpened() && !SCREEN.KeyPressed(GLFW_KEY_ESCAPE))
     {
       angRotation += SCREEN.ElapsedTime() * 30; //30 grados un segundo
       angRotation = WrapValue(angRotation, 360); // Modulo 360 para que no incremente continuamente.
@@ -1249,7 +1250,7 @@ void practica2()
     double tamX = pelota->GetWidth();
     double tamY = pelota->GetHeight();
     pelota->SetMidHandle();
-    while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+    while (SCREEN.IsOpened() && !SCREEN.KeyPressed(GLFW_KEY_ESCAPE))
     {
       angRotation += SCREEN.ElapsedTime() * 30; //30 grados un segundo
       angRotation = WrapValue(angRotation, 360); // Modulo 360 para que no incremente continuamente.
@@ -1292,7 +1293,7 @@ void practica1()
   double senoCircle = 0.0f;
   double cosenoCircle = 1.0f;
 
-  while (SCREEN.IsOpened() && !glfwGetKey(GLFW_KEY_ESC))
+  while (SCREEN.IsOpened() && !SCREEN.KeyPressed(GLFW_KEY_ESCAPE))
   {
     //Obtener posisicion raton
     x_mouse = SCREEN.GetMouseX() - midRectMouseTam;
