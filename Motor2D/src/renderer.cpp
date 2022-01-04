@@ -44,7 +44,7 @@ void Renderer::SetBlendMode(BlendMode blendMode) const {
 	}
 }
 
-void Renderer::SetColor(uint8 r, uint8 g, uint8 b, uint8 a) const {
+void Renderer::SetColor(double r, double g, double b, double a) const {
 	glColor4ub(r, g, b, a);
 }
 
@@ -53,10 +53,10 @@ void Renderer::SetOrigin(double x, double y) const {
   glTranslated(-x, -y, 0);
 }
 
-void Renderer::Clear(uint8 r, uint8 g, uint8 b) const {
-	// TAREA: Limpiar el backbuffer
-  glClearColor(r,g,b,0); 
-  glClear(GL_COLOR_BUFFER_BIT);
+void Renderer::Clear(double r /*= 0.0*/, double g /*= 0.0*/, double b /*= 0.0f*/) const 
+{
+    glClearColor(r, g, b, 0);
+    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void Renderer::DrawPoint(double x, double y) const {

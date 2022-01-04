@@ -22,8 +22,8 @@ public:
   virtual void FollowSprite(const Sprite * sprite);
   virtual void Update();
 private:
-  double x, y;
-  double boundx0, boundy0, boundx1, boundy1;
-  const Sprite *followingSprite;
+  double m_x, m_y;
+  double m_boundx0, m_boundy0, m_boundx1, m_boundy1;
+  const Sprite *m_followingSprite;
 };
 #endif

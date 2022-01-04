@@ -20,9 +20,9 @@ public:
     static const Renderer& Instance() { if ( !renderer ) renderer = new Renderer(); return *renderer; }
 
     virtual void SetBlendMode(BlendMode blendMode) const;
-    virtual void SetColor(uint8 r, uint8 g, uint8 b, uint8 a) const;
+    virtual void SetColor(double r, double g, double b, double a) const;
     virtual void SetOrigin(double x, double y) const;
-    virtual void Clear(uint8 r = 0, uint8 g = 0, uint8 b = 0) const;
+    virtual void Clear(double r = 0.0, double g = 0.0, double b = 0.0f) const;
     virtual void DrawPoint(double x, double y) const;
     virtual void DrawLine(double x1, double y1, double x2, double y2) const;
     virtual void DrawRect(double x, double y, double width, double height) const;

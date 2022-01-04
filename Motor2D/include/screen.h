@@ -13,7 +13,7 @@ public:
 	// Pantalla
     virtual void Open(uint16 width, uint16 height, bool fullscreen);
     virtual void Close();
-    virtual bool IsOpened() const { return m_opened; }
+    virtual bool IsOpened() const;
     virtual void SetTitle(const String& title);
     virtual void Refresh();
     virtual uint16 GetWidth() const { return m_width; }
@@ -44,6 +44,9 @@ private:
     struct GLFWmonitor* m_mainMonitor;
 
     static void CloseCallback(GLFWwindow* window);
+public:
+    static void Framebuffer_size_callback(GLFWwindow* window, int width, int height);
+
 };
 
 #endif

@@ -18,6 +18,7 @@
     <ClCompile Include="src\collisionmanager.cpp" />
     <ClCompile Include="src\collisionpixeldata.cpp" />
     <ClCompile Include="src\emitter.cpp" />
+    <ClCompile Include="src\examples.cpp" />
     <ClCompile Include="src\font.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\image.cpp" />
@@ -48,6 +49,7 @@
     <ClInclude Include="include\collisionmanager.h" />
     <ClInclude Include="include\collisionpixeldata.h" />
     <ClInclude Include="include\emitter.h" />
+    <ClInclude Include="include\examples.h" />
     <ClInclude Include="include\font.h" />
     <ClInclude Include="include\frame.h" />
     <ClInclude Include="include\glinclude.h" />

@@ -120,6 +120,9 @@
     <ClCompile Include="src\glad.c">
       <Filter>Source Files\engine</Filter>
     </ClCompile>
+    <ClCompile Include="src\examples.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\glinclude.h">
@@ -235,6 +238,9 @@
     </ClInclude>
     <ClInclude Include="include\isometricscene.h">
       <Filter>Header Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="include\examples.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
