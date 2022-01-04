@@ -117,6 +117,9 @@
     <ClCompile Include="src\isometricscene.cpp">
       <Filter>Source Files\engine\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="src\glad.c">
+      <Filter>Source Files\engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\glinclude.h">

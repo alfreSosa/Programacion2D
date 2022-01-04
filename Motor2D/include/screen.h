@@ -13,34 +13,35 @@ public:
 	// Pantalla
     virtual void Open(uint16 width, uint16 height, bool fullscreen);
     virtual void Close();
-    virtual bool IsOpened() const { return opened; }
+    virtual bool IsOpened() const { return m_opened; }
     virtual void SetTitle(const String& title);
     virtual void Refresh();
-    virtual uint16 GetWidth() const { return width; }
-    virtual uint16 GetHeight() const { return height; }
+    virtual uint16 GetWidth() const { return m_width; }
+    virtual uint16 GetHeight() const { return m_height; }
     virtual uint16 GetDesktopWidth() const;
     virtual uint16 GetDesktopHeight() const;
 
 	// Temporizador
-    double ElapsedTime() const { return elapsed; }
+    double ElapsedTime() const { return m_elapsed; }
 
 	// Input
-    virtual double GetMouseX() const { return mousex; }
-    virtual double GetMouseY() const { return mousey; }
+    virtual double GetMouseX() const { return m_mousex; }
+    virtual double GetMouseY() const { return m_mousey; }
     virtual bool MouseButtonPressed(int button) const;
     virtual bool KeyPressed(int key) const;
 protected:
     Screen();
     virtual ~Screen();
 private:
-    static Screen* screen;
+    static Screen* m_screen;
 
-    bool opened;
-    uint16 width, height;
-    double mousex, mousey;
-    double lastTime;
-    double elapsed;
-    struct GLFWwindow* mainWindow;
+    bool m_opened;
+    int m_width, m_height;
+    double m_mousex, m_mousey;
+    double m_lastTime;
+    double m_elapsed;
+    struct GLFWwindow* m_mainWindow;
+    struct GLFWmonitor* m_mainMonitor;
 
     static void CloseCallback(GLFWwindow* window);
 };
