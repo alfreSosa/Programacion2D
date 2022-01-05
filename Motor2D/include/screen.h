@@ -4,8 +4,11 @@
 #include "string.h"
 #include "types.h"
 
-//const float zerof = 0.0f; //Preguntar si quiero zerof
+// Forward declarations
+struct GLFWwindow;
+struct GLFWmonitor;
 
+/** Screen Manager. Only one screen per program for the moment*/
 class Screen {
 public:
     static Screen& Instance();
@@ -29,9 +32,16 @@ public:
     virtual double GetMouseY() const { return m_mousey; }
     virtual bool MouseButtonPressed(int button) const;
     virtual bool KeyPressed(int key) const;
+
+    virtual void ProcessScreenInput();
+
 protected:
     Screen();
     virtual ~Screen();
+
+    static void CloseCallback(GLFWwindow* window);
+    static void Framebuffer_size_callback(GLFWwindow* window, int width, int height);
+
 private:
     static Screen* m_screen;
 
@@ -40,13 +50,8 @@ private:
     double m_mousex, m_mousey;
     double m_lastTime;
     double m_elapsed;
-    struct GLFWwindow* m_mainWindow;
-    struct GLFWmonitor* m_mainMonitor;
-
-    static void CloseCallback(GLFWwindow* window);
-public:
-    static void Framebuffer_size_callback(GLFWwindow* window, int width, int height);
-
+    GLFWwindow* m_mainWindow;
+    GLFWmonitor* m_mainMonitor;
 };
 
 #endif

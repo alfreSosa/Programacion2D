@@ -4,14 +4,14 @@
 
 IsometricSprite::IsometricSprite(Image *image): Sprite(image)
 {
-  z = wColission = hColission = 0.0;
+  m_z = m_wColission = m_hColission = 0.0;
   
 }
 
 void IsometricSprite::SetPosition(double x, double y, double z)
 {
   Sprite::SetPosition(x, y);
-  this->z = z;
+  this->m_z = z;
 }
 
 void IsometricSprite::SetCollision(CollisionMode mode)
@@ -25,15 +25,15 @@ void IsometricSprite::SetCollision(CollisionMode mode)
 void IsometricSprite::Update(double elapsed, const Map* map)
 {
   Sprite::Update(elapsed, map);
-  TransformIsoCoords(GetX(), GetY(), z, &screenX, &screenY);
+  TransformIsoCoords(GetX(), GetY(), m_z, &m_screenX, &m_screenY);
 }
 
 void IsometricSprite::UpdateCollisionBox()
 {
   double x, y, w, h;
 
-  double ancho = (wColission == 0) ? GetImage()->GetWidth() : wColission;
-  double alto = (hColission == 0) ? GetImage()->GetWidth() : hColission;
+  double ancho = (m_wColission == 0) ? GetImage()->GetWidth() : m_wColission;
+  double alto = (m_hColission == 0) ? GetImage()->GetWidth() : m_hColission;
 
   x = GetX() - GetImage()->GetWidth() * abs(GetScaleX());
   y = GetY() - GetImage()->GetWidth() * abs(GetScaleX());
