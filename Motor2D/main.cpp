@@ -6,6 +6,6 @@
 
 int main(int argc, char* argv[]) 
 {
-    SimpleTriangleOnScreen();
+    SimpleBoxOnScreen();
     return 0;
 }

@@ -19,8 +19,8 @@ public:
     virtual bool IsOpened() const;
     virtual void SetTitle(const String& title);
     virtual void Refresh();
-    virtual uint16 GetWidth() const { return m_width; }
-    virtual uint16 GetHeight() const { return m_height; }
+    virtual int GetWidth() const { return m_width; }
+    virtual int GetHeight() const { return m_height; }
     virtual uint16 GetDesktopWidth() const;
     virtual uint16 GetDesktopHeight() const;
 

@@ -4,6 +4,7 @@
 
 /** Render a base triangle in the center on the screen to check that opengl is running and loading shaders*/
 void SimpleTriangleOnScreen();
+void SimpleBoxOnScreen();
 
 // OLD EXAPLES TO BE FIXED
 // 
