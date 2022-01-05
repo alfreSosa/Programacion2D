@@ -1,5 +1,12 @@
 #pragma once
 
+// NEW EXAMPLES
+
+/** Render a base triangle in the center on the screen to check that opengl is running and loading shaders*/
+void SimpleTriangleOnScreen();
+
+// OLD EXAPLES TO BE FIXED
+// 
 //Estructura para ejercicio4A-6
 struct Velocidades
 {

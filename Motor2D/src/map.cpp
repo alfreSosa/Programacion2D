@@ -12,9 +12,9 @@ using namespace rapidxml;
 
 Map::Map(const String &filename, uint16 firstColId) {
 	// TAREA: Implementar constructor
-  this->filename = filename;
-  this->firstColId = firstColId;
-  valid = false;
+  this->m_filename = filename;
+  this->m_firstColId = firstColId;
+  m_valid = false;
   String contenido = String::Read(filename);
   if(contenido != ""){
     xml_document<> doc;
@@ -22,13 +22,13 @@ Map::Map(const String &filename, uint16 firstColId) {
     doc.parse<0>((char *)contenido.ToCString());
     xml_node<>* map = doc.first_node("map");
     String aux = (char *)map->first_attribute("width")->value();
-    width = static_cast<uint16>(aux.ToInt());
+    m_width = static_cast<uint16>(aux.ToInt());
     aux = (char *)map->first_attribute("height")->value();
-    height = static_cast<uint16>(aux.ToInt());
+    m_height = static_cast<uint16>(aux.ToInt());
     aux = (char *)map->first_attribute("tilewidth")->value();
-    tileWidth = static_cast<uint16>(aux.ToInt());
+    m_tileWidth = static_cast<uint16>(aux.ToInt());
     aux = (char *)map->first_attribute("tileheight")->value();
-    tileHeight = static_cast<uint16>(aux.ToInt());
+    m_tileHeight = static_cast<uint16>(aux.ToInt());
     //NODO TILESET
     xml_node<>* tileset = map->first_node("tileset");
     aux = (char *)tileset->first_attribute("firstgid")->value();
@@ -50,7 +50,7 @@ Map::Map(const String &filename, uint16 firstColId) {
     //image
     xml_node<>* imagen = tileset->first_node("image");
     String imagenFile = (char *)imagen->first_attribute("source")->value();
-    this->imageFile = imagenFile.StripDir();
+    this->m_imageFile = imagenFile.StripDir();
     //this->imageFile = ruta + imagenFile;
     int imageWidth, imageHeight;
     aux = (char *)imagen->first_attribute("width")->value();
@@ -68,19 +68,19 @@ Map::Map(const String &filename, uint16 firstColId) {
     while (tile != NULL)
     {
       aux = (char *)tile->first_attribute("gid")->value();
-      tileIds.Add(aux.ToInt() - firstgid);
+      m_tileIds.Add(aux.ToInt() - firstgid);
       tile = tile->next_sibling("tile");
     }
     String ruta = filename.ExtractDir();
     String fichero;
     if (ruta != "")
-      fichero = ruta + "/"+ imageFile;
+      fichero = ruta + "/"+ m_imageFile;
     else
-      fichero = imageFile;
-    image = RESOURCE.LoadImage(fichero, static_cast<uint16>(imageWidth / tilewidth), static_cast<uint16>(imageHeight / tileheight));
-    image->SetHandle(x, y);
-    if (image->IsValid())
-      valid = true; 
+      fichero = m_imageFile;
+    m_image = RESOURCE.LoadImage(fichero, static_cast<uint16>(imageWidth / tilewidth), static_cast<uint16>(imageHeight / tileheight));
+    m_image->SetHandle(x, y);
+    if (m_image->IsValid())
+      m_valid = true; 
   }
 }
 
@@ -88,7 +88,7 @@ void Map::Render() const {
   for ( uint16 y = 0; y < GetRows(); y++ ) {
     for ( uint16 x = 0; x < GetColumns(); x++ ) {
       if ( GetTileId(x, y) >= 0 ) {
-        Renderer::Instance().DrawImage(image, x*GetTileWidth(), y*GetTileHeight(), GetTileId(x, y));
+        Renderer::Instance().DrawImage(m_image, x*GetTileWidth(), y*GetTileHeight(), GetTileId(x, y));
       }
     }
   }
@@ -102,7 +102,7 @@ bool Map::CheckCollision(const Collision* collision) const {
 	// Comprobamos colision con cada tile
 	for ( uint16 y = 0; y < GetRows(); y++ ) {
 		for ( uint16 x = 0; x < GetColumns(); x++ ) {
-			if ( GetTileId(x, y) >= firstColId ) {
+			if ( GetTileId(x, y) >= m_firstColId ) {
 				boxX = x * GetTileWidth();
 				boxY = y * GetTileHeight();
 
@@ -118,13 +118,13 @@ bool Map::CheckCollision(const Collision* collision) const {
 double Map::GetGroundY(double x, double y) const {
 	double groundY = UINT_MAX;
 
-	if ( x < 0  ||  x >= width*tileWidth  ||  y >= height*tileHeight ) return groundY;
+	if ( x < 0  ||  x >= m_width*m_tileWidth  ||  y >= m_height*m_tileHeight ) return groundY;
 	if ( y < 0 ) y = 0;
 
 	// Buscamos el primer tile en esa columna
-	for ( int tiley = int(y/tileHeight); tiley < height; tiley++ ) {
-		if ( tileIds[tiley*width + int(x/tileWidth)] >= 0 ) {
-			groundY = tiley*tileHeight;
+	for ( int tiley = int(y/m_tileHeight); tiley < m_height; tiley++ ) {
+		if ( m_tileIds[tiley*m_width + int(x/m_tileWidth)] >= 0 ) {
+			groundY = tiley*m_tileHeight;
 			break;
 		}
 	}
